@@ -91,6 +91,7 @@ public class FindingFilesWithoutRegExp
     public void findExistingFiles()
     {
 
+        int x=0;
         int j;
         int counter;
         for(int i=0;i<paths.size();i++)
@@ -99,11 +100,12 @@ public class FindingFilesWithoutRegExp
             for (j = 0; j < FileSystem.size(); j++)
                 if (paths.get(i).equals(FileSystem.get(j)))
                 {
-                    System.out.println(FileSystem.get(j) + " exist");
+                    System.out.println((x++)+FileSystem.get(j) + " exist");
                     FileSystem.remove(j);
                     counter++;
+                    break;
                 }
-                if(counter==FileSystem.size())System.out.println("File "+paths.get(i)+" doesn't exist");
+                if(counter==FileSystem.size()-1)System.out.println("File "+paths.get(i)+" doesn't exist");
         }
 //14000*1900=26600000 итераций=1500-1800ms
 
