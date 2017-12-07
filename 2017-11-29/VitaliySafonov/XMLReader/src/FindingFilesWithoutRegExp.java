@@ -8,10 +8,6 @@ public class FindingFilesWithoutRegExp
     private List<String> paths = new ArrayList<>();
     private List<String> FileSystem= new ArrayList<>();
 
-
-
-
-
     public void getFileSystem(String filename)
     {
         int condition = ArgsTest.linesCounter(filename);
@@ -35,7 +31,6 @@ public class FindingFilesWithoutRegExp
                         finishingPoint = j;
                         k = j;
                         int counter=0;
-                        //while (str.charAt(k) != (char) 92)
                         while(counter<2)
                         {
                             if(str.charAt(k) == (char) 47) counter++;
@@ -98,14 +93,15 @@ public class FindingFilesWithoutRegExp
         {
             counter=0;
             for (j = 0; j < FileSystem.size(); j++)
-                if (paths.get(i).equals(FileSystem.get(j)))
-                {
-                    System.out.println((x++)+FileSystem.get(j) + " exist");
-                    FileSystem.remove(j);
+            {
+                if (paths.get(i).equals(FileSystem.get(j))) {
+                    System.out.println((x++) + FileSystem.get(j) + " exist");
+                    //FileSystem.remove(j);
                     counter++;
                     break;
                 }
-                if(counter==FileSystem.size()-1)System.out.println("File "+paths.get(i)+" doesn't exist");
+                if((j==FileSystem.size()-1)&&(counter==FileSystem.size()-1))System.out.println("File"+paths.get(i)+"doesn't exist");
+            }
         }
 //14000*1900=26600000 итераций=1500-1800ms
 
@@ -146,60 +142,6 @@ public void getClassNameFromXML()
         paths.add(e);
 
 }
-
-
-    /*public void makeRegExp()
-    {
-        Iterator<String> iterator = FileSystem.iterator();
-
-        Matcher m;
-        Pattern p;
-        String str;
-
-
-
-        for(int i=0;i<paths.size();i++)
-        {
-            str= ".+";
-            str+=paths.get(i)+".+";
-
-           //System.out.println("RegExp="+str);//Как составить правильно регулярное выражение???
-
-            //p = Pattern.compile(paths.get(i));//Не находит??????
-            p = Pattern.compile(str);
-            while(iterator.hasNext())
-            {
-                m = p.matcher(iterator.next());
-                if(m.matches()) {System.out.println(iterator.next()+" exist");}
-            }
-
-        }
-
-    }*/
-
-
-
-    /*public void check()
-    {
-        Iterator<String> iterator = FileSystem.iterator();
-        String str;
-        int j=0;
-
-        for(int i=0;i<paths.size();i++)
-        {
-            //str="E:/work/projects/InterTrust/CM4-gwt/workspaces/dev-cmj-4.3"+paths.get(i);
-            //System.out.println("RegExp="+str);//Как составить правильно регулярное выражение???
-
-            while(iterator.hasNext())
-            {
-                //System.out.println("iterator="+iterator.next());
-               if (str.equals(iterator.next()))
-
-                    System.out.println((j++)+iterator.next()+" exist");
-            }
-
-        }
-    }*/
 
     public static boolean CheckingStrings(String str)
     {
