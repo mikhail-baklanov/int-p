@@ -1,0 +1,1 @@
+Игра SET на основе примера Validation из gwt sdk
