@@ -83,16 +83,16 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
             fixPath();//исправление [/\\] на /
             getPath();// извлечение пути к файлу
             getClassNameFromXML();
-            findDeletedFiles(paths,FileSystem);
+            //findDeletedFiles(paths,FileSystem);
 
 
         }
         catch (IOException ex)
         {System.out.println(ex.getMessage());}
-        return paths;
+        return findDeletedFiles(paths,FileSystem);
     }
 
-    public void findDeletedFiles(List<String> sup,List<String> dir)
+    public List<String> findDeletedFiles(List<String> sup,List<String> dir)
     {
         List<String> list = new ArrayList<>();
         int x=0;
@@ -108,7 +108,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
                     counter++;
                     break;
                 }
-                if((j==dir.size()-1)&&(counter!=dir.size()-1))//проверка отсутствия файла
+                if((j==dir.size()-1)&&(counter==0))//проверка отсутствия файла
                 {
                     System.out.println("File "+sup.get(i)+" doesn't exist");
                     list.add(sup.get(i));
@@ -116,12 +116,10 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
             }
 
         }
-        System.out.println("------------------------------------------------------");
-        System.out.println("Deleted files:");
-        for(String e:list)
-            System.out.println(e);
+
 
 //14000*1900=26600000 итераций=1500-1800ms
+        return list;
     }
 
 public void getClassNameFromXML()

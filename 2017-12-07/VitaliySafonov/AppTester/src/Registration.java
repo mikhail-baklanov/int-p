@@ -20,13 +20,24 @@ public class Registration
     public static void main(String[] args)
     {
         FindingFilesWithoutRegExp t1=new FindingFilesWithoutRegExp();
+
         for(int i=0;i<list.size();i++)
         {
             long timeStart = System.currentTimeMillis() ;
 
-            list.get(i).parseSuppression("supp.xml");
+            int n=1;
+
+
+            for(String e:list.get(i).parseSuppression("supp.xml"))
+            {
+                System.out.println();
+                System.out.println("------------------------------------------------------");
+                System.out.println("Deleted file №"+(n++)+" : ");
+                System.out.print(e);
+            }
 
             long finishTime =System.currentTimeMillis() ;
+            System.out.println();
             System.out.println("------------------------------------------------------");
             System.out.println("Время работы программы "+list.get(i).getDeveloperName()+" = "+(finishTime-timeStart)+"ms");
         }
