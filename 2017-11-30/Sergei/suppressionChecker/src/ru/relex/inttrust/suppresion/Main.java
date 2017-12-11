@@ -18,11 +18,11 @@ public class Main {
         List<String> res = null;
         String temp = "";
 
-        System.out.println("Введите полное имя файла suppresion.xml");
-        System.out.print("-> ");
-        temp = input.nextLine();
+        //System.out.println("Введите полное имя файла suppresion.xml");
+        //System.out.print("-> ");
+        //temp = input.nextLine();
 
-        suppression = suppres.parseSuppression(temp);
+        //suppression = suppres.parseSuppression(temp);
 
         System.out.println("Введите путь к директории или полное имя файла со списком классов");
         System.out.print("-> ");
@@ -30,8 +30,8 @@ public class Main {
 
         dirs = suppres.dir(temp);
 
-        res = suppres.findDeletedFiles(suppression, dirs);
-        for (String line: res){
+        //res = suppres.findDeletedFiles(suppression, dirs);
+        for (String line: dirs){
             System.out.println(line);
         }
     }

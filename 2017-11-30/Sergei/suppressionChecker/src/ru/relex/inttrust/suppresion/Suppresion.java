@@ -50,6 +50,19 @@ public class Suppresion implements SuppressionChecker {
         return suppresionList;
     }
 
+    private void getFilesFromDirectory(File dir, List<String> files){
+        File[] folderEntries = dir.listFiles();
+        for (File entry : folderEntries)
+        {
+            if (entry.isDirectory())
+            {
+                getFilesFromDirectory(entry, files);
+                continue;
+            }
+            files.add(entry.getAbsoluteFile().toString());
+        }
+    }
+
     /**
      * Возвращает список файлов, лежащих в указанной директории. Так же может принимать на вход готовый текстовый файл
      * @param path путь к целевой директории или целевому файлу
@@ -85,17 +98,17 @@ public class Suppresion implements SuppressionChecker {
         //--с директорией
         //открываем директорию
         //сканируем и ищем файлы *.java
-        //-------------------------------------------ИСПРАВИТЬ!
         try {
             if (files.isDirectory()){
-                String[] tmp = files.list();
-                for (String i: tmp){
-                    System.out.println(i);
-                }
+                List<String> tmp = new ArrayList<>();
+                getFilesFromDirectory(files, tmp);
+
                 for(String line: tmp){
                     packageFinder = packagePattern.matcher(line);
                     if (packageFinder.find()){
-                        dirs.add(line.substring(packageFinder.start()));
+                        if (line.indexOf(".java") != -1) {
+                            dirs.add(line.substring(packageFinder.start() + 1));
+                        }
                     }
                 }
                 return dirs;
@@ -116,23 +129,13 @@ public class Suppresion implements SuppressionChecker {
      * @return Список с отсутствующими в проекте файлами
      */
     public List<String> findDeletedFiles(List<String> suppresions, List<String> files) {
-        //создаем результатирующий лист
         List<String> result = new ArrayList<>();
 
-        //бежим по листу с исключениями
         for (String line: suppresions){
             if (!files.contains(line)){
                 result.add(line);
             }
         }
-        //смотим наличие очередного файла в листе с файлами
-        //в случае отсутствия в листе с файлами файла из списка исключений кладем эту строчку в результатирующий лист
-        //отдаем лист
         return result;
-    }
-
-    public String getDeveloperName() {
-        return "Сергей";
-        //возвращаем строку с именем автора (пока что)
     }
 }
