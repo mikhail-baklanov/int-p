@@ -1,9 +1,10 @@
-package root;
+package ru.relex.practice.ternarynumbers;
 
 import java.util.ArrayList;
 
 /**
- * Created by 1 on 30.11.2017.
+ * Основной класс, в котором десятичные числа переводятся в троичную систему и выводятся справа налево.
+ * @author Евгений Воронин
  */
 public class Main {
     public static void main(String[] args) {

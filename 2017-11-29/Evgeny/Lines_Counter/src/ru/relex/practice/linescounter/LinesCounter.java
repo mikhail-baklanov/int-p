@@ -1,12 +1,19 @@
-package root;
+package ru.relex.practice.linescounter;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
 
 /**
- * Created by 1 on 30.11.2017.
+ * Класс по подсчету строк в файле.
+ * @author Евгений Воронин
  */
-public class PathReader {
-
+public class LinesCounter {
+    /**
+     * Считает строки в файле
+     * @param path
+     */
     public void linesCount(String path) {
         int count=0;
         try
@@ -24,25 +31,6 @@ public class PathReader {
             if(fileReader!=null)
                 fileReader.close();
             lineNumberReader.close();
-        } catch(IOException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    public void symbolsCount(String path) {
-        int count = 0;
-        try {
-            File myFile = new File(path);
-            InputStreamReader is = new InputStreamReader(new FileInputStream(myFile), "Cp866");
-
-            while(is.read() != -1){
-                    count ++;
-            }
-
-            System.out.println("В файле " + path + "  " + count + " символов");
-
-            is.close();
-
         } catch(IOException ex){
             System.out.println(ex.getMessage());
         }
