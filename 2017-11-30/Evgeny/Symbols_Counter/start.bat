@@ -1,0 +1,1 @@
+java -cp "bin" root/Main "F:\Projects\Java\Symbols_Counter\ansi.txt" "F:\Projects\Java\Symbols_Counter\utf 8.txt"
