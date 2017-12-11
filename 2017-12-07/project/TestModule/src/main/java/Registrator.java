@@ -14,4 +14,7 @@ public class Registrator {
     public static void register(SuppressionChecker item) {
         list.add(item);
     }
+    //public static String getDeveloperName(SuppressionChecker name ){};
+    //return developerName;};
+
 }

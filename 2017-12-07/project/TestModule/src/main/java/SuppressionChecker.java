@@ -8,5 +8,5 @@ public interface SuppressionChecker {
 
     List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir);
 
-    String getDeveloperName();
+    //String getDeveloperName(); перенести в registrator
 }

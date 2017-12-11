@@ -25,6 +25,7 @@ public class MainClass {
     }
 
     static List<String> getSuppressionPathesList(Document doc) {
+        //todo сделать парс файлов прямо здесь или запилить хорошие регулярки в getRemovedFilesList
         List<String> list = new ArrayList<>();
         NodeList l = doc.getChildNodes();
         for (int i = 0; i < l.getLength(); i++)
@@ -87,12 +88,12 @@ public class MainClass {
         for (int i = 0; i < supList.size(); i++) {
             boolean existingFlag = false;
             Pattern pattern = Pattern.compile(supList.get(i));
-            for (int j = 0; j < pathList.size(); j++) {
-                Matcher m = pattern.matcher(pathList.get(j)); //todo repair it (use replace)
-                if (m.find()) {
-                    existingFlag = true;
-                    break;
-                }
+            for (int j = 0; j < pathList.size(); j++) { //todo Что вообще здесь происходит?!
+                //Matcher m = pattern.matcher(pathList.get(j));
+                //if (m.find()) {
+                //    existingFlag = true;
+                //    break;
+                //}
             }
             supList.get(i).replaceAll("\\[\\\\\\/\\]", "\\");
             if (!existingFlag)

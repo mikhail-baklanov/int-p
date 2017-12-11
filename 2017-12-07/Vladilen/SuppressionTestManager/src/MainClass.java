@@ -28,6 +28,12 @@ public class MainClass {
     }
 
     private static void Registration() {
+        //todo переделать регистрацию, регистрируя из статиков в самих классах
+        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        Registrator.register(new DenisovSuppressionCheckerAdapter());
         Registrator.register(new DenisovSuppressionCheckerAdapter());
         Registrator.register(new DenisovSuppressionCheckerAdapter());
         Registrator.register(new DenisovSuppressionCheckerAdapter());
@@ -88,13 +94,13 @@ public class MainClass {
             SB.append("<tr><td>")
                     .append(results[i][0].getMethodName())
                     .append("</td>");
-            int idx = 0;
+            int idx = 0; //todo сделать нормальный вывод при отрицательном результате у всех
             for (int k = 1; k < results[i].length; k++)
                 if (results[i][k].getTimeInMs() < results[i][idx].getTimeInMs())
                     idx = k;
             for (int k = 0; k < results[i].length; k++) {
                 SB.append((k==idx) ? "<td bgcolor=\"yellow\">" : "<td>")
-                        .append(results[i][k].getTimeInMs())
+                        .append(results[i][k].getTimeInMs()) //todo сделать вывод результата с ошибкой
                         .append("ms")
                         .append("</td>");
             }
@@ -103,7 +109,7 @@ public class MainClass {
         return SB.toString();
     }
 
-    @Deprecated
+    @Deprecated //todo сделать что-нибудь с этим
     private static void TestMethodForEachClass(Method method, Object... args) {
         for (int i = 0; i < Registrator.getList().size(); i++)
             try {
@@ -115,7 +121,7 @@ public class MainClass {
             }
     }
 
-    @Deprecated
+    @Deprecated //todo сделать что-нибудь с этим [2]
     private static void TestClassForEachMethod(SuppressionChecker SC) {
         try {
             Test(SC, SuppressionChecker.class.getDeclaredMethod
@@ -153,7 +159,7 @@ public class MainClass {
     }
 
     private static Result Test(SuppressionChecker SC, Method testing, Object... params) {
-        int count = 10;
+        int count = 20;
         long[] startTime = new long[count + 1];
         startTime[0] = System.currentTimeMillis();
         int[] timeDeltas = new int[count];
