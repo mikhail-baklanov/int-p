@@ -116,6 +116,32 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
             }
 
         }
+        /*List<String> list = new ArrayList<>();
+        String regExp;
+        Pattern p;
+        Matcher m;
+        int x=1;
+        int counter;
+        int j;
+        for(int i=0;i<paths.size();i++)
+        {
+            counter=0;
+            regExp=".*"+paths.get(i);
+            for(j=0;j<FileSystem.size();j++)
+            {
+                p=Pattern.compile(regExp);
+                m=p.matcher(FileSystem.get(j));
+                if(m.matches()){System.out.println((x++)+"/1928 "+ dir.get(j) + " exist");counter++;break;}
+
+            }
+            if((j==dir.size()-1)&&(counter==0))//проверка отсутствия файла
+            {
+                System.out.println("File " + sup.get(i) + " doesn't exist");
+                list.add(sup.get(i));
+            }
+
+        }*/
+
 
 
 //14000*1900=26600000 итераций=1500-1800ms
