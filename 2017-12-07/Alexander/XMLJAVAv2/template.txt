@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <title>Статистика</title>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&amp;subset=cyrillic" rel="stylesheet">
+        <style>
+            body {
+                background-color: #828282;
+            }
+
+            .table {
+                width: 1100px;
+                background-color: #f0f0f0;
+                margin: 200px auto;
+                padding-bottom: 10px;
+                box-shadow: 0 3px 10px #404040;
+            }
+
+            .table header {
+                width: 100%%;
+                display: flex;
+                cursor: default;
+            }
+
+            .table .header_item {
+                position: relative;
+                width: 25%%;
+                text-align: center;
+                padding: 10px 0;
+                color: white;
+                font-family: "Open Sans";
+                font-weight: 100;
+                font-size: 19px;
+            }
+
+            .table .header_item:after {
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: -20px;
+                left: 125px;
+                border: 10px solid transparent; 
+                border-top: 10px solid #82ca11;
+            }
+
+            .table .iterations.header_item:after{
+                border-top-color: #f1b329;
+            }
+
+            .table .averageTime.header_item:after{
+                border-top-color: #77c4c3;
+            }
+
+            .table .time.header_item:after{
+                border-top-color: #f3566a;
+            }
+
+            .table header .developers{
+                background-color: #82ca11;
+            }
+
+            .table header .iterations{
+                background-color: #f1b329;
+            }
+
+            .table header .averageTime{
+                background-color: #77c4c3;
+            }
+
+            .table header .time{
+                background-color: #f3566a;
+            }
+
+            .table .main_item {
+                width: 100%%;
+                display: flex;
+            }
+
+            .table .main_item div {
+                width: 25%%;
+                color: #6a6a6a;
+                text-align: center;
+                font-family: "Open Sans";
+                font-weight: 100;
+                font-size: 19px;
+                padding: 15px 0;
+            }
+
+            .table .main_item:nth-child(1) div{
+                font-weight: 800;
+            }
+
+            .table .main_item:nth-child(2) div{
+                font-weight: 700;
+            }
+
+            .table .main_item:nth-child(3) div{
+                font-weight: 600;
+            }
+
+            .table .main_item:nth-child(2n){
+                background-color: #e4e4e4;
+            }
+
+            .table footer {
+                width: 100%%;
+                padding: 10px 0;
+                text-align: center;
+                color: white;
+                font-family: "Open Sans";
+                font-weight: 100;
+                font-size: 17px;
+                background-color: #8890ff;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="table">
+            <header>
+                <div class="header_item developers">Разработчики</div>
+                <div class="header_item iterations">Кол-во итераций</div>
+                <div class="header_item averageTime">Среднее время</div>
+                <div class="header_item time">Всё время</div>
+            </header>
+            <main>
+                %s
+            </main>
+            <footer>Дата и время проверки: %s</footer>
+        </div>
+    </body>
