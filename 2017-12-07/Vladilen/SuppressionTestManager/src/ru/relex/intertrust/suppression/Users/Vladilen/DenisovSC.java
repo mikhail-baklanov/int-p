@@ -1,4 +1,4 @@
-package ru.relex.intertrust.suppression.DenisovVladilen;
+package ru.relex.intertrust.suppression.Users.Vladilen;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -9,10 +9,9 @@ import javax.xml.parsers.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
-public class MainClass {
-    public static void main(String[] args) throws Exception {
+public class DenisovSC {
+    public static void main(String[] args){
         String filePath = "Suppressions.xml";
         String projectFolderPath = "C:\\Users\\User\\Downloads";
         Document doc = getDocument(filePath);
@@ -47,7 +46,7 @@ public class MainClass {
             searchSuppressionPathes(list, nodeList.item(i));
     }
 
-    static Document getDocument(String filePath) throws Exception {
+    static Document getDocument(String filePath){
         try {
             DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
             f.setValidating(false);
@@ -55,8 +54,9 @@ public class MainClass {
             return builder.parse(new File(filePath));
         } catch (Exception exception) {
             String message = "XML parsing error!";
-            throw new Exception(message);
+            //throw new Exception(message); //это было бы в тему :(
         }
+        return null;//Кто вообще придумал отказаться от выбрасывания Exception? Как же мне этого будет нехватать :(
     }
 
     static List<String> getAllPathes(File directory) {
@@ -76,15 +76,14 @@ public class MainClass {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < supList.size(); i++) {
             boolean existingFlag = false;
-            Pattern pattern = Pattern.compile(supList.get(i));
-            for (int j = 0; j < pathList.size(); j++) { //todo Что вообще здесь происходит?!
-                //Matcher m = pattern.matcher(pathList.get(j));
-                //if (m.find()) {
-                //    existingFlag = true;
-                //    break;
-                //}
+            String suppression = supList.get(i).replaceAll("\\[\\\\\\/\\]", "\\");
+            for (int j = 0; j < pathList.size(); j++) {
+                if (pathList.get(j).endsWith(suppression))
+                {
+                    existingFlag = true;
+                    break;
+                }
             }
-            supList.get(i).replaceAll("\\[\\\\\\/\\]", "\\");
             if (!existingFlag)
                 list.add(supList.get(i));
         }

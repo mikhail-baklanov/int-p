@@ -3,7 +3,7 @@ package ru.relex.intertrust.suppression.CommonElements;
 import java.util.List;
 
 public interface SuppressionChecker {
-    List<String> parseSuppression(String fullFileName) throws Exception;
+    List<String> parseSuppression(String fullFileName);
 
     // Поиск java-файлов по заданному пути
     List<String> dir(String path);
