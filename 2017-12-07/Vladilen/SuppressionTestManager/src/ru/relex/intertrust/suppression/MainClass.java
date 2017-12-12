@@ -1,9 +1,13 @@
 package ru.relex.intertrust.suppression;
 
 import ru.relex.intertrust.suppression.CommonElements.Author;
+import ru.relex.intertrust.suppression.CommonElements.Controller;
 import ru.relex.intertrust.suppression.CommonElements.Registrator;
 import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
-import ru.relex.intertrust.suppression.DenisovVladilen.DenisovSuppressionCheckerAdapter;
+import ru.relex.intertrust.suppression.Users.Alexander.Alexander;
+import ru.relex.intertrust.suppression.Users.Evgeniy.FindDeletedClasses;
+import ru.relex.intertrust.suppression.Users.Vitaliy.FindingFilesWithoutRegExp;
+import ru.relex.intertrust.suppression.Users.Vladilen.DenisovSuppressionCheckerAdapter;
 
 import java.awt.*;
 import java.io.*;
@@ -12,8 +16,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-public class MainClass {
+public class MainClass implements Controller {
     private final static String SUPPRESSIONS_MOCK_FOR_CLASSES_PATH = "recourses\\suppressionsMockForClasses.xml";
     private final static String FILE_SYSTEM_PATH = "recourses\\fileSystem.txt";
     private final static String SUPPRESSIONS_MOCK_PATH = "recourses\\suppressionsMock.xml";
@@ -26,17 +31,46 @@ public class MainClass {
         setSuppList(SUPPRESSIONS_MOCK_PATH);
     }
 
+    private Result[][] results;
+
+    @Override
+    public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
+        results = new Result[3][listOfChekers.size()];
+        Method[] methods = getMethods();
+        Object[][] params = new Object[3][];
+        params[0] = new Object[]{SUPPRESSIONS_MOCK_FOR_CLASSES_PATH};
+        params[1] = new Object[]{dir};
+        params[2] = new Object[]{fileList, suppList};
+        for (int i = 0; i < methods.length; i++) {
+            for (int j = 0; j < listOfChekers.size(); j++) {
+                SuppressionChecker SC = listOfChekers.get(j);
+                results[i][j] = Test(SC, methods[i], params[i]);
+            }
+        }
+        for (int i = 0; i < results[0].length; i++)
+            for (int j = 0; j < results.length; j++)
+                results[j][i].print();
+    }
+
     public static void main(String[] args) throws Exception {
-        Registration();
+        System.out.println(new DenisovSuppressionCheckerAdapter()); //todo: это слишком тупо, поговорить об этом
+        System.out.println(new FindingFilesWithoutRegExp());
+        System.out.println(new Alexander());
+        //System.out.println(new FindDeletedClasses());
+        new MainClass().start("", "D://", Registrator.getList());
+        //List<SuppressionChecker> l = new ArrayList<>();
+        //l.add(new DenisovSuppressionCheckerAdapter());
+        //new MainClass().start("", "D:\\", l);
 
         //TestAndMakeTable();
-        Testing();
+        //Testing();
         //GenerateSuppressionFile("recourses\\suppressionsMockForClasses.xml", suppList);
+        //GenerateFileTree(); //todo +mock
     }
 
     private static void Registration() {
         //todo переделать регистрацию, регистрируя из статиков в самих классах
-        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        //Registrator.register(new DenisovSuppressionCheckerAdapter());
     }
 
     private static void Testing() {
@@ -46,6 +80,9 @@ public class MainClass {
             e.printStackTrace();
         }
     }
+
+    private static Random rnd = new Random();
+    private static File inputFolder;
 
     //it was invoked once
     private static void GenerateSuppressionFile(String fileName, List<String> Suppressions) {
@@ -96,6 +133,7 @@ public class MainClass {
         //writeIntoHTML(makeTable(results));
     }
 
+    @Deprecated
     private static String makeTable(Result[][] results) {
         StringBuilder SB = new StringBuilder("<td>Метод\\Автор</td>");
         for (int i = 0; i < Registrator.getList().size(); i++) {
@@ -124,7 +162,7 @@ public class MainClass {
     }
 
     private static Result Test(SuppressionChecker SC, Method testing, Object... params) {
-        int count = 20;
+        int count = 3;
         long[] startTime = new long[count + 1];
         startTime[0] = System.currentTimeMillis();
         int[] timeDeltas = new int[count];
@@ -150,33 +188,59 @@ public class MainClass {
         return result;
     }
 
-    private static void setResult(Method m, Result result, Object resultObject) throws NoSuchMethodException {
-        final Method[] methods = new Method[]{
-                SuppressionChecker.class.getDeclaredMethod("parseSuppression", String.class),
-                SuppressionChecker.class.getDeclaredMethod("dir", String.class),
-                SuppressionChecker.class.getDeclaredMethod("findDeletedFiles", List.class, List.class)
-        };
-        if (m.getName().equals(methods[0].getName())) {
-            List<String> list;
-            if (!(resultObject instanceof Exception)) {
+    private static Method[] getMethods() {
+        final Method[] methods = new Method[3];
+        try {
+            methods[0] = SuppressionChecker.class.getDeclaredMethod("parseSuppression", String.class);
+            methods[1] = SuppressionChecker.class.getDeclaredMethod("dir", String.class);
+            methods[2] = SuppressionChecker.class.getDeclaredMethod("findDeletedFiles", List.class, List.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return methods;
+    }
 
-                list = (List<String>) resultObject;
-                result.setNormal(true);
-            } else {
+    private static void setResult(Method m, Result result, Object resultObject) throws NoSuchMethodException {
+        Method[] methods = getMethods();
+        List<String> list;
+        if (!(resultObject instanceof Exception)) {
+            list = (List<String>) resultObject;
+            if (list == null) {
                 result.setNormal(false);
-                result.setAdditionalInfo("Метод завершился с ошибкой: " + ((Exception)resultObject).getClass().getName());
+                result.setAdditionalInfo("Метод завершился с ошибкой: " + NullPointerException.class.getName());
                 return;
             }
+            result.setNormal(true);
+        } else {
+            result.setNormal(false);
+            result.setAdditionalInfo("Метод завершился с ошибкой: " + ((Exception) resultObject).getClass().getName());
+            return;
+        }
+        if (m.getName().equals(methods[0].getName())) {
             try {
                 Boolean b = list.get(0).contains("[\\\\/]");
                 result.setAdditionalInfo(b ? "Метод не преобразовывает разделители вида [\\\\/]" : "Метод преобразовывает разделители вида [\\\\/]");
-                result.getAdditionalFlags().put("Refactor", b);
+                result.getAdditionalFlags().put("Refactor", b); //todo do i need a map?
                 List<String> absolut = b ? suppList : getRefactorSuppList(suppList);
                 result.setCompleteness(CheckCompleteness((Object) list, (Object) absolut));
             } catch (IndexOutOfBoundsException IOOBE) {
                 result.setAdditionalInfo("Метод вернул пустой список");
                 result.setNormal(false);
             }
+        } else if (m.getName().equals(methods[1].getName())) {
+            if (list.size() == 0) {
+                result.setAdditionalInfo("Метод вернул пустой список");
+                result.setNormal(false);
+            } else
+                result.setAdditionalInfo("Корректность и полнота (по умолчанию - true) " +
+                        "возвращаемых данных не может быть проверена автоматически");
+        } else if (m.getName().equals(methods[2].getName())) {
+            if (list.size() == 0) {
+                result.setAdditionalInfo("Метод вернул пустой список");
+                result.setNormal(false);
+            } else
+                result.setAdditionalInfo("Корректность и полнота (по умолчанию - true) " +
+                        "возвращаемых данных не может быть проверена автоматически");
         }
     }
 

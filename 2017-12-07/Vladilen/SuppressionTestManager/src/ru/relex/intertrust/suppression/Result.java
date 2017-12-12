@@ -7,7 +7,7 @@ public class Result {
     private String methodName;
     private double timeInMs = Double.MAX_VALUE;
     private String additionalInfo;
-    private boolean completeness;
+    private boolean completeness = true;
     private boolean isNormal = true;
     private Map<String, Boolean> additionalFlags = new HashMap<>();
 
