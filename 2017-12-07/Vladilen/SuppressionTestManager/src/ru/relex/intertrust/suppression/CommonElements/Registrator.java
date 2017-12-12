@@ -1,4 +1,4 @@
-package CommonElements;
+package ru.relex.intertrust.suppression.CommonElements;
 import java.util.ArrayList;
 import java.util.List;
 

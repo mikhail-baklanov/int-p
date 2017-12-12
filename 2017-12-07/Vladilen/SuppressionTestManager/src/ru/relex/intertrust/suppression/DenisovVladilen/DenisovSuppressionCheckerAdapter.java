@@ -1,18 +1,17 @@
-package DenisovVladilen;
+package ru.relex.intertrust.suppression.DenisovVladilen;
 
-import CommonElements.Author;
-import CommonElements.SuppressionChecker;
+import ru.relex.intertrust.suppression.CommonElements.Author;
+import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
 
 import java.io.File;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 @Author("Denisov Vladilen")
 public class DenisovSuppressionCheckerAdapter implements SuppressionChecker {
     @Override
     public List<String> parseSuppression(String fullFileName) throws Exception {
-        return MainClass.getSuppressionPathesList(MainClass.getDocument(fullFileName));
+        throw new Exception();
+        //return MainClass.getSuppressionPathesList(MainClass.getDocument(fullFileName));
     }
 
     @Override

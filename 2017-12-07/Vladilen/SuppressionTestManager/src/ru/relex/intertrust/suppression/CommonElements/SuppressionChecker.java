@@ -1,7 +1,5 @@
-package CommonElements;
+package ru.relex.intertrust.suppression.CommonElements;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface SuppressionChecker {

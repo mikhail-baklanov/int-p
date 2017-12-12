@@ -1,4 +1,4 @@
-package DenisovVladilen;
+package ru.relex.intertrust.suppression.DenisovVladilen;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -9,7 +9,6 @@ import javax.xml.parsers.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainClass {
@@ -40,17 +39,7 @@ public class MainClass {
             if (files != null) {
                 String valueToInsert = files.getNodeValue();
                 StringBuilder sb = new StringBuilder(valueToInsert);
-                int idx, fromIndex = 0;
-                while ((idx = sb.indexOf("[", fromIndex)) != -1) {
-                    sb.insert(idx, "\\");
-                    fromIndex = idx + 2;
-                }
-                fromIndex = 0;
-                while ((idx = sb.indexOf("]", fromIndex)) != -1) {
-                    sb.insert(idx, "\\");
-                    fromIndex = idx + 2;
-                }
-                list.add(sb.toString());
+                list.add(sb.toString().trim());
             }
         }
         NodeList nodeList = node.getChildNodes();
