@@ -23,11 +23,14 @@ public class Suppresion implements SuppressionChecker {
      * @return Список файлов
      * @return null если в метод передан неверный путь
      */
+
+    static {
+        Registrator.register(new Suppresion());
+    }
+
     public List<String> parseSuppression(String fullFileName) {
-        //создаем лист
         List<String> allLines = null;
 
-        //открываем файл
         try {
             allLines = Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8);
         } catch (Exception e){
@@ -39,17 +42,16 @@ public class Suppresion implements SuppressionChecker {
         Pattern suppresPattern = Pattern.compile("<suppress files=\"");
         Matcher suppresFind = null;
 
-        //ищем пути с файлами и кладем их в лист
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
             if(suppresFind.find()){
                 suppresionList.add(line.substring(line.indexOf("\"") + 1, line.indexOf("\" ")).replace("[\\\\/]", "\\"));
             }
         }
-        //отдаем лист
         return suppresionList;
     }
 
+    //получение списка файлов
     private void getFilesFromDirectory(File dir, List<String> files){
         File[] folderEntries = dir.listFiles();
         for (File entry : folderEntries)
@@ -70,8 +72,6 @@ public class Suppresion implements SuppressionChecker {
      * @return null, если переданный путь некорректный
      */
     public List<String> dir(String path) {
-        //--с файлом
-        //открываем файл
         List<String> dirs = new ArrayList<>();
         File files = null;
 
@@ -95,9 +95,6 @@ public class Suppresion implements SuppressionChecker {
             return null;
         }
 
-        //--с директорией
-        //открываем директорию
-        //сканируем и ищем файлы *.java
         try {
             if (files.isDirectory()){
                 List<String> tmp = new ArrayList<>();
@@ -117,8 +114,6 @@ public class Suppresion implements SuppressionChecker {
             return null;
         }
 
-        //кладем пути в лист
-        //отдаем лист
         return null;
     }
 
