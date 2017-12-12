@@ -7,9 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //C:\Users\mrlun\Documents\suppressionChecker\checkstyle-suppressions.xml
-        //C:\Users\mrlun\Documents\suppressionChecker\a.txt
-
         Suppresion suppres = new Suppresion();
         Scanner input = new Scanner(System.in);
 
