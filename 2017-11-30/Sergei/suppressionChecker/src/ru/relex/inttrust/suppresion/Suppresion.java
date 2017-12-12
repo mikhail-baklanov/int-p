@@ -24,9 +24,8 @@ public class Suppresion implements SuppressionChecker {
      * @return null если в метод передан неверный путь
      */
 
-    static {
-        Registrator.register(new Suppresion());
-    }
+    final String regexpSuppressLayout = "<suppress files=\"";
+    final String regexpPackageLayout = "\\\\(ru|com)\\\\";
 
     public List<String> parseSuppression(String fullFileName) {
         List<String> allLines = null;
@@ -34,12 +33,13 @@ public class Suppresion implements SuppressionChecker {
         try {
             allLines = Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8);
         } catch (Exception e){
+
             return null;
         }
         List<String> suppresionList = new ArrayList<>();
 
         //маска исключение вида: <suppress files="
-        Pattern suppresPattern = Pattern.compile("<suppress files=\"");
+        Pattern suppresPattern = Pattern.compile(regexpSuppressLayout);
         Matcher suppresFind = null;
 
         for (String line: allLines){
@@ -75,7 +75,7 @@ public class Suppresion implements SuppressionChecker {
         List<String> dirs = new ArrayList<>();
         File files = null;
 
-        Pattern packagePattern = Pattern.compile("\\\\(ru|com)\\\\");
+        Pattern packagePattern = Pattern.compile(regexpPackageLayout);
         Matcher packageFinder = null;
 
         try {
@@ -104,7 +104,7 @@ public class Suppresion implements SuppressionChecker {
                     packageFinder = packagePattern.matcher(line);
                     if (packageFinder.find()){
                         if (line.indexOf(".java") != -1) {
-                            dirs.add(line.substring(packageFinder.start() + 1));
+                            dirs.add(line.substring(packageFinder.start() + 1).replace("/", "\\"));
                         }
                     }
                 }
@@ -126,9 +126,23 @@ public class Suppresion implements SuppressionChecker {
     public List<String> findDeletedFiles(List<String> suppresions, List<String> files) {
         List<String> result = new ArrayList<>();
 
+        Pattern packagePattern = Pattern.compile(regexpPackageLayout);
+        Matcher packageFinder = null;
+
         for (String line: suppresions){
             if (!files.contains(line)){
-                result.add(line);
+                packageFinder = packagePattern.matcher(line);
+                if (packageFinder.find()){
+                    result.add(line);
+                } else {
+                    boolean flag = false;
+                    for (String eachLine: files){
+                        flag = eachLine.contains(line);
+                        if (flag) break;
+                    }
+                    if (!flag) {
+                        result.add(line);}
+                }
             }
         }
         return result;
