@@ -31,5 +31,5 @@ public interface SuppressionChecker
      */
     List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir);
 
-    //String getDeveloperName(); перенести в registrator
+    String getDeveloperName();//остается здесь. Выводит имя автора 
 }
