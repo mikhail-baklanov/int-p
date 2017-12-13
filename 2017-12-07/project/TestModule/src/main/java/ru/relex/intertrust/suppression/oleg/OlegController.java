@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
-public class AppController implements Controller {
+public class OlegController implements Controller {
 
     public void start(String xmlName, String filePath, List<SuppressionChecker> listOfChekers)  {
         String[][] data= new String[listOfChekers.size()][3];
