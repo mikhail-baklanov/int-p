@@ -1,7 +1,6 @@
-package ru.relex.suppression.intertrust.alexander;
+package ru.relex.intertrust.suppression.alexander;
 
-import ru.relex.suppression.intertrust.interfaces.SuppressionChecker;
-import ru.relex.suppression.intertrust.Registrator;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -24,10 +23,6 @@ import java.util.regex.Pattern;
 
 public class Alexander implements SuppressionChecker {
     private final static String developerName = "Александр Ерофеев";
-
-    static {
-        Registrator.register(new Alexander());
-    }
 
     public List<String> parseSuppression(String fullFileName){
         List<String> paths = new ArrayList<>();
