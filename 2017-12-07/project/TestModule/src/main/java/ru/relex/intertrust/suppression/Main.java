@@ -1,6 +1,8 @@
 package ru.relex.intertrust.suppression;
 
 import ru.relex.intertrust.suppression.alexander.*;
+import ru.relex.intertrust.suppression.evgeny.EvgenyController;
+import ru.relex.intertrust.suppression.evgeny.FindDeletedClasses;
 import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.margarita.MargaritaChecker;
 import ru.relex.intertrust.suppression.margarita.MargaritaController;
@@ -17,6 +19,9 @@ public class Main {
 
         Registrator.register(new SuppresionSergey());
         Registrator.register(new ControllerSergey());
+
+        Registrator.register(new FindDeletedClasses());
+        Registrator.register(new EvgenyController());
     }
     public static void main(String[] args) {
         for(Controller item : Registrator.getControllers())
