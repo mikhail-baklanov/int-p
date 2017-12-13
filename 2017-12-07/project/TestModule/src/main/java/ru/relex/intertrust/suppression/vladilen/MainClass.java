@@ -26,6 +26,11 @@ public class MainClass implements Controller {
         setSuppList(SUPPRESSIONS_MOCK_PATH);
     }
 
+    public static void main(String[] args) {
+        new DenisovSuppressionCheckerAdapter();
+        new MainClass().start("", "", Registrator.getCheckers());
+    }
+
     private Result[][] results;
 
     @Override
@@ -42,9 +47,18 @@ public class MainClass implements Controller {
                 results[i][j] = Test(SC, methods[i], params[i]);
             }
         }
-        for (int i = 0; i < results[0].length; i++)
-            for (int j = 0; j < results.length; j++)
-                results[j][i].print();
+        try (BufferedWriter BW = new BufferedWriter(new FileWriter("DenisovFileResult.txt"))) {
+            for (int i = 0; i < results[0].length; i++)
+                for (int j = 0; j < results.length; j++) {
+                    String[] re = results[j][i].getResult();
+                    for (int k = 0; k < re.length; k++) {
+                        BW.write(re[k]+'\n');
+                    }
+                    BW.write('\n');
+                }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void Registration() {
@@ -141,7 +155,7 @@ public class MainClass implements Controller {
     }
 
     private static Result Test(SuppressionChecker SC, Method testing, Object... params) {
-        int count = 5;
+        int count = 1;
         long[] startTime = new long[count + 1];
         startTime[0] = System.currentTimeMillis();
         int[] timeDeltas = new int[count];
