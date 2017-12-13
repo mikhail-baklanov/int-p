@@ -1,4 +1,4 @@
-package Oleg;
+package ru.relex.inttrust.suppression.Oleg;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

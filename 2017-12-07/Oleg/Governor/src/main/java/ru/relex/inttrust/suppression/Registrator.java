@@ -1,6 +1,6 @@
-package Classes;
+package ru.relex.inttrust.suppression;
 
-import Interfaces.SuppressionChecker;
+import ru.relex.inttrust.suppression.Interfaces.SuppressionChecker;
 
 import java.util.ArrayList;
 import java.util.List;

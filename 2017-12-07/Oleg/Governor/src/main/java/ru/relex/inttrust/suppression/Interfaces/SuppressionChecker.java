@@ -1,6 +1,5 @@
-package Interfaces;
+package ru.relex.inttrust.suppression.Interfaces;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface SuppressionChecker {

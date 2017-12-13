@@ -1,4 +1,4 @@
-package interfaces;
+package ru.relex.suppression.intertrust.interfaces;
 
 import java.util.List;
 
@@ -16,19 +16,20 @@ public interface SuppressionChecker {
 
     /**
      * Функция получения списка всех java-классов, находящихся в заданной директории
-     * @param path Путь, с которого будет начинаться поиск java-классов
+     * @param path файл, в котором находятся пути к существующим java файлам
      * @return Список полных имен java-классов, найденных в заданной директории
      */
-    List<String> dir(String path);
+    List<String> dir (String path);
 
     /**
      * Функция поиска файлов, которые указаны в файле suppressions.xml,
      * но которые были удалены из проекта
-     * @param suppressedFileNames Список имен java-классов из файла suppressions.xml
-     * @param dir Список полных имен java-классов проекта, для которого выполняется проверка
+     * @param suppressionsPaths Список имен java-классов из файла suppressions.xml
+     * @param dirPaths Список полных имен java-классов проекта, для которого выполняется проверка
      * @return Список имен java-классов, которые были удалены из проекта
      */
-    List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir);
+    List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths);
 
-    //String getDeveloperName(); перенести в registrator
+    // Получить имя автора класса
+    String getDeveloperName();
 }

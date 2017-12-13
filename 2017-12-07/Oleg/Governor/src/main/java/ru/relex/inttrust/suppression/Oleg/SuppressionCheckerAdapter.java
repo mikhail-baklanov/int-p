@@ -1,6 +1,6 @@
-package Oleg;
+package ru.relex.inttrust.suppression.Oleg;
 
-import Interfaces.SuppressionChecker;
+import ru.relex.inttrust.suppression.Interfaces.SuppressionChecker;
 
 import java.util.List;
 
