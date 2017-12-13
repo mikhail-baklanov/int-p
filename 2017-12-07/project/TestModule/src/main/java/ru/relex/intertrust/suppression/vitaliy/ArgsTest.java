@@ -1,4 +1,4 @@
-package ru.relex.intertrust.suppressions;
+package ru.relex.intertrust.suppression.vitaliy;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

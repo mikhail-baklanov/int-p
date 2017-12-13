@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class App implements SuppressionChecker {
+public class SupOleg implements SuppressionChecker {
     private final static String developerName = "Олег Слепичев";
     public List<String> parseSuppression(String fullFileName) {
         List xmlNames = new ArrayList<String>();

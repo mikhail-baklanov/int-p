@@ -1,20 +1,25 @@
-package ru.relex.intertrust.suppressions;
+package ru.relex.intertrust.suppression.vitaliy;
+
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
+public class FindingFilesWithoutRegExp implements SuppressionChecker
 {
 
     private List<String> paths = new ArrayList<>();
     private List<String> FileSystem= new ArrayList<>();
     private final String developerName="VitSaf";
+
     static
     {
-        Registrator.register((SuppressionChecker) new FindingFilesWithoutRegExp());
-        Registrator.register((Controller) new FindingFilesWithoutRegExp());
+        Registrator.register(new FindingFilesWithoutRegExp());
+        Registrator.register(new FindingFilesWithoutRegExp());
     }
 
     public String getDeveloperName()
@@ -24,7 +29,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
 
     public List<String> dir(String filename)
     {
-        int condition = ArgsTest.linesCounter(filename);
+        int condition = ru.relex.intertrust.suppression.vitaliy.ArgsTest.linesCounter(filename);
         String str;
         int q = 0;
         try(BufferedReader reader = new BufferedReader(new FileReader(filename)))
@@ -71,7 +76,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
         try(BufferedReader reader = new BufferedReader(new FileReader(suppressionsFilename)))
         {
             String str;
-            int condition = ArgsTest.linesCounter(suppressionsFilename);//считаем количество строк в файле suppressions.xml
+            int condition = ru.relex.intertrust.suppression.vitaliy.ArgsTest.linesCounter(suppressionsFilename);//считаем количество строк в файле suppressions.xml
                                                                         //позволяет повысить скорость
             int i=0;
             while (i<condition)
@@ -209,37 +214,5 @@ public void getClassNameFromXML()
             paths.remove(0);
     }
 
-    @Override
-    public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers)
-    {
-        for(int i=0;i<listOfChekers.size();i++)
-        {
-            long start=System.currentTimeMillis();
-            List<String> list =listOfChekers.get(i).findDeletedFiles(listOfChekers.get(i).parseSuppression(suppressionFilename),listOfChekers.get(i).dir(dir));
-            //List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
-            long finish=System.currentTimeMillis();
 
-            for(String e:list)
-                try(FileWriter writer = new FileWriter("report.txt", true))
-                {
-                    // запись всей строки
-                    String text = "File "+e+" doesn't exist ";
-                    writer.write(text);
-                    // запись по символам
-
-                    writer.append('\r');
-                    writer.append('\n');
-
-
-                    writer.flush();
-                }
-                catch(IOException ex){
-
-                    System.out.println(ex.getMessage());
-                }
-            //System.out.println("File "+e+" doesn't exist");
-            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start));
-
-        }
-    }
 }
