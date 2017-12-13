@@ -4,6 +4,7 @@ import ru.relex.intertrust.suppression.CommonElements.Controller;
 import ru.relex.intertrust.suppression.CommonElements.Registrator;
 import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
 import ru.relex.intertrust.suppression.Users.Alexander.Alexander;
+import ru.relex.intertrust.suppression.Users.Vitaliy.FindingFilesWithoutRegExp;
 import ru.relex.intertrust.suppression.Users.Vladilen.DenisovSuppressionCheckerAdapter;
 
 import java.awt.*;
@@ -50,8 +51,9 @@ public class MainClass implements Controller {
     }
 
     public static void main(String[] args) throws Exception {
-        new Alexander();
-        new DenisovSuppressionCheckerAdapter();
+        //new Alexander();
+        //new DenisovSuppressionCheckerAdapter();
+        new FindingFilesWithoutRegExp();
         //new ru.relex.intertrust.suppressions.FindingFilesWithoutRegExp();
         //new FindDeletedClasses();
         new MainClass().start(args[0], args[1], Registrator.getList());

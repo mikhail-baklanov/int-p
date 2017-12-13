@@ -1,4 +1,4 @@
-package ru.relex.intertrust.suppressions;
+package ru.relex.intertrust.suppression.Users.Vitaliy;
 
 import ru.relex.intertrust.suppression.CommonElements.Controller;
 import ru.relex.intertrust.suppression.CommonElements.Registrator;
@@ -28,7 +28,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
 
     public List<String> dir(String filename)
     {
-        int condition = ru.relex.intertrust.suppressions.ArgsTest.linesCounter(filename);
+        int condition = ArgsTest.linesCounter(filename);
         String str;
         int q = 0;
         try(BufferedReader reader = new BufferedReader(new FileReader(filename)))
@@ -75,7 +75,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
         try(BufferedReader reader = new BufferedReader(new FileReader(suppressionsFilename)))
         {
             String str;
-            int condition = ru.relex.intertrust.suppressions.ArgsTest.linesCounter(suppressionsFilename);//считаем количество строк в файле suppressions.xml
+            int condition = ArgsTest.linesCounter(suppressionsFilename);//считаем количество строк в файле suppressions.xml
                                                                         //позволяет повысить скорость
             int i=0;
             while (i<condition)
@@ -129,9 +129,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
 
 public void getClassNameFromXML()
 {
-
     List<String> paths2 = new ArrayList<>();
-
 	for(int i=0;i<paths.size();i++)
 	{
 		StringBuilder str=new StringBuilder(paths.get(i));
@@ -217,7 +215,12 @@ public void getClassNameFromXML()
     {
         for(int i=0;i<listOfChekers.size();i++)
         {
+            long start=System.currentTimeMillis();
+
             List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
+
+            long finish=System.currentTimeMillis();
+
             for(String e:list)
                 try(FileWriter writer = new FileWriter("report.txt", true))
                 {
@@ -237,12 +240,7 @@ public void getClassNameFromXML()
                     System.out.println(ex.getMessage());
                 }
             //System.out.println("File "+e+" doesn't exist");
-            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName());
-
-
-
-
-
+            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start));
 
         }
     }
