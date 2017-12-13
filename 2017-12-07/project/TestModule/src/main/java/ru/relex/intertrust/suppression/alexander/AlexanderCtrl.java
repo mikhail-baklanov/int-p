@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AlexanderCtrl implements Controller {
-    private final static int ITERATIONS = 1;
+    private final static int ITERATIONS = 5;
 
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers){
         List<Long> timeSpended = new ArrayList<>();
@@ -26,7 +26,10 @@ public class AlexanderCtrl implements Controller {
                 long time = System.currentTimeMillis();
                 List<String> parsePaths = item.parseSuppression(suppressionFilename);
                 List<String> dirPaths = item.dir(dir);
-                notFoundFiles.add(item.findDeletedFiles(parsePaths, dirPaths));
+                if(i == 0)
+                    notFoundFiles.add(item.findDeletedFiles(parsePaths, dirPaths));
+                else
+                    item.findDeletedFiles(parsePaths, dirPaths);
                 fullTime += System.currentTimeMillis() - time;
             }
             timeSpended.add(fullTime);
@@ -68,6 +71,7 @@ public class AlexanderCtrl implements Controller {
             tableItems.append("</ul>\n" + "</div>\n" + "</div>\n");
             developerNames.remove(numberOfClass);
             timeSpended.remove(numberOfClass);
+            notFoundFiles.remove(numberOfClass);
             count++;
         }
         // Загрузка шаблона сайта и преобразование всего текста в одну строку
