@@ -1,2 +1,0 @@
-javac Main.java
-pause

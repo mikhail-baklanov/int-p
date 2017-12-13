@@ -1,6 +1,4 @@
-package ru.relex.inttrust.suppresion;
-
-import ru.relex.inttrust.suppresion.interfaces.SuppressionChecker;
+package ru.relex.intertrust.suppressions;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +17,10 @@ import java.util.regex.Pattern;
  * @version 1.0.0
  */
 
-public class Suppresion implements SuppressionChecker {
+public class SuppresionSergey implements SuppressionChecker {
 
     static {
-        Registrator.register(new Suppresion());
+        Registrator.register(new SuppresionSergey());
     }
 
     /**
