@@ -44,7 +44,7 @@ public class MainClass implements Controller {
         for (int i = 0; i < methods.length; i++) {
             for (int j = 0; j < listOfChekers.size(); j++) {
                 SuppressionChecker SC = listOfChekers.get(j);
-                results[i][j] = Test(SC, methods[i], params[i]);
+                results[i][j] = Test(SC, methods[i], (i==2) ? (results[0][j].getAdditionalFlags().get("Refactor")) : false, params[i]);
             }
         }
         try (BufferedWriter BW = new BufferedWriter(new FileWriter("DenisovFileResult.txt"))) {
@@ -61,21 +61,11 @@ public class MainClass implements Controller {
         }
     }
 
-    private static void Registration() {
-        //todo переделать регистрацию, регистрируя из статиков в самих классах
-        //Registrator.register(new DenisovSuppressionCheckerAdapter());
-    }
-
-    private static void Testing() {
-        try {
-            Test(Registrator.getCheckers().get(0), SuppressionChecker.class.getDeclaredMethod("parseSuppression", String.class), SUPPRESSIONS_MOCK_FOR_CLASSES_PATH).print();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static Random rnd = new Random();
-    private static File inputFolder;
+
+    //public static void DO(){
+    //    GenerateSuppressionFile(SUPPRESSIONS_MOCK_FOR_CLASSES_PATH, suppList);
+    //}
 
     //it was invoked once
     private static void GenerateSuppressionFile(String fileName, List<String> Suppressions) {
@@ -84,7 +74,7 @@ public class MainClass implements Controller {
             for (int i = 0; i < Suppressions.size(); i++) {
                 String s = Suppressions.get(i);
                 BW.write("<suppress files=\"");
-                BW.write(s + '\n');
+                BW.write(s);
                 BW.write("\"\nchecks=\"^((?!LineLength).)*$\"/>\n");
             }
             BW.write("</suppressions>");
@@ -154,7 +144,7 @@ public class MainClass implements Controller {
         return SB.toString();
     }
 
-    private static Result Test(SuppressionChecker SC, Method testing, Object... params) {
+    private static Result Test(SuppressionChecker SC, Method testing, boolean additionalFlag, Object... params) {
         int count = 1;
         long[] startTime = new long[count + 1];
         startTime[0] = System.currentTimeMillis();
@@ -163,6 +153,8 @@ public class MainClass implements Controller {
         Result result = new Result(SC.getDeveloperName(), testing.getName());
         for (int i = 0; i < count; i++) {
             try {
+                if (additionalFlag&&testing.getName().equals("findDeletedFiles"))
+                    params[0] = getRefactorSuppList((List<String>)params[0]);
                 resultOfInvoking = testing.invoke(SC, params);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 resultOfInvoking = e;
@@ -196,6 +188,8 @@ public class MainClass implements Controller {
     private static void setResult(Method m, Result result, Object resultObject) throws NoSuchMethodException {
         Method[] methods = getMethods();
         List<String> list;
+        if (m.getName().equals(methods[0].getName()))
+            result.getAdditionalFlags().put("Refactor", false); //default
         if (!(resultObject instanceof Exception)) {
             list = (List<String>) resultObject;
             if (list == null) {
@@ -212,8 +206,9 @@ public class MainClass implements Controller {
         if (m.getName().equals(methods[0].getName())) {
             try {
                 Boolean b = list.get(0).contains("[\\\\/]");
-                result.setAdditionalInfo(b ? "Метод не преобразовывает разделители вида [\\\\/]" : "Метод преобразовывает разделители вида [\\\\/]");
-                result.getAdditionalFlags().put("Refactor", b); //todo do i need a map?
+                result.setAdditionalInfo(b ? "Метод не преобразовывает разделители вида [\\\\/]" :
+                        "Метод преобразовывает разделители вида [\\\\/]");
+                result.getAdditionalFlags().replace("Refactor", !b);
                 List<String> absolut = b ? suppList : getRefactorSuppList(suppList);
                 result.setCompleteness(CheckCompleteness((Object) list, (Object) absolut));
             } catch (IndexOutOfBoundsException IOOBE) {
