@@ -1,7 +1,7 @@
-package ru.relex.suppression.apps;
+package ru.relex.suppression.intertrust.apps;
 
-import ru.relex.suppression.interfaces.SuppressionChecker;
-import ru.relex.suppression.Registrator;
+import ru.relex.suppression.intertrust.interfaces.SuppressionChecker;
+import ru.relex.suppression.intertrust.Registrator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -101,10 +101,8 @@ public class Alexander implements SuppressionChecker {
                     break;
                 }
             }
-            if (!isExist) {
+            if (!isExist)
                 deletedFilePaths.add(item);
-             //   System.out.println("File with path " + item + " not found.");
-            }
         }
         return deletedFilePaths;
     }

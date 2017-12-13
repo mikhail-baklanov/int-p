@@ -1,7 +1,8 @@
-package ru.relex.suppression.controllers;
+package ru.relex.suppression.intertrust.controllers;
 
-import ru.relex.suppression.Registrator;
-import ru.relex.suppression.interfaces.SuppressionChecker;
+import ru.relex.suppression.intertrust.Registrator;
+import ru.relex.suppression.intertrust.interfaces.Controller;
+import ru.relex.suppression.intertrust.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,36 +15,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Controller {
+public class AlexanderCtrl implements Controller {
+    private final static int ITERATIONS = 2;
 
-    private Controller(){}
-
-    public static void start(int amountIterations, List<SuppressionChecker> listOfClasses){
+    static {
+        Registrator.register(new AlexanderCtrl());
+    }
+    public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers){
         List<Long> timeSpended = new ArrayList<>();
-        for (SuppressionChecker item : listOfClasses) {
+        for (SuppressionChecker item : listOfChekers) {
             long fullTime = 0;
-            for(int i = 0; i < amountIterations; i++){
+            for(int i = 0; i < ITERATIONS; i++){
                 long time = System.currentTimeMillis();
-                List<String> parsePaths = item.parseSuppression("checkstyle-suppressions.xml");
-                List<String> dirPaths = item.dir("files.txt");
+                List<String> parsePaths = item.parseSuppression(suppressionFilename);
+                List<String> dirPaths = item.dir(dir);
                 item.findDeletedFiles(parsePaths, dirPaths);
                 fullTime += System.currentTimeMillis() - time;
             }
             timeSpended.add(fullTime);
         }
         try {
-            String fileAbsoultePath = printResults(Registrator.getList(), amountIterations, timeSpended);
+            String fileAbsoultePath = printResults(Registrator.getCheckers(), timeSpended);
             Runtime.getRuntime().exec("cmd /c " + "\"" + fileAbsoultePath + "\"");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static String printResults(List<SuppressionChecker> listOfClasses, int amountIterations, List<Long> timeSpended) throws IOException{
+    private static String printResults(List<SuppressionChecker> listOfCheckers, List<Long> timeSpended) throws IOException{
         StringBuilder tableItems = new StringBuilder();
         // Создание блока со всеми участниками
         int count = 1;
-        while(listOfClasses.size() != 0){
+        while(listOfCheckers.size() != 0){
 
             // Поиск программы с наименьшим временем выполнения и последующая запись его в блок
             int numberOfClass = 0;
@@ -52,12 +55,12 @@ public class Controller {
                     numberOfClass = j;
 
             tableItems.append("<div class=\"main_item\">\n" +
-                    "<div>" + count + ". " + listOfClasses.get(numberOfClass).getDeveloperName() + "</div>\n" +
-                    "<div>" + amountIterations + "</div>\n" +
-                    "<div>" + timeSpended.get(numberOfClass) / amountIterations + " мс</div>\n" +
+                    "<div>" + count + ". " + listOfCheckers.get(numberOfClass).getDeveloperName() + "</div>\n" +
+                    "<div>" + ITERATIONS + "</div>\n" +
+                    "<div>" + timeSpended.get(numberOfClass) / ITERATIONS + " мс</div>\n" +
                     "<div>" + timeSpended.get(numberOfClass) + " мс</div>\n" +
                     "</div>\n");
-            listOfClasses.remove(numberOfClass);
+            listOfCheckers.remove(numberOfClass);
             timeSpended.remove(numberOfClass);
             count++;
         }

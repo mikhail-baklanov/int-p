@@ -1,4 +1,4 @@
-package ru.relex.suppression.interfaces;
+package ru.relex.suppression.intertrust.interfaces;
 
 import java.util.List;
 
