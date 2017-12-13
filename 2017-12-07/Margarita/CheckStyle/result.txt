@@ -1,0 +1,5 @@
+BeanFactoryRegistration.java
+RestProviderFactoryImpl.java
+CategoryListChangeSelectionItemEvent.java
+ru\intertrust\cmj\client\component\execution\resolution\interfaces\IResolutionChange.java
+ru\intertrust\cmj\client\tunable\baseevents\UpdateConfigEvent.java
