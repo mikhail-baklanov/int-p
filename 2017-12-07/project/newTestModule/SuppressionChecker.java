@@ -5,8 +5,7 @@ import java.util.List;
 /**
  * Интерфейс для поиска удаленных файлов в файле suppressions.xml
  */
-public interface SuppressionChecker 
-{
+public interface SuppressionChecker {
 
     /**
      * Функция получения имен java-классов, которые указаны в файле suppressions.xml
@@ -31,5 +30,9 @@ public interface SuppressionChecker
      */
     List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir);
 
-    String getDeveloperName();//остается здесь. Выводит имя автора.
+    /**
+     * Функция, возвращающая имя разработчика текущей реализации интерфейса
+     * @return Имя разработчика
+     */
+    String getDeveloperName();
 }
