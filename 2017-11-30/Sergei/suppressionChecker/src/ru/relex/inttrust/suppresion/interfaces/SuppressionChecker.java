@@ -1,4 +1,4 @@
-package ru.relex.inttrust.suppresion;
+package ru.relex.inttrust.suppresion.interfaces;
 
 import java.util.List;
 

@@ -1,6 +1,9 @@
 package ru.relex.inttrust.suppresion;
 
+import ru.relex.inttrust.suppresion.interfaces.SuppressionChecker;
+
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -17,6 +20,11 @@ import java.util.regex.Pattern;
  */
 
 public class Suppresion implements SuppressionChecker {
+
+    static {
+        Registrator.register(new Suppresion());
+    }
+
     /**
      * Медод получения списка файлов из файла исключений suppresions.xml
      * @param fullFileName Полное имя файла suppresions.xml на диске
@@ -31,7 +39,7 @@ public class Suppresion implements SuppressionChecker {
 
         try {
             allLines = Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8);
-        } catch (Exception e){
+        } catch (IOException e){
 
             return null;
         }
@@ -90,7 +98,7 @@ public class Suppresion implements SuppressionChecker {
                 }
                 return dirs;
             }
-        } catch (Exception e){
+        } catch (IOException e){
             return null;
         }
 
@@ -102,7 +110,7 @@ public class Suppresion implements SuppressionChecker {
                 for(String line: tmp){
                     packageFinder = packagePattern.matcher(line);
                     if (packageFinder.find()){
-                        if (line.indexOf(".java") != -1) {
+                        if (line.contains(".java")) {
                             dirs.add(line.substring(packageFinder.start() + 1).replace("/", "\\"));
                         }
                     }
