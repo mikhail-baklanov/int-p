@@ -1,13 +1,13 @@
 package interfaces;
 
-public interface Controller
-{
-	void start(String suppressionFilename,String dir,List<SuppressionChecker> listOfChekers);
+public interface Controller {
 
-
-    /*
-		старт запускает методы из suppressionChecker для объектов и отображает статистику в угодном вам виде
-		(время работы, результат работы)
-     */
-    
+	/**
+	 * Метод запуска поиска удаленных файлов и отображения статистики
+	 * (время работы, результат работы)
+	 * @param suppressionFilename Полное имя файла suppressions.xml
+	 * @param dir Каталог, откуда будет начат поиск java-файлов
+	 * @param listOfChekers Зарегистрированные реализации интерфейсов каждого разработчика
+	 */
+	void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers);
 }

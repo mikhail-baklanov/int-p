@@ -1,5 +1,4 @@
-import interfaces.Controller;
-import interfaces.SuppressionChecker;
+package common;
 
 import java.util.ArrayList;
 import java.util.List;
