@@ -16,11 +16,6 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
     private List<String> FileSystem= new ArrayList<>();
     private final String developerName="VitSaf";
 
-    static
-    {
-        Registrator.register(new FindingFilesWithoutRegExp());
-        Registrator.register(new FindingFilesWithoutRegExp());
-    }
 
     public String getDeveloperName()
     {
@@ -89,7 +84,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
 
             //dir("files.txt");
             fixPath();//исправление [/\\] на /
-            getPath();// извлечение пути к файлу
+            //getPath();// извлечение пути к файлу
             getClassNameFromXML();//приводим строки из suppressions.xml к приемлимому для поиска виду
 
         }

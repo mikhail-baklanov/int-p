@@ -7,9 +7,6 @@ import java.io.File;
 import java.util.List;
 
 public class DenisovSuppressionCheckerAdapter implements SuppressionChecker {
-    static {
-        Registrator.register(new DenisovSuppressionCheckerAdapter());
-    }
     @Override
     public List<String> parseSuppression(String fullFileName) {
         //return null;
