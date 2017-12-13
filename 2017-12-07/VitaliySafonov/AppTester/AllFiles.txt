@@ -1088,7 +1088,7 @@ E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-compon
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\Recipient.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\Redirect.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\Register.java
-E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\Registration.java
+E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\ru.relex.intertrust.suppressions.Registration.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\RegistrationNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\RegNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\src\main\java\ru\intertrust\cmj\client\model\Reject.java
@@ -2477,7 +2477,7 @@ E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-compon
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\Recipient.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\Redirect.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\Register.java
-E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\Registration.java
+E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\ru.relex.intertrust.suppressions.Registration.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\RegistrationNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\RegNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-components\target\classes\ru\intertrust\cmj\client\model\Reject.java
@@ -6561,7 +6561,7 @@ E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\Receiption.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\Recipient.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\Register.java
-E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\Registration.java
+E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\ru.relex.intertrust.suppressions.Registration.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\RegistrationNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\RegNumber.java
 E:\work\projects\InterTrust\CM4-gwt\workspaces\dev-cmj-4.3\cmj-common\cmj-model\target\classes\ru\intertrust\cmj\client\model\Reject.java

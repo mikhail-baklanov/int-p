@@ -629,7 +629,7 @@
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]Receiption.java" checks="^((?!LineLength).)*$" />
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]Recipient.java" checks="^((?!LineLength).)*$" />
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]Register.java" checks="^((?!LineLength).)*$" />
-  <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]Registration.java" checks="^((?!LineLength).)*$" />
+  <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]ru.relex.intertrust.suppressions.Registration.java" checks="^((?!LineLength).)*$" />
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]RegistrationNumber.java" checks="^((?!LineLength).)*$" />
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]RegNumber.java" checks="^((?!LineLength).)*$" />
   <suppress files="ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]model[\\/]Reject.java" checks="^((?!LineLength).)*$" />
