@@ -55,7 +55,4 @@ public class Registrator {
     public static void register(Controller controller) {
         controllers.add(controller);
     }
-
-    //public static String getDeveloperName(interfaces.SuppressionChecker name ){};
-    //return developerName;};
 }
