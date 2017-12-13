@@ -19,7 +19,8 @@ public class OlegController implements Controller {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame.setDefaultLookAndFeelDecorated(true);
-                createGUI(data);
+                TableGui tableGui= new TableGui();
+                tableGui.createGUI(data);
             }
         });
     }
@@ -38,33 +39,13 @@ public class OlegController implements Controller {
                 if (findDeletedFiles.size()!=0)
                     data[i][2]=findDeletedFiles.get(0)+ " ";
                 for (int j = 1; j < findDeletedFiles.size(); j++) {
-                    data[i][2] +=findDeletedFiles.get(j) + " ";
+                    data[i][2] +="\n" +findDeletedFiles.get(j) + " ";
 
 
               }
         }
     }
 
-    public void createGUI(String [][] data) {
-        JFrame frame = new JFrame("SpeedTest");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String[] columnNames = {
-                "Name",
-                "Time",
-                "Deleted files"
-        };
-
-
-        JTable table = new JTable(data, columnNames);
-
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        frame.getContentPane().add(scrollPane);
-        frame.setPreferredSize(new Dimension(450, 200));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 
 }
