@@ -19,9 +19,9 @@ import java.util.regex.Pattern;
 
 public class SuppresionSergey implements SuppressionChecker {
 
-    static {
-        Registrator.register(new SuppresionSergey());
-    }
+//    static {
+//        Registrator.register(new SuppresionSergey());
+//    }
 
     /**
      * Медод получения списка файлов из файла исключений suppresions.xml
@@ -29,7 +29,7 @@ public class SuppresionSergey implements SuppressionChecker {
      * @return Список файлов
      * @return null если в метод передан неверный путь
      */
-    final String regexpSuppressLayout = "<suppress files=\"";
+    final String regexpSuppressLayout = "(<suppress).*?(files=\").*?(\\.java\").*?";
     final String regexpPackageLayout = "\\\\(ru|com)\\\\";
 
     public List<String> parseSuppression(String fullFileName) {
@@ -38,7 +38,7 @@ public class SuppresionSergey implements SuppressionChecker {
         try {
             allLines = Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8);
         } catch (IOException e){
-
+            System.out.println(e.getMessage());
             return null;
         }
         List<String> suppresionList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class SuppresionSergey implements SuppressionChecker {
 
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
-            if(suppresFind.find()){
+            if(suppresFind.matches()){
                 suppresionList.add(line.substring(line.indexOf("\"") + 1, line.indexOf("\" ")).replace("[\\\\/]", "\\"));
             }
         }
@@ -97,6 +97,7 @@ public class SuppresionSergey implements SuppressionChecker {
                 return dirs;
             }
         } catch (IOException e){
+            System.out.println(e.getMessage());
             return null;
         }
 
@@ -116,9 +117,9 @@ public class SuppresionSergey implements SuppressionChecker {
                 return dirs;
             }
         } catch (Exception e){
+            System.out.println(e.getMessage());
             return null;
         }
-
         return null;
     }
 
