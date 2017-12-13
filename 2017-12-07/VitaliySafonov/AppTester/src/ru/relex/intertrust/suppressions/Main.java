@@ -10,8 +10,8 @@ public class Main
 
 //общий	 вызов и проверка работаспособности+отображение статистики
         for(Controller item : Registrator.getControllers())
-            //item.start(args[0],args[1],Registrator.getCheckers());
-            item.start("checkstyle-suppressions.xml","files.txt",Registrator.getCheckers());
+            item.start(args[0],args[1],Registrator.getCheckers());
+            //item.start("checkstyle-suppressions.xml","files.txt",Registrator.getCheckers());
 
     }
 }
