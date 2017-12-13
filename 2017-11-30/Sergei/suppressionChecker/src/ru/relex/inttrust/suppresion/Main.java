@@ -7,9 +7,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //C:\Users\mrlun\Documents\suppressionChecker\checkstyle-suppressions.xml
-        //C:\Users\mrlun\Documents\suppressionChecker\a.txt
-
         Suppresion suppres = new Suppresion();
         Scanner input = new Scanner(System.in);
 
@@ -23,12 +20,20 @@ public class Main {
         temp = input.nextLine();
 
         suppression = suppres.parseSuppression(temp);
+        if (suppression == null){
+            System.out.println("Возникла ошибка при открытии\\чтении файла");
+            return;
+        }
 
         System.out.println("Введите путь к директории или полное имя файла со списком классов");
         System.out.print("-> ");
         temp = input.nextLine();
 
         dirs = suppres.dir(temp);
+        if (dirs == null){
+            System.out.println("Возникла ошибка при открытии\\чтении файла\\ директории");
+            return;
+        }
 
         res = suppres.findDeletedFiles(suppression, dirs);
         for (String line: res){

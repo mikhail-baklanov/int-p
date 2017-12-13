@@ -11,9 +11,4 @@ public interface SuppressionChecker {
 
     // Поиск удаленных файлов
     List<String> findDeletedFiles(List<String> suppresions, List<String> files);
-
-    // Получение имени автора класса (метод находится под вопросом)
-    // Было предложено реализовать через аннотации
-    String getDeveloperName();
-
 }
