@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ControllerSergey implements Controller {
 
-    static {
-        Registrator.register(new ControllerSergey());
-    }
+//    static {
+//        Registrator.register(new ControllerSergey());
+//    }
 
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         //запуск и прочее

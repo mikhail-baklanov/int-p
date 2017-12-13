@@ -42,22 +42,13 @@ public class AlexanderCtrl implements Controller {
         StringBuilder tableItems = new StringBuilder();
         // Создание блока со всеми участниками
         int count = 1;
-        while(listOfCheckers.size() != 0){
-
-            // Поиск программы с наименьшим временем выполнения и последующая запись его в блок
-            int numberOfClass = 0;
-            for(int j = 0; j < timeSpended.size(); j++)
-                if(timeSpended.get(j) < timeSpended.get(numberOfClass))
-                    numberOfClass = j;
-
+        for(int i =0; i < listOfCheckers.size(); i++){
             tableItems.append("<div class=\"main_item\">\n" +
-                    "<div>" + count + ". " + listOfCheckers.get(numberOfClass).getDeveloperName() + "</div>\n" +
+                    "<div>" + count + ". " + listOfCheckers.get(i).getDeveloperName() + "</div>\n" +
                     "<div>" + ITERATIONS + "</div>\n" +
-                    "<div>" + timeSpended.get(numberOfClass) / ITERATIONS + " мс</div>\n" +
-                    "<div>" + timeSpended.get(numberOfClass) + " мс</div>\n" +
+                    "<div>" + timeSpended.get(i) / ITERATIONS + " мс</div>\n" +
+                    "<div>" + timeSpended.get(i) + " мс</div>\n" +
                     "</div>\n");
-            listOfCheckers.remove(numberOfClass);
-            timeSpended.remove(numberOfClass);
             count++;
         }
         // Загрузка шаблона сайта и преобразование всего текста в одну строку

@@ -13,9 +13,6 @@ import java.util.List;
  * @author Евгений Воронин
  */
 public class EvgenyController implements Controller {
-    static {
-        Registrator.register(new EvgenyController());
-    }
 
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         for (SuppressionChecker checkerMethod : listOfChekers) {

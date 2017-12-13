@@ -20,9 +20,6 @@ import java.util.List;
  * @author Евгений Воронин
  */
 public class FindDeletedClasses implements SuppressionChecker {
-    static {
-        Registrator.register(new FindDeletedClasses());
-    }
 
     /**
      * Получаем спискок регулярных выражений из указанного файла.

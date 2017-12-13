@@ -1,5 +1,8 @@
 package ru.relex.intertrust.suppression.vladilen;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Result {
@@ -89,9 +92,28 @@ public class Result {
         return array;
     }
 
+    public void clear(String fileName){
+        try (BufferedWriter BW = new BufferedWriter(new FileWriter(fileName))){
+            BW.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void print(){
         System.out.println("Результаты тестирования:");
         Arrays.stream(this.getResult()).forEach(System.out::println);
         System.out.println(); //empty line
+    }
+
+    public void printIntoFile(String fileName){
+        try (BufferedWriter BW = new BufferedWriter(new FileWriter(fileName))){
+            String[] result = getResult();
+            for (int i = 0; i < result.length; i++)
+                BW.append(result[i]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
