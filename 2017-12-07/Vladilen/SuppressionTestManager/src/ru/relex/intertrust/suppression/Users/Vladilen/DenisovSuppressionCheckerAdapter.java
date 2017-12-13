@@ -21,7 +21,7 @@ public class DenisovSuppressionCheckerAdapter implements SuppressionChecker {
 
     @Override
     public List<String> dir(String path) {
-        return DenisovSC.getAllPathes(new File(path));
+        return DenisovSC.getAllPathes(path);
     }
 
     @Override
@@ -29,5 +29,10 @@ public class DenisovSuppressionCheckerAdapter implements SuppressionChecker {
         //return new ArrayList<>();
         //return null;
         return DenisovSC.getRemovedFilesList(suppressionsList, filesList);
+    }
+
+
+    public String getDeveloperName(){
+        return "Denisov Vladilen";
     }
 }

@@ -30,6 +30,9 @@ public interface SuppressionChecker {
      */
     List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths);
 
-    // Получить имя автора класса
+    /**
+     * Функция, возвращающая имя разработчика текущей реализации интерфейса
+     * @return Имя разработчика
+     */
     String getDeveloperName();
 }

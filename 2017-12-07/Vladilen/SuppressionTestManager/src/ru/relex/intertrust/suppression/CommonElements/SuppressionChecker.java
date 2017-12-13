@@ -13,5 +13,5 @@ public interface SuppressionChecker {
 
     // Получить имя автора класса (метод находится под вопросом)
     // Было предложено реализовать через аннотации
-    //String getDeveloperName();
+    String getDeveloperName();
 }

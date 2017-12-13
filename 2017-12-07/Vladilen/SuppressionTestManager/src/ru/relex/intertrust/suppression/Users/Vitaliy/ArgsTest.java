@@ -19,12 +19,4 @@ public class ArgsTest
         return counter;
     }
 
-    public static void main(String[] args )
-    {
-        for(int i=0;i<args.length;i++)
-            System.out.println(linesCounter(args[i]));
-
-
-        System.out.println(linesCounter("AllFiles.txt"));
-    }
 }

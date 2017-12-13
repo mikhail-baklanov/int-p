@@ -1,6 +1,5 @@
 package ru.relex.intertrust.suppression.Users.Alexander;
 
-import ru.relex.intertrust.suppression.CommonElements.Author;
 import ru.relex.intertrust.suppression.CommonElements.Registrator;
 import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
 
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Author("Alexander")
 public class Alexander implements SuppressionChecker {
     private final static String developerName = "Александр Ерофеев";
 
@@ -103,10 +101,8 @@ public class Alexander implements SuppressionChecker {
                     break;
                 }
             }
-            if (!isExist) {
+            if (!isExist)
                 deletedFilePaths.add(item);
-             //   System.out.println("File with path " + item + " not found.");
-            }
         }
         return deletedFilePaths;
     }
