@@ -35,8 +35,11 @@ public class OlegController implements Controller {
             Date end= new Date();
                 data[i][0] = SC.getDeveloperName();
                 data[i][1] = end.getTime() - start.getTime() + " ms";
-                for (int j = 0; j < findDeletedFiles.size(); j++) {
-                    data[i][2] += " " + findDeletedFiles.get(j);
+                if (findDeletedFiles.size()!=0)
+                    data[i][2]=findDeletedFiles.get(0)+ " ";
+                for (int j = 1; j < findDeletedFiles.size(); j++) {
+                    data[i][2] +=findDeletedFiles.get(j) + " ";
+
 
               }
         }
