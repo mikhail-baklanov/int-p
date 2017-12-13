@@ -10,6 +10,9 @@ public class ControllerSergey implements Controller {
 
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         //запуск и прочее
+        System.out.println();
+        System.out.println("------------- Управляющий модуль (Сергей) -------------");
+
         List<String> suppression = null;
         List<String> dirs = null;
         List<String> res = null;
@@ -27,20 +30,22 @@ public class ControllerSergey implements Controller {
             long end = System.currentTimeMillis() - start;
             printResult(res, end, checker);
         }
+        System.out.println("------------------ Конец тестирования -----------------");
     }
 
     private  void printResult (List<String> result, long totalTime, SuppressionChecker checker){
         //вывод результатов
         System.out.print("Автор реализации: ");
         System.out.print(checker.getDeveloperName());
-        System.out.print(" | время работы реализаци: ");
+        System.out.print(" | Время работы реализаци: ");
         System.out.print(totalTime);
-        System.out.println(" ms -----------------");
-        System.out.println("---------------- Результаты: ----------------");
+        System.out.println(" ms");
+        System.out.println("--------------------- Результаты: ---------------------");
         for (String line: result) {
+            System.out.print("<> ");
             System.out.println(line);
         }
-        System.out.println("---------------------------------------------");
+        System.out.println("-------------------------------------------------------");
         System.out.println();
     }
 }

@@ -29,8 +29,8 @@ public class SuppresionSergey implements SuppressionChecker {
      * @return Список файлов
      * @return null если в метод передан неверный путь
      */
-    final String regexpSuppressLayout = "(<suppress).*?(files=\").*?(\\.java\").*?";
-    final String regexpPackageLayout = "\\\\(ru|com)\\\\";
+    final String regexpSuppressLayout = ".*?(<suppress).*?(files=\").*?(\\.java\").*?";
+    final String regexpPackageLayout = ".*?\\\\(ru|com)\\\\.*?(\\.java).*?";
 
     public List<String> parseSuppression(String fullFileName) {
         List<String> allLines = null;
@@ -50,7 +50,7 @@ public class SuppresionSergey implements SuppressionChecker {
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
             if(suppresFind.matches()){
-                suppresionList.add(line.substring(line.indexOf("\"") + 1, line.indexOf("\" ")).replace("[\\\\/]", "\\"));
+                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\" ") + 4).replace("[\\\\/]", "\\"));
             }
         }
         return suppresionList;
@@ -90,7 +90,7 @@ public class SuppresionSergey implements SuppressionChecker {
                 tmp = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
                 for(String line: tmp){
                     packageFinder = packagePattern.matcher(line);
-                    if (packageFinder.find()){
+                    if (packageFinder.matches()){
                         dirs.add(line.substring(packageFinder.start() + 1));
                     }
                 }
@@ -108,10 +108,8 @@ public class SuppresionSergey implements SuppressionChecker {
 
                 for(String line: tmp){
                     packageFinder = packagePattern.matcher(line);
-                    if (packageFinder.find()){
-                        if (line.contains(".java")) {
-                            dirs.add(line.substring(packageFinder.start() + 1).replace("/", "\\"));
-                        }
+                    if (packageFinder.matches()){
+                        dirs.add(line.substring(packageFinder.start() + 1).replace("/", "\\"));
                     }
                 }
                 return dirs;

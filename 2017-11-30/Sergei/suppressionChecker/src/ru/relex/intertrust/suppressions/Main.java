@@ -7,6 +7,9 @@ public class Main {
         //new ControllerSergey();
         //new FindingFilesWithoutRegExp();
 
+        Registrator.register(new SuppresionSergey());
+        Registrator.register(new ControllerSergey());
+
         String sdir = "C:\\Projects\\int-p\\2017-11-30\\Sergei\\suppressionChecker\\test data\\checkstyle-suppressions.xml";
         String ddir = "C:\\Projects\\int-p\\2017-11-30\\Sergei\\suppressionChecker\\test data\\a.txt";
 
