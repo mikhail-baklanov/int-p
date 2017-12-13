@@ -22,6 +22,15 @@ checks="^((?!LineLength).)*$"/>
 checks="^((?!LineLength).)*$"/>
 <suppress files="E:[\\/]work[\\/]projects[\\/]InterTrust[\\/]CM4-gwt[\\/]workspaces[\\/]dev-cmj-4.3[\\/]cmj-common[\\/]cmj-calendar[\\/]src[\\/]main[\\/]java[\\/]ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]component[\\/]calendar[\\/]common[\\/]ICalendarItemDragController.java
 "
+          checks="^((?!LineLength).)*$"/>
+    <suppress files="E:[\\/]itdoesntexistenymore[\\/]work[\\/]projects[\\/]InterTrust[\\/]CM4-gwt[\\/]workspaces[\\/]dev-cmj-4.3[\\/]cmj-common[\\/]cmj-calendar[\\/]src[\\/]main[\\/]java[\\/]ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]component[\\/]calendar[\\/]common[\\/]DynamicTasksEventDispatcher.java
+"
+              checks="^((?!LineLength).)*$"/>
+    <suppress files="E:[\\/]itdoesntexistenymore[\\/]work[\\/]projects[\\/]InterTrust[\\/]CM4-gwt[\\/]workspaces[\\/]dev-cmj-4.3[\\/]cmj-common[\\/]cmj-calendar[\\/]src[\\/]main[\\/]java[\\/]ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]component[\\/]calendar[\\/]common[\\/]ICalendarItem.java
+"
+              checks="^((?!LineLength).)*$"/>
+    <suppress files="E:[\\/]itdoesntexistenymore[\\/]work[\\/]projects[\\/]InterTrust[\\/]CM4-gwt[\\/]workspaces[\\/]dev-cmj-4.3[\\/]cmj-common[\\/]cmj-calendar[\\/]src[\\/]main[\\/]java[\\/]ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]component[\\/]calendar[\\/]common[\\/]ICalendarItemDragController.java
+"
 checks="^((?!LineLength).)*$"/>
 <suppress files="E:[\\/]work[\\/]projects[\\/]InterTrust[\\/]CM4-gwt[\\/]workspaces[\\/]dev-cmj-4.3[\\/]cmj-common[\\/]cmj-calendar[\\/]src[\\/]main[\\/]java[\\/]ru[\\/]intertrust[\\/]cmj[\\/]client[\\/]component[\\/]calendar[\\/]common[\\/]ICalendarItemHandler.java
 "

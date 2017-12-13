@@ -6,20 +6,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.*;
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DenisovSC {
     public static void main(String[] args){
-        String filePath = "Suppressions.xml";
-        String projectFolderPath = "C:\\Users\\User\\Downloads";
-        Document doc = getDocument(filePath);
-        List<String> supList = getSuppressionPathesList(doc);
-        List<String> fileList = getAllPathes(new File(projectFolderPath));
-        List<String> removedFileList = getRemovedFilesList(supList, fileList);
-        for (String elem : removedFileList)
-            System.out.println(elem + " doesn't exist anymore");
+        //String filePath = "Suppressions.xml";
+        //String projectFolderPath = "C:\\Users\\User\\Downloads";
+        //Document doc = getDocument(filePath);
+        //List<String> supList = getSuppressionPathesList(doc);
+        //List<String> fileList = getAllPathes(new File(projectFolderPath));
+        //List<String> removedFileList = getRemovedFilesList(supList, fileList);
+        //for (String elem : removedFileList)
+        //    System.out.println(elem + " doesn't exist anymore");
     }
 
     static List<String> getSuppressionPathesList(Document doc) {
@@ -59,15 +59,15 @@ public class DenisovSC {
         return null;//Кто вообще придумал отказаться от выбрасывания Exception? Как же мне этого будет нехватать :(
     }
 
-    static List<String> getAllPathes(File directory) {
+    static List<String> getAllPathes(String fileName) {
         List<String> list = new ArrayList<>();
-        if (directory.isFile())
-            list.add(directory.getAbsolutePath());
-        else {
-            File[] files = directory.listFiles();
-            if (files != null)
-                for (int i = 0; i < files.length; i++)
-                    list.addAll(getAllPathes(files[i]));
+        try (BufferedReader BR = new BufferedReader(new FileReader(new File(fileName)))) {
+            while (BR.ready())
+                list.add(BR.readLine().trim());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return list;
     }
@@ -76,7 +76,7 @@ public class DenisovSC {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < supList.size(); i++) {
             boolean existingFlag = false;
-            String suppression = supList.get(i).replaceAll("\\[\\\\\\/\\]", "\\");
+            String suppression = supList.get(i).replaceAll("\\[\\\\\\\\/\\]", "\\\\");
             for (int j = 0; j < pathList.size(); j++) {
                 if (pathList.get(j).endsWith(suppression))
                 {

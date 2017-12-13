@@ -1,12 +1,9 @@
 package ru.relex.intertrust.suppression;
 
-import ru.relex.intertrust.suppression.CommonElements.Author;
 import ru.relex.intertrust.suppression.CommonElements.Controller;
 import ru.relex.intertrust.suppression.CommonElements.Registrator;
 import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
 import ru.relex.intertrust.suppression.Users.Alexander.Alexander;
-import ru.relex.intertrust.suppression.Users.Evgeniy.FindDeletedClasses;
-import ru.relex.intertrust.suppression.Users.Vitaliy.FindingFilesWithoutRegExp;
 import ru.relex.intertrust.suppression.Users.Vladilen.DenisovSuppressionCheckerAdapter;
 
 import java.awt.*;
@@ -39,8 +36,8 @@ public class MainClass implements Controller {
         Method[] methods = getMethods();
         Object[][] params = new Object[3][];
         params[0] = new Object[]{SUPPRESSIONS_MOCK_FOR_CLASSES_PATH};
-        params[1] = new Object[]{dir};
-        params[2] = new Object[]{fileList, suppList};
+        params[1] = new Object[]{FILE_SYSTEM_PATH};
+        params[2] = new Object[]{suppList, fileList};
         for (int i = 0; i < methods.length; i++) {
             for (int j = 0; j < listOfChekers.size(); j++) {
                 SuppressionChecker SC = listOfChekers.get(j);
@@ -53,19 +50,11 @@ public class MainClass implements Controller {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(new DenisovSuppressionCheckerAdapter()); //todo: это слишком тупо, поговорить об этом
-        System.out.println(new FindingFilesWithoutRegExp());
-        System.out.println(new Alexander());
-        //System.out.println(new FindDeletedClasses());
-        new MainClass().start("", "D://", Registrator.getList());
-        //List<SuppressionChecker> l = new ArrayList<>();
-        //l.add(new DenisovSuppressionCheckerAdapter());
-        //new MainClass().start("", "D:\\", l);
-
-        //TestAndMakeTable();
-        //Testing();
-        //GenerateSuppressionFile("recourses\\suppressionsMockForClasses.xml", suppList);
-        //GenerateFileTree(); //todo +mock
+        new Alexander();
+        new DenisovSuppressionCheckerAdapter();
+        //new ru.relex.intertrust.suppressions.FindingFilesWithoutRegExp();
+        //new FindDeletedClasses();
+        new MainClass().start(args[0], args[1], Registrator.getList());
     }
 
     private static void Registration() {
@@ -138,7 +127,7 @@ public class MainClass implements Controller {
         StringBuilder SB = new StringBuilder("<td>Метод\\Автор</td>");
         for (int i = 0; i < Registrator.getList().size(); i++) {
             SB.append("<td>")
-                    .append(Registrator.getList().get(i).getClass().getDeclaredAnnotation(Author.class).value())
+                    .append(Registrator.getList().get(i).getDeveloperName())
                     .append("</td>");
         }
         SB.append("</tr>");
@@ -162,12 +151,12 @@ public class MainClass implements Controller {
     }
 
     private static Result Test(SuppressionChecker SC, Method testing, Object... params) {
-        int count = 3;
+        int count = 5;
         long[] startTime = new long[count + 1];
         startTime[0] = System.currentTimeMillis();
         int[] timeDeltas = new int[count];
         Object resultOfInvoking = null;
-        Result result = new Result(SC.getClass().getDeclaredAnnotation(Author.class).value(), testing.getName());
+        Result result = new Result(SC.getDeveloperName(), testing.getName());
         for (int i = 0; i < count; i++) {
             try {
                 resultOfInvoking = testing.invoke(SC, params);
@@ -231,16 +220,18 @@ public class MainClass implements Controller {
             if (list.size() == 0) {
                 result.setAdditionalInfo("Метод вернул пустой список");
                 result.setNormal(false);
-            } else
-                result.setAdditionalInfo("Корректность и полнота (по умолчанию - true) " +
-                        "возвращаемых данных не может быть проверена автоматически");
+            } else {
+                result.setCompleteness(CheckCompleteness((Object) list, fileList));
+            }
         } else if (m.getName().equals(methods[2].getName())) {
             if (list.size() == 0) {
                 result.setAdditionalInfo("Метод вернул пустой список");
                 result.setNormal(false);
-            } else
-                result.setAdditionalInfo("Корректность и полнота (по умолчанию - true) " +
-                        "возвращаемых данных не может быть проверена автоматически");
+            } else if (list.size() == 3)
+                result.setCompleteness(true);
+            else {
+                result.setCompleteness(false);
+            }
         }
     }
 
@@ -254,15 +245,14 @@ public class MainClass implements Controller {
     private static boolean CheckCompleteness(Object forCheck, Object absolut) {
         List<String> forCheckList = (List<String>) forCheck;
         List<String> absolutList = (List<String>) absolut;
-        if (forCheckList.size() != absolutList.size())
-            return false;
-        for (int i = 0; i < ((List<String>) forCheck).size(); i++)
-            if (!forCheckList.get(i).equals(absolutList.get(i))) {
-                System.out.println(forCheckList.get(i));
-                System.out.println(absolutList.get(i));
-                return false;
-            }
-        return true;
+        boolean flag = true;
+        for (int i = 0; i < absolutList.size() && flag; i++)
+            if (!forCheckList.contains(absolutList.get(i)) && !forCheckList.contains(absolutList.get(i)+' '))
+                flag = false;
+        for (int i = 0; i < forCheckList.size() && flag; i++)
+            if (!absolutList.contains(forCheckList.get(i)) && !absolutList.contains(forCheckList.get(i).trim()))
+                flag = false;
+        return flag;
     }
 
     private static void setFileList(String fileName) {
@@ -279,8 +269,6 @@ public class MainClass implements Controller {
         try (BufferedReader BR = new BufferedReader(new FileReader(new File(fileName)))) {
             while (BR.ready())
                 list.add(BR.readLine().trim());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
