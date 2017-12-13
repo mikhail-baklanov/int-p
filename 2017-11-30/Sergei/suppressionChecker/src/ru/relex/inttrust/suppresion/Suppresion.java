@@ -23,7 +23,6 @@ public class Suppresion implements SuppressionChecker {
      * @return Список файлов
      * @return null если в метод передан неверный путь
      */
-
     final String regexpSuppressLayout = "<suppress files=\"";
     final String regexpPackageLayout = "\\\\(ru|com)\\\\";
 
@@ -147,4 +146,8 @@ public class Suppresion implements SuppressionChecker {
         }
         return result;
     }
+
+    public String getDeveloperName() {
+        return "Sergei Stukalov";
+    };
 }
