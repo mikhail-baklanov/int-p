@@ -1,4 +1,7 @@
-package ru.relex.intertrust.suppression;
+package ru.relex.intertrust.suppression.sergei;
+
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,11 +20,7 @@ import java.util.regex.Pattern;
  * @version 1.0.1
  */
 
-public class SuppresionSergey implements interfaces.SuppressionChecker {
-
-    static {
-        Registrator.register(new SuppresionSergey());
-    }
+public class SuppresionSergey implements SuppressionChecker {
 
     /**
      * Медод получения списка файлов из файла исключений suppresions.xml
