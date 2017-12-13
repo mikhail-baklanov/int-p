@@ -1,12 +1,12 @@
-package ru.relex.intertrust.suppression;
+package ru.relex.intertrust.suppression.sergei;
+
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.util.List;
 
-public class ControllerSergey implements interfaces.Controller {
-
-    static {
-        Registrator.register(new ControllerSergey());
-    }
+public class ControllerSergey implements Controller {
 
     /**
      * @author Stukalov Sergei 
