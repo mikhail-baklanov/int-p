@@ -1,4 +1,4 @@
-package interfaces;
+package ru.relex.inttrust.suppresion.interfaces;
 
 import java.util.List;
 
@@ -30,5 +30,9 @@ public interface SuppressionChecker {
      */
     List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir);
 
-    //String getDeveloperName(); перенести в registrator
+    /**
+     * Функция, возвращающая имя разработчика текущей реализации интерфейса
+     * @return Имя разработчика
+     */
+    String getDeveloperName();
 }

@@ -213,7 +213,12 @@ public void getClassNameFromXML()
     {
         for(int i=0;i<listOfChekers.size();i++)
         {
+            long start=System.currentTimeMillis();
+
             List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
+
+            long finish=System.currentTimeMillis();
+
             for(String e:list)
                 try(FileWriter writer = new FileWriter("report.txt", true))
                 {
@@ -233,12 +238,7 @@ public void getClassNameFromXML()
                     System.out.println(ex.getMessage());
                 }
             //System.out.println("File "+e+" doesn't exist");
-            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName());
-
-
-
-
-
+            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start));
 
         }
     }

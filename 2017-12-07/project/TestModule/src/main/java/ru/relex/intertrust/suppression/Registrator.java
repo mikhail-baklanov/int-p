@@ -1,5 +1,6 @@
-import interfaces.Controller;
-import interfaces.SuppressionChecker;
+package ru.relex.intertrust.suppression;
+
+import ru.relex.intertrust.suppression.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,4 @@ public class Registrator {
     public static void register(Controller controller) {
         controllers.add(controller);
     }
-
-    //public static String getDeveloperName(interfaces.SuppressionChecker name ){};
-    //return developerName;};
 }
