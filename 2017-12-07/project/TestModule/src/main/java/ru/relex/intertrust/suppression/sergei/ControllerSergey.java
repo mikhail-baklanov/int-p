@@ -1,15 +1,17 @@
-package ru.relex.inttrust.suppresion;
-
-import ru.relex.inttrust.suppresion.interfaces.SuppressionChecker;
+package ru.relex.intertrust.suppression;
 
 import java.util.List;
 
-public class Controller implements ru.relex.inttrust.suppresion.interfaces.Controller {
+public class ControllerSergey implements interfaces.Controller {
 
     static {
-        Registrator.register(new Controller());
+        Registrator.register(new ControllerSergey());
     }
 
+    /**
+     * @author Stukalov Sergei 
+     * @version 1.0.0
+     */
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         //запуск и прочее
         List<String> suppression = null;
@@ -37,7 +39,7 @@ public class Controller implements ru.relex.inttrust.suppresion.interfaces.Contr
         System.out.print(checker.getDeveloperName());
         System.out.print(" | время работы реализаци: ");
         System.out.print(totalTime);
-        System.out.println(" -----------------");
+        System.out.println(" ms -----------------");
         System.out.println("---------------- Результаты: ----------------");
         for (String line: result) {
             System.out.println(line);
