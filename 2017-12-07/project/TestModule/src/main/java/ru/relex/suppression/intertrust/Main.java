@@ -1,7 +1,6 @@
 package ru.relex.suppression.intertrust;
 
-import ru.relex.suppression.intertrust.apps.*;
-import ru.relex.suppression.intertrust.controllers.*;
+import ru.relex.suppression.intertrust.alexander.*;
 import ru.relex.suppression.intertrust.interfaces.Controller;
 
 public class Main {

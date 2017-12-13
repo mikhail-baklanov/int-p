@@ -1,4 +1,4 @@
-package ru.relex.suppression.intertrust.apps;
+package ru.relex.suppression.intertrust.alexander;
 
 import ru.relex.suppression.intertrust.interfaces.SuppressionChecker;
 import ru.relex.suppression.intertrust.Registrator;

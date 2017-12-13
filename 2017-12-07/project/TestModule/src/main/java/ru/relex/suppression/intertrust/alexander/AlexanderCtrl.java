@@ -1,4 +1,4 @@
-package ru.relex.suppression.intertrust.controllers;
+package ru.relex.suppression.intertrust.alexander;
 
 import ru.relex.suppression.intertrust.Registrator;
 import ru.relex.suppression.intertrust.interfaces.Controller;
