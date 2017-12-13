@@ -1,10 +1,14 @@
 package interfaces;
 
-public interface Controller {
+public interface Controller
+{
+	void start(String suppressionFilename,String dir,List<SuppressionChecker> listOfChekers);
+	void print(List<Integer> listOfTime,List<SuppressionChecker> listOfChekers);
 
-    /**
-     * Вывод результатов поиска удаленных файлов
-     * @param checker Реализация интерфейса, для которой требуется вывести результат работы
+    /*
+		старт запускает методы из suppressionChecker для объектов и сохраняет их время в List 
+		в конце start вызывается метод print, принимающий list со временем и отображающий статистику в угодном вам виде
+		listOfChekers в print для возможности отображения статистики
      */
-    void printResult(SuppressionChecker checker);
+    
 }

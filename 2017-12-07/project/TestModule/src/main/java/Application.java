@@ -19,4 +19,9 @@ public class Application {
             }
         }
     }
+    public static void main(String[] args)
+        for(int i=0;i<list.size();i++)
+    {
+        list.get(i).start(args[0],args[1]);
+    }
 }
