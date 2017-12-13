@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 public class FindingFilesWithoutRegExp implements SuppressionChecker
 {
 
-    private List<String> paths = new ArrayList<>();
-    private List<String> FileSystem= new ArrayList<>();
-    private final String developerName="VitSaf";
+    //private List<String> paths = new ArrayList<>();
+    //private List<String> FileSystem= new ArrayList<>();
+    private final String developerName="Vitaliy Safonov";
 
 
     public String getDeveloperName()
@@ -24,6 +24,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
 
     public List<String> dir(String filename)
     {
+        List<String> FileSystem= new ArrayList<>();
         int condition = ru.relex.intertrust.suppression.vitaliy.ArgsTest.linesCounter(filename);
         String str;
         int q = 0;
@@ -68,6 +69,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
     public List<String> parseSuppression(String suppressionsFilename)//получение информации о файлах
     {
         //открытие файла и считывание его строк в paths
+        List<String> paths = new ArrayList<>();
         try(BufferedReader reader = new BufferedReader(new FileReader(suppressionsFilename)))
         {
             String str;
@@ -82,20 +84,22 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
             }
             reader.close();
 
-            //dir("files.txt");
-            fixPath();//исправление [/\\] на /
-            //getPath();// извлечение пути к файлу
-            getClassNameFromXML();//приводим строки из suppressions.xml к приемлимому для поиска виду
+
+
 
         }
         catch (IOException ex)
         {System.out.println(ex.getMessage());}
         //return findDeletedFiles(paths,FileSystem);
+        //fixPath();//исправление [/\\] на /
+        //getPath();// извлечение пути к файлу
+        getClassNameFromXML(getPath(fixPath(paths)));//приводим строки из suppressions.xml к приемлимому для поиска виду
         return paths;
     }
 
     public List<String> findDeletedFiles(List<String> sup,List<String> dir)
     {
+
         List<String> list = new ArrayList<>();
         int x=0;
         int j;
@@ -108,13 +112,12 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
             for (j = 0; j < dir.size(); j++)
             {
                 if (sup.get(i).equals(dir.get(j))) {
-                    //System.out.println((x++)+"/1928 "+ dir.get(j) + " exist");
                     counter++;
                     break;
                 }
                 if((j==dir.size()-1)&&(counter==0))//проверка отсутствия файла
                 {
-                    //System.out.println("File "+sup.get(i)+" doesn't exist");
+
                     list.add(sup.get(i));
                 }
             }
@@ -124,7 +127,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker
         return list;
     }
 
-public void getClassNameFromXML()
+public List<String> getClassNameFromXML(List<String> paths)
 {
 
     List<String> paths2 = new ArrayList<>();
@@ -157,6 +160,7 @@ public void getClassNameFromXML()
     paths.clear();
     for(String e:paths2)
         paths.add(e);
+    return paths;
 
 }
 
@@ -168,7 +172,7 @@ public void getClassNameFromXML()
     }
 
 
-    public void fixPath()
+    public List<String> fixPath(List<String> paths)
     {
         StringBuilder str;
         int startingSize = paths.size();
@@ -185,14 +189,16 @@ public void getClassNameFromXML()
 
         for (int j=0;j<startingSize;j++)
             paths.remove(0);
+        return paths;
     }
 
-    public void getPath()//забираем готовый путь в arrayList
+    public List<String> getPath(List<String> paths)//забираем готовый путь в arrayList
     {
         String str="<suppress files=";
         StringBuilder path;
         int counter;
         int startingSize = paths.size();
+        int k =0;
 
         for(int i=0;i<startingSize;i++)
         {
@@ -207,6 +213,9 @@ public void getClassNameFromXML()
 
         for (int j=0;j<startingSize;j++)
             paths.remove(0);
+
+
+        return paths;
     }
 
 
