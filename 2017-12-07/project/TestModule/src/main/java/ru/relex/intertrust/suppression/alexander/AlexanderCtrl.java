@@ -1,8 +1,7 @@
-package ru.relex.suppression.intertrust.alexander;
+package ru.relex.intertrust.suppression.alexander;
 
-import ru.relex.suppression.intertrust.Registrator;
-import ru.relex.suppression.intertrust.interfaces.Controller;
-import ru.relex.suppression.intertrust.interfaces.SuppressionChecker;
+import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +17,6 @@ import java.util.List;
 public class AlexanderCtrl implements Controller {
     private final static int ITERATIONS = 2;
 
-    static {
-        Registrator.register(new AlexanderCtrl());
-    }
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers){
         List<Long> timeSpended = new ArrayList<>();
         for (SuppressionChecker item : listOfChekers) {
@@ -35,7 +31,7 @@ public class AlexanderCtrl implements Controller {
             timeSpended.add(fullTime);
         }
         try {
-            String fileAbsoultePath = printResults(Registrator.getCheckers(), timeSpended);
+            String fileAbsoultePath = printResults(listOfChekers, timeSpended);
             Runtime.getRuntime().exec("cmd /c " + "\"" + fileAbsoultePath + "\"");
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,4 @@
-package ru.relex.suppression.intertrust;
-
-import ru.relex.suppression.intertrust.interfaces.*;
+package ru.relex.intertrust.suppressions;
 
 import java.util.ArrayList;
 import java.util.List;

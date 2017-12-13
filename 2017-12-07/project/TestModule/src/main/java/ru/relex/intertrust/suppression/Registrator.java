@@ -1,7 +1,6 @@
-package ru.relex.inttrust.suppresion;
+package ru.relex.intertrust.suppression;
 
-import ru.relex.inttrust.suppresion.interfaces.Controller;
-import ru.relex.inttrust.suppresion.interfaces.SuppressionChecker;
+import ru.relex.intertrust.suppression.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.List;
