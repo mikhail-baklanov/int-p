@@ -1,6 +1,6 @@
-import Classes.Registrator;
-import Interfaces.SuppressionChecker;
-import Oleg.SuppressionCheckerAdapter;
+package ru.relex.inttrust.suppression;
+import ru.relex.inttrust.suppression.Interfaces.SuppressionChecker;
+import ru.relex.inttrust.suppression.Oleg.SuppressionCheckerAdapter;
 
 
 import javax.swing.*;
@@ -16,6 +16,7 @@ public class Main {
         Registration();
     }
     static String[][] data= new String[Registrator.getList().size()][3];
+
     public static void main(String[] args) throws Exception{
         fileDir();
         xmlName();
