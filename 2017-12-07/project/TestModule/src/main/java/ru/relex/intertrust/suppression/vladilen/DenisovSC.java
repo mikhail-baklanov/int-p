@@ -1,4 +1,4 @@
-package ru.relex.intertrust.suppression.Users.Vladilen;
+package ru.relex.intertrust.suppression.vladilen;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;

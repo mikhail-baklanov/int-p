@@ -82,7 +82,7 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
             }
             reader.close();
 
-            dir("files.txt");
+            //dir("files.txt");
             fixPath();//исправление [/\\] на /
             getPath();// извлечение пути к файлу
             getClassNameFromXML();//приводим строки из suppressions.xml к приемлимому для поиска виду
@@ -90,7 +90,8 @@ public class FindingFilesWithoutRegExp implements SuppressionChecker, Controller
         }
         catch (IOException ex)
         {System.out.println(ex.getMessage());}
-        return findDeletedFiles(paths,FileSystem);
+        //return findDeletedFiles(paths,FileSystem);
+        return paths;
     }
 
     public List<String> findDeletedFiles(List<String> sup,List<String> dir)
@@ -214,9 +215,8 @@ public void getClassNameFromXML()
         for(int i=0;i<listOfChekers.size();i++)
         {
             long start=System.currentTimeMillis();
-
-            List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
-
+            List<String> list =listOfChekers.get(i).findDeletedFiles(listOfChekers.get(i).parseSuppression(suppressionFilename),listOfChekers.get(i).dir(dir));
+            //List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
             long finish=System.currentTimeMillis();
 
             for(String e:list)

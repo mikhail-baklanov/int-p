@@ -1,10 +1,8 @@
-package ru.relex.intertrust.suppression;
+package ru.relex.intertrust.suppression.vladilen;
 
-import ru.relex.intertrust.suppression.CommonElements.Controller;
-import ru.relex.intertrust.suppression.CommonElements.Registrator;
-import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
-import ru.relex.intertrust.suppression.Users.Alexander.Alexander;
-import ru.relex.intertrust.suppression.Users.Vladilen.DenisovSuppressionCheckerAdapter;
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.awt.*;
 import java.io.*;
@@ -49,14 +47,6 @@ public class MainClass implements Controller {
                 results[j][i].print();
     }
 
-    public static void main(String[] args) throws Exception {
-        new Alexander();
-        new DenisovSuppressionCheckerAdapter();
-        //new ru.relex.intertrust.suppressions.FindingFilesWithoutRegExp();
-        //new FindDeletedClasses();
-        new MainClass().start(args[0], args[1], Registrator.getList());
-    }
-
     private static void Registration() {
         //todo переделать регистрацию, регистрируя из статиков в самих классах
         //Registrator.register(new DenisovSuppressionCheckerAdapter());
@@ -64,7 +54,7 @@ public class MainClass implements Controller {
 
     private static void Testing() {
         try {
-            Test(Registrator.getList().get(0), SuppressionChecker.class.getDeclaredMethod("parseSuppression", String.class), SUPPRESSIONS_MOCK_FOR_CLASSES_PATH).print();
+            Test(Registrator.getCheckers().get(0), SuppressionChecker.class.getDeclaredMethod("parseSuppression", String.class), SUPPRESSIONS_MOCK_FOR_CLASSES_PATH).print();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -125,9 +115,9 @@ public class MainClass implements Controller {
     @Deprecated
     private static String makeTable(Result[][] results) {
         StringBuilder SB = new StringBuilder("<td>Метод\\Автор</td>");
-        for (int i = 0; i < Registrator.getList().size(); i++) {
+        for (int i = 0; i < Registrator.getCheckers().size(); i++) {
             SB.append("<td>")
-                    .append(Registrator.getList().get(i).getDeveloperName())
+                    .append(Registrator.getCheckers().get(i).getDeveloperName())
                     .append("</td>");
         }
         SB.append("</tr>");

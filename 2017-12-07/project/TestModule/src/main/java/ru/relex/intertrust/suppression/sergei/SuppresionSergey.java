@@ -1,6 +1,7 @@
-package ru.relex.inttrust.suppresion;
+package ru.relex.intertrust.suppression.sergei;
 
-import ru.relex.inttrust.suppresion.interfaces.SuppressionChecker;
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,14 +17,10 @@ import java.util.regex.Pattern;
 /**
  * Класс для поиска отсутствующих в проекте файлов, добавленных в файл исключений suppresions.xml плагина checkStyle для Maven
  * @author Stukalov Sergei
- * @version 1.0.0
+ * @version 1.0.1
  */
 
-public class Suppresion implements SuppressionChecker {
-
-    static {
-        Registrator.register(new Suppresion());
-    }
+public class SuppresionSergey implements SuppressionChecker {
 
     /**
      * Медод получения списка файлов из файла исключений suppresions.xml
@@ -40,7 +37,7 @@ public class Suppresion implements SuppressionChecker {
         try {
             allLines = Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8);
         } catch (IOException e){
-
+            System.out.println(e.getMessage());
             return null;
         }
         List<String> suppresionList = new ArrayList<>();
@@ -99,6 +96,7 @@ public class Suppresion implements SuppressionChecker {
                 return dirs;
             }
         } catch (IOException e){
+            System.out.println(e.getMessage());
             return null;
         }
 
@@ -118,9 +116,9 @@ public class Suppresion implements SuppressionChecker {
                 return dirs;
             }
         } catch (Exception e){
+            System.out.println(e.getMessage());
             return null;
         }
-
         return null;
     }
 

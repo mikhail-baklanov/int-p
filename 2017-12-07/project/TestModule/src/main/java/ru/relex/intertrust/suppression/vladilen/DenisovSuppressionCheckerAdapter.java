@@ -1,14 +1,11 @@
-package ru.relex.intertrust.suppression.Users.Vladilen;
+package ru.relex.intertrust.suppression.vladilen;
 
-import ru.relex.intertrust.suppression.CommonElements.Author;
-import ru.relex.intertrust.suppression.CommonElements.Registrator;
-import ru.relex.intertrust.suppression.CommonElements.SuppressionChecker;
-import ru.relex.intertrust.suppression.MainClass;
+import ru.relex.intertrust.suppression.Registrator;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.util.List;
 
-@Author("Denisov Vladilen")
 public class DenisovSuppressionCheckerAdapter implements SuppressionChecker {
     static {
         Registrator.register(new DenisovSuppressionCheckerAdapter());
