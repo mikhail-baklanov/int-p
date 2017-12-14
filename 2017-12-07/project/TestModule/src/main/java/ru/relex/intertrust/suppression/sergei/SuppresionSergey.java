@@ -42,14 +42,13 @@ public class SuppresionSergey implements SuppressionChecker {
         }
         List<String> suppresionList = new ArrayList<>();
 
-        //маска исключение вида: <suppress files="
         Pattern suppresPattern = Pattern.compile(regexpSuppressLayout);
         Matcher suppresFind = null;
 
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
             if(suppresFind.matches()){
-                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\" ") + 4).replace("[\\\\/]", "\\"));
+                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\"") + 4).replace("[\\\\/]", "\\"));
             }
         }
         return suppresionList;
