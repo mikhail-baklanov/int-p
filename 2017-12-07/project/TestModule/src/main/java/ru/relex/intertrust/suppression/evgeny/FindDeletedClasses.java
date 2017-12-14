@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class FindDeletedClasses implements SuppressionChecker {
      * @return suppressionLists
      */
     public List<String> parseSuppression(String fullFileName) {
-        List<String> suppressionList = new ArrayList<String>();
+        List<String> suppressionList = new LinkedList<String>();
 
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -63,7 +64,7 @@ public class FindDeletedClasses implements SuppressionChecker {
      */
     public List<String> dir(String path) {
         File directory = new File(path);
-        ArrayList<String> classes = new ArrayList<String>();
+        List<String> classes = new LinkedList<String>();
 
         if (path.endsWith(".txt")) {
             String line;
