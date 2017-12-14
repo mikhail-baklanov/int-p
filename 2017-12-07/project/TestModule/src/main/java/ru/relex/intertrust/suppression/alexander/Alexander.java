@@ -19,7 +19,7 @@ public class Alexander implements SuppressionChecker {
     /**
      * Паттерн регулярного выражения
      */
-    private final static Pattern PATTERN = Pattern.compile("^<suppress checks=*|files=*");
+    private final static Pattern PATTERN = Pattern.compile("<suppress\\u0020");
 
     /**
      * Идём по всем строкам xml файла, если строка удовлетворяет нашему регулярному выражению, то
@@ -31,15 +31,16 @@ public class Alexander implements SuppressionChecker {
     public List<String> parseSuppression(String fullFileName){
         List<String> paths = new ArrayList<>();
         try {
-            for(String item: Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8))
-                if(PATTERN.matcher(item).find()) {
+            for(String item: Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8)) {
+                if (PATTERN.matcher(item).find() && item.indexOf("files=") != -1) {
                     String attribute = "files=\"";
                     int first = item.indexOf(attribute) + attribute.length();
-                    int last = item.indexOf("\"",first + 1);
+                    int last = item.indexOf("\"", first + 1);
                     String path = item.substring(first, last);
-                    if(path.endsWith(".java") && !paths.contains(path))
+                    if (path.endsWith(".java") && !paths.contains(path))
                         paths.add(item.substring(first, last).replace("[\\\\/]", File.separator));
                 }
+            }
         } catch (IOException e) {
             System.out.println("Не удалось прочитать файл " + fullFileName);
         }
