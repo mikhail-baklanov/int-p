@@ -30,7 +30,7 @@ public class SuppresionSergey implements SuppressionChecker {
      * @return null если в метод передан неверный путь
      */
     final String regexpSuppressLayout = ".*?(<suppress).*?(files=\").*?(\\.java\").*?";
-    final String regexpPackageLayout = ".*?\\\\(ru|com)\\\\.*?(\\.java).*?";
+    final String regexpPackageLayout = ".*?\\\\(ru|com|test)\\\\.*?(\\.java).*?";
 
     public List<String> parseSuppression(String fullFileName) {
         List<String> allLines = null;
@@ -50,7 +50,7 @@ public class SuppresionSergey implements SuppressionChecker {
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
             if(suppresFind.matches()){
-                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\" ") + 4).replace("[\\\\/]", "\\"));
+                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\"") + 4).replace("[\\\\/]", "\\"));
             }
         }
         return suppresionList;
