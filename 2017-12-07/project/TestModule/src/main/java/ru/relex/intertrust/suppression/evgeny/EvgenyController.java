@@ -24,7 +24,7 @@ public class EvgenyController implements Controller {
             long time = System.currentTimeMillis() - startTime;
             try(FileWriter writer = new FileWriter("evgenyOut.txt", false))
             {
-                writer.write("Время работы реализации в секундах " + time/1000);
+                writer.write("Время работы реализации " + checkerMethod.getDeveloperName() + " в секундах " + time/1000);
                 writer.append('\n');
                 writer.write("Следующие исключения не были найдены:");
                 writer.append('\n');
