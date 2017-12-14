@@ -1,0 +1,17 @@
+?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+     "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+     "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+	 <suppress files="com[\\/]allen_sauer[\\/]gwt[\\/]dnd[\\/]client[\\/]AbstractDragController.java" checks="^((?!LineLength).)*$" />
+	 <suppress files="result.java"/>
+	 <suppress files="c:[\\/]users[\\/]complete.java"/>
+	 <suppress files="c:[\\/]users[\\/]java.java"/>
+	 <suppress files="d:[\\/]git[\\/]int-p[\\/]2017-12-07[\\/]project[\\/]TestModule[\\/]stat.java.hello" />
+	 <suppress files="TestModule[\\/]state.java" />
+	 <suppress files="c:[\\/]program files (x86)[\\/]relex.java" />
+	 <suppress files="d:[\\/]git[\\/]int-p[\\/]2017-12-07[\\/]project[\\/]TestModule[\\/]practice.java" checks="^((?!LineLength).)*$" />
+	 <suppress files="d:[\\/]git[\\/]int-p[\\/]2017-12-07[\\/]project[\\/]TestModule[\\/]practice.txt" />
+</suppressions>
