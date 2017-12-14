@@ -21,12 +21,33 @@ public class RegStart implements Controller
             //List<String> list =  listOfChekers.get(i).parseSuppression(suppressionFilename);
             long finish=System.currentTimeMillis();
 
+
+            try(FileWriter writer = new FileWriter("report.txt", true))
+            {
+                // запись всей строки
+                String text ="Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start);
+                writer.write(text);
+                writer.append('\r');
+                writer.append('\n');
+
+                writer.flush();
+
+            }
+            catch(IOException ex){
+
+                System.out.println(ex.getMessage());
+            }
             for(String e:list)
                 try(FileWriter writer = new FileWriter("report.txt", true))
                 {
                     // запись всей строки
                     String text = "File "+e+" doesn't exist ";
                     writer.write(text);
+                    writer.append('\r');
+                    writer.append('\n');
+                    text="Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start);
+
+
                     // запись по символам
 
                     writer.append('\r');
@@ -39,8 +60,6 @@ public class RegStart implements Controller
 
                     System.out.println(ex.getMessage());
                 }
-            //System.out.println("File "+e+" doesn't exist");
-            System.out.println("Developer name: "+listOfChekers.get(i).getDeveloperName()+" Time:"+(finish-start));
 
         }
 
