@@ -3,6 +3,9 @@ package ru.relex.intertrust.suppression.margarita;
 import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class MargaritaController implements Controller {
@@ -25,57 +28,55 @@ public class MargaritaController implements Controller {
     private static final String RESULT_MESSAGE = "\tСписок удаленных файлов: ";
     private static final String TIME_MESSAGE = "\tВремя выполнения программы: ";
 
-    /*
-    private static final String USER_DIR = System.getProperty("user.dir");
-    private static final String SUPP_FILE = USER_DIR + "/supp.txt";
-    private static final String DELETED_FILES = USER_DIR + "/result.txt";
-    */
+    /**
+     * Имя файла для записи результата работы контроллера
+     */
+    private static final String RESULT_FILENAME = "MargaritaFileResult.txt";
 
     @Override
     public void start(String suppressionFilename,
                       String dir,
                       List<SuppressionChecker> checkers) {
 
-        for (SuppressionChecker checker: checkers) {
-            long startTime = System.currentTimeMillis();
+        try (PrintWriter writer = new PrintWriter(new FileWriter(RESULT_FILENAME))) {
+            for (SuppressionChecker checker : checkers) {
 
-            List<String> deletedFileNames = checker.findDeletedFiles(
-                    checker.parseSuppression(suppressionFilename),
-                    checker.dir(dir));
-            /*
-            try {
-                Files.write(Paths.get(DELETED_FILES), deletedFileNames, StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                e.printStackTrace();
+                long startTime = System.currentTimeMillis();
+
+                List<String> deletedFileNames = checker.findDeletedFiles(
+                        checker.parseSuppression(suppressionFilename),
+                        checker.dir(dir));
+
+                long totalTime = System.currentTimeMillis() - startTime;
+
+                // Печать статистики
+                writer.println(DIVIDER);
+                writer.println(DEVELOPER_MESSAGE);
+                writer.println(checker.getDeveloperName());
+                writeLine(writer);
+
+                writer.println(RESULT_MESSAGE);
+                writeLine(writer);
+                for (String fileName : deletedFileNames) {
+                    writer.println(fileName);
+                }
+                writeLine(writer);
+
+                writer.println(TIME_MESSAGE);
+                writer.println(totalTime + TIME_UNIT);
+                writer.println(DIVIDER);
             }
-            */
-
-            long totalTime = System.currentTimeMillis() - startTime;
-
-            // Печать статистики
-            print(DIVIDER);
-            print(DEVELOPER_MESSAGE);
-            print(checker.getDeveloperName());
-            print(SIMPLE_LINE);
-
-            print(RESULT_MESSAGE);
-            print(SIMPLE_LINE);
-            for (String fileName: deletedFileNames) {
-                print(fileName);
-            }
-            print(SIMPLE_LINE);
-
-            print(TIME_MESSAGE);
-            print(totalTime + TIME_UNIT);
-            print(DIVIDER);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     /**
-     * Функция печати сообщения на консоль
-     * @param message Сообщение, которое будет напечатано
+     * Функция записи линии-разделителя в файл
+     * @param writer PrintWriter, с помощью которого открыт файл
+     * @throws IOException Исключение, которое будет сгенерировано, если файл не найден
      */
-    private static void print(String message) {
-        System.out.println(message);
+    private static void writeLine(PrintWriter writer) throws IOException {
+        writer.println(SIMPLE_LINE);
     }
 }
