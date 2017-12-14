@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+    var event = {
+      title: "Конференция",
+      date: "сегодня"
+    };
+    
+    alert(event);
+    var str = JSON.stringify(event);
+    alert( str); // {"title":"Конференция","date":"сегодня"}
+    // Обратное преобразование.
+    event = JSON.parse(str);
+    alert(str==event);
+
+  </script>
+</body>
+
+</html>

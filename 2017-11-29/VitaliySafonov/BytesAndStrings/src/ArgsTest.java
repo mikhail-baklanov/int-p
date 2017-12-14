@@ -4,6 +4,11 @@ import java.io.IOException;
 
 public class ArgsTest
 {
+    /**
+     * считает количество строк в filename
+     * @param filename
+     * @return
+     */
     public static int linesCounter(String filename)
     {
         int counter = 0;
@@ -21,8 +26,5 @@ public class ArgsTest
     {
         for(int i=0;i<args.length;i++)
             System.out.println(linesCounter(args[i]));
-
-
-        System.out.println(linesCounter("AllFiles.txt"));
     }
 }
