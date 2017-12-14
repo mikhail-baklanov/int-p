@@ -20,15 +20,15 @@ public class Alexander implements SuppressionChecker {
         try {
             for(String item: Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8))
                 if(PATTERN.matcher(item).find()) {
-                    String attribute = "files=";
-                    int first = item.indexOf(attribute) + attribute.length() + 1;
-                    int last = item.indexOf('"',first + 1);
+                    String attribute = "files=\"";
+                    int first = item.indexOf(attribute) + attribute.length();
+                    int last = item.indexOf("\"",first + 1);
                     String path = item.substring(first, last);
                     if(path.endsWith(".java") && !paths.contains(path))
                         paths.add(item.substring(first, last).replace("[\\\\/]", File.separator));
                 }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Не удалось прочитать файл " + fullFileName);
         }
         return paths;
     }
@@ -38,7 +38,7 @@ public class Alexander implements SuppressionChecker {
         try {
             fileNames = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Не удалось прочитать файл " + path);
         }
         return fileNames;
     }

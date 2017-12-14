@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AlexanderCtrl implements Controller {
-    private final static int ITERATIONS = 5;
+    private final static int ITERATIONS = 1;
 
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers){
         List<Long> timeSpended = new ArrayList<>();
@@ -38,7 +38,7 @@ public class AlexanderCtrl implements Controller {
             String fileAbsoultePath = printResults(listOfChekers, timeSpended, notFoundFiles);
             Runtime.getRuntime().exec("cmd /c " + "\"" + fileAbsoultePath + "\"");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Не удалось прочитать файл " + e.getMessage());
         }
     }
 
