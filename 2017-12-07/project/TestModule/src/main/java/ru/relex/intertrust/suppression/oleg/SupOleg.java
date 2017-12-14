@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 
 public class SupOleg implements SuppressionChecker {
     private final static String developerName = "Олег Слепичев";
+
     public List<String> parseSuppression(String fullFileName) {
         List xmlNames = new ArrayList<String>();
         try {
@@ -36,7 +37,10 @@ public class SupOleg implements SuppressionChecker {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 Element element = (Element) node;
-                xmlNames.add(element.getAttribute("files"));
+                String name=element.getAttribute("files");
+                if(name.endsWith(".java")) {
+                    xmlNames.add(name.replace("[\\\\/]", File.separator));
+                }
             }
         } catch (IOException ex) {
             System.out.println("Ill-fated path.");
@@ -61,6 +65,7 @@ public class SupOleg implements SuppressionChecker {
 //        showTree(path, 0, dirFiles);
         return dirFiles;
     }
+//    Чтение файла из дирректории
 //    public void showTree(final String dirName, final int nest, List dirFiles){
 //        File dir = new File(dirName);
 //        if (!dir.isDirectory()){
@@ -79,19 +84,17 @@ public class SupOleg implements SuppressionChecker {
 //        }
 //    }
 
-    public List<String> findDeletedFiles(List<String> suppressionsList, List<String> filesList) {
+    public List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths) {
         List delFiles = new ArrayList<String>();
-        for (int i=0; i<suppressionsList.size();i++) {
-            String deletedFile=suppressionsList.get(i);
-            Pattern pattern=Pattern.compile(deletedFile);
-            for (int j=0;j<filesList.size();j++) {
-                Matcher matcher = pattern.matcher(filesList.get(j));
-                if (matcher.find()) {
-                    deletedFile="";
+        for (String deletedFile : suppressionsPaths) {
+            boolean isDel=true;
+            for (String dirPath : dirPaths) {
+                if (dirPath.endsWith(deletedFile)) {
+                    isDel=false;
                     break;
                 }
             }
-            if (deletedFile!="") {
+            if (isDel) {
                 delFiles.add(deletedFile);
             }
         }
