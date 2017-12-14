@@ -50,7 +50,6 @@ public class OlegController implements Controller {
                     long times=time[j];
                     time[j]=time[j+1];
                     time[j+1]=times;
-                    System.out.println("t1="+time[j]+" , t2="+time[j+1]+" , n1="+data[j][0]+" , n2="+data[j+1][0]);
                     for (int i=0;i<3;i++) {
                         String t = data[j][i];
                         data[j][i] = data[j + 1][i];
