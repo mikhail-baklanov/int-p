@@ -12,9 +12,22 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Alexander implements SuppressionChecker {
+    /**
+     * Имя разработчика
+     */
     private final static String DEVELOPER_NAME = "Александр Ерофеев";
+    /**
+     * Паттерн регулярного выражения
+     */
     private final static Pattern PATTERN = Pattern.compile("^<suppress checks=*|files=*");
 
+    /**
+     * Идём по всем строкам xml файла, если строка удовлетворяет нашему регулярному выражению, то
+     * "вырезаем" путь из аттрибута files, преобразуем слеши в те, которые предусмотрены системой и
+     * помещаем в массив.
+     * @param fullFileName - путь к xml файлу
+     * @return paths
+     */
     public List<String> parseSuppression(String fullFileName){
         List<String> paths = new ArrayList<>();
         try {
@@ -33,6 +46,11 @@ public class Alexander implements SuppressionChecker {
         return paths;
     }
 
+    /**
+     * Считываем файл и добавляем строки из файла в массив.
+     * @param path - путь к txt файлу
+     * @return fileNames
+     */
     public List<String> dir(String path){
         List<String> fileNames = null;
         try {
@@ -43,10 +61,22 @@ public class Alexander implements SuppressionChecker {
         return fileNames;
     }
 
+    /**
+     * Возвращаем имя разработчика.
+     * @return DEVELOPER_NAME
+     */
     public String getDeveloperName(){
         return DEVELOPER_NAME;
     }
 
+    /**
+     * Идем по всему массиву suppressionsPaths и сверяем каждый элемент с каждым элементом массива dirPaths.
+     * Если пути совпали, прекращаем внутренний цикл. Если массив dirPaths закончился, а пути не совпали,
+     * добавляем путь в массив удаленных файлов.
+     * @param suppressionsPaths - массив путей к файлам из xml
+     * @param dirPaths - массив путей, взятых из txt файла
+     * @return deletedFilePaths
+     */
     public List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths){
         List<String> deletedFilePaths = new ArrayList<>();
         for(String supPath: suppressionsPaths) {

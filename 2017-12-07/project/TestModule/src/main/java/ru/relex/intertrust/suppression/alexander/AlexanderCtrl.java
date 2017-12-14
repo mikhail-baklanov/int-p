@@ -15,8 +15,18 @@ import java.util.Date;
 import java.util.List;
 
 public class AlexanderCtrl implements Controller {
+    /**
+     * Количество итераций для каждой программы
+     */
     private final static int ITERATIONS = 1;
 
+    /**
+     * Запускаем цикл, в котором каждая программа выполняется ITERATIONS раз, записываем время выполнение каждой
+     * итерации, после выполнения всех итераций одной программы, записываем время в массив. Вызываем метод printResult.
+     * @param suppressionFilename - название xml файла
+     * @param dir - название txt файла
+     * @param listOfChekers - массив объектов, которые реализуют SuppressionChecker
+     */
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers){
         List<Long> timeSpended = new ArrayList<>();
         List<List<String>> notFoundFiles = new ArrayList<>();
@@ -42,6 +52,13 @@ public class AlexanderCtrl implements Controller {
         }
     }
 
+    /**
+     * В цикле в порядке возрастания создаем блоки html кода для каждой программы, после этого берем шаблон template.txt,
+     * В который вставляем эти блоки и сохраняем все в statistic.html
+     * @param listOfCheckers - массив объектов, которые реализуют SuppressionChecker
+     * @param timeSpended - массив времени выполнения всех программ
+     * @param notFoundFiles - двумерный массив, который возвращает результаты работы для каждой программы
+     */
     private static String printResults(List<SuppressionChecker> listOfCheckers, List<Long> timeSpended, List<List<String>> notFoundFiles) throws IOException{
         StringBuilder tableItems = new StringBuilder();
         List<String> developerNames = new ArrayList<>();
