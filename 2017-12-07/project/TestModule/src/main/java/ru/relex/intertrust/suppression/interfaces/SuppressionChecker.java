@@ -1,5 +1,9 @@
 package ru.relex.intertrust.suppression.interfaces;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -22,4 +26,11 @@ public interface SuppressionChecker extends HasDeveloper {
      * @return Список имен java-классов, которые были удалены из проекта
      */
     List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths);
+
+    /**
+     * типо док
+     * @param path
+     * @return
+     */
+    List<String> dir(String path);
 }
