@@ -5,7 +5,7 @@ import ru.relex.intertrust.suppression.Result;
 import java.util.List;
 
 /**
- * Визуализатор :)
+ * Визуализирует список результатов
  */
 public interface ListPrinter {
     void visualize(List<Result> list);
