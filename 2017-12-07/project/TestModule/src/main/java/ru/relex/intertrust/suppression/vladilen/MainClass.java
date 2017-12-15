@@ -264,7 +264,7 @@ public class MainClass implements ListPrinter {
         try (BufferedWriter BW = new BufferedWriter(new FileWriter("DenisovFileResult.txt"))) {
             for (int i = 0; i < list.size(); i++) {
                 ru.relex.intertrust.suppression.Result result = list.get(i);
-                BW.write("Автор: " + '\n');
+                BW.write("Автор: " + result.getDeveloperName() + '\n');
                 BW.write("parseSuppression: " + result.getParseTime() + '\n');
                 BW.write("dir: " + result.getDirTime() + '\n');
                 BW.write("findDeletedFiles: " + result.getFindTime() + '\n');
