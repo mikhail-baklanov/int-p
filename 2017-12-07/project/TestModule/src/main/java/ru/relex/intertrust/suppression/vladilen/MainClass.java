@@ -1,7 +1,7 @@
 package ru.relex.intertrust.suppression.vladilen;
 
 import ru.relex.intertrust.suppression.Registrator;
-import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.ListPrinter;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class MainClass implements Controller {
+public class MainClass implements ListPrinter {
     private final static String SUPPRESSIONS_MOCK_FOR_CLASSES_PATH = "recourses\\suppressionsMockForClasses.xml";
     private final static String FILE_SYSTEM_PATH = "recourses\\fileSystem.txt";
     private final static String SUPPRESSIONS_MOCK_PATH = "recourses\\suppressionsMock.xml";
@@ -26,40 +26,7 @@ public class MainClass implements Controller {
         setSuppList(SUPPRESSIONS_MOCK_PATH);
     }
 
-    public static void main(String[] args) {
-        new DenisovSuppressionCheckerAdapter();
-        new MainClass().start("", "", Registrator.getCheckers());
-    }
-
     private Result[][] results;
-
-    @Override
-    public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
-        results = new Result[3][listOfChekers.size()];
-        Method[] methods = getMethods();
-        Object[][] params = new Object[3][];
-        params[0] = new Object[]{SUPPRESSIONS_MOCK_FOR_CLASSES_PATH};
-        params[1] = new Object[]{FILE_SYSTEM_PATH};
-        params[2] = new Object[]{suppList, fileList};
-        for (int i = 0; i < methods.length; i++) {
-            for (int j = 0; j < listOfChekers.size(); j++) {
-                SuppressionChecker SC = listOfChekers.get(j);
-                results[i][j] = Test(SC, methods[i], (i==2) ? (results[0][j].getAdditionalFlags().get("Refactor")) : false, params[i]);
-            }
-        }
-        try (BufferedWriter BW = new BufferedWriter(new FileWriter("DenisovFileResult.txt"))) {
-            for (int i = 0; i < results[0].length; i++)
-                for (int j = 0; j < results.length; j++) {
-                    String[] re = results[j][i].getResult();
-                    for (int k = 0; k < re.length; k++) {
-                        BW.write(re[k]+'\n');
-                    }
-                    BW.write('\n');
-                }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private static Random rnd = new Random();
 
@@ -287,6 +254,24 @@ public class MainClass implements Controller {
             Desktop.getDesktop().open(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void visualize(List<ru.relex.intertrust.suppression.Result> list) {
+        try (BufferedWriter BW = new BufferedWriter(new FileWriter("DenisovFileResult.txt"))) {
+            for (int i = 0; i < list.size(); i++) {
+                ru.relex.intertrust.suppression.Result result = list.get(i);
+                BW.write("Автор: " + '\n');
+                BW.write("parseSuppression: " + result.getParseTime() + '\n');
+                BW.write("dir: " + result.getDirTime() + '\n');
+                BW.write("findDeletedFiles: " + result.getFindTime() + '\n');
+                BW.write("List of deleted files:\n");
+                for (int j = 0; j < result.getFileList().size(); j++)
+                    BW.write(result.getFileList().get(j)+'\n');
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

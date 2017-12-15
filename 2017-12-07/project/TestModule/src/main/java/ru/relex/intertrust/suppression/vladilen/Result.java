@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+@Deprecated
 public class Result {
     private String author;
     private String methodName;
