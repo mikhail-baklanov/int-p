@@ -34,9 +34,9 @@ public class OlegPrinter implements ListPrinter {
                 data[i][2] = list.get(i).getDirTime()+"ms";
                 data[i][3] = list.get(i).getFindTime()+"ms";
                 if (list.get(i).getFileList().size()!=0)
-                    data[i][2]=list.get(i).getFileList().get(0)+ " ";
+                    data[i][4]=list.get(i).getFileList().get(0)+ " ";
                 for (int j = 1; j < list.get(i).getFileList().size(); j++) {
-                    data[i][2] +="\n" +list.get(i).getFileList().get(j) + " ";
+                    data[i][4] +="\n" +list.get(i).getFileList().get(j) + " ";
               }
         }
     }
