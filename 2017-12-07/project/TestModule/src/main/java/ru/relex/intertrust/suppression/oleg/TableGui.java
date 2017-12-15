@@ -1,23 +1,27 @@
 package ru.relex.intertrust.suppression.oleg;
 
+import ru.relex.intertrust.suppression.Result;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TableGui extends JFrame{
     private JButton check =new JButton("Deleted files");
     private String [][] date;
-    public void createGUI(String [][] data) {
-        date= data;
+    public void createGUI(String[][] data) {
+        date=data;
         JFrame frame = new JFrame("SpeedTest");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String[] columnNames = {
                 "Name",
-                "Time"
-               // "Deleted files"
+                "Time parse",
+                "Time dir",
+                "Time findDelFiles"
         };
 
 
@@ -54,7 +58,7 @@ public class TableGui extends JFrame{
         public void actionPerformed(ActionEvent e) {
             String[] message = new String[date.length];
             for (int i = 0; i < date.length; i++) {
-                message[i] = date[i][2];
+                message[i] = date[i][4];
                 try {
                     JOptionPane.showMessageDialog(null,
                             message[i],
