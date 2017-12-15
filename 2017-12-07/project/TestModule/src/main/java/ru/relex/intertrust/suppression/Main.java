@@ -2,12 +2,15 @@ package ru.relex.intertrust.suppression;
 
 import ru.relex.intertrust.suppression.alexander.*;
 import ru.relex.intertrust.suppression.evgeny.*;
-import ru.relex.intertrust.suppression.interfaces.Controller;
+import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 import ru.relex.intertrust.suppression.margarita.*;
 import ru.relex.intertrust.suppression.sergei.*;
 import ru.relex.intertrust.suppression.vitaliy.*;
 import ru.relex.intertrust.suppression.oleg.*;
 import ru.relex.intertrust.suppression.vladilen.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     static {
@@ -23,7 +26,7 @@ public class Main {
         Registrator.register(new FindDeletedClasses());
         Registrator.register(new EvgenyController());
 
-        Registrator.register(new FindingFilesWithoutRegExp());
+        //Registrator.register(new FindingFilesWithoutRegExp());
         Registrator.register(new RegStart());
 
         Registrator.register(new SupOleg());
@@ -34,7 +37,20 @@ public class Main {
 
     }
     public static void main(String[] args) {
-        for(Controller item : Registrator.getControllers())
-            item.start(args[0],args[1],Registrator.getCheckers());
+        List<Result> listResults = new ArrayList<>();
+        for(SuppressionChecker item: Registrator.getCheckers()){
+            Result result = new Result();
+            long parseTime = System.currentTimeMillis();
+            List<String> parsePaths = item.parseSuppression(args[0]);
+            result.setParseTime(System.currentTimeMillis() - parseTime);
+            long dirTime = System.currentTimeMillis();
+            List<String> dirPaths = item.dir(args[1]);
+            result.setDirTime(System.currentTimeMillis() - dirTime);
+            long findTime = System.currentTimeMillis();
+            List<String> findPaths = item.findDeletedFiles(parsePaths, dirPaths);
+            result.setFindTime(System.currentTimeMillis() - findTime);
+            listResults.add(result);
+        }
+
     }
 }
