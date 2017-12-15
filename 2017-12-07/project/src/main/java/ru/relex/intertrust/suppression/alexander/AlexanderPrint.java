@@ -1,9 +1,7 @@
 package ru.relex.intertrust.suppression.alexander;
 
 import ru.relex.intertrust.suppression.Result;
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
-import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.File;
 import java.io.FileNotFoundException;

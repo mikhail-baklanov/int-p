@@ -1,7 +1,5 @@
 package ru.relex.intertrust.suppression.vitaliy;
 
-import ru.relex.intertrust.suppression.Registrator;
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.*;

@@ -1,17 +1,15 @@
 package ru.relex.intertrust.suppression.vitaliy;
 
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class RegStart implements Controller
+public class RegStart
 {
 
-
-    @Override
+    
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers)
     {
         for(int i=0;i<listOfChekers.size();i++)

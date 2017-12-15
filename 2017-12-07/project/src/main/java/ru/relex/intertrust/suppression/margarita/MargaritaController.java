@@ -1,6 +1,5 @@
 package ru.relex.intertrust.suppression.margarita;
 
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.FileWriter;
@@ -8,7 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class MargaritaController implements Controller {
+public class MargaritaController {
 
     /**
      * Единица измерения времени для вывода статистики
@@ -33,7 +32,6 @@ public class MargaritaController implements Controller {
      */
     private static final String RESULT_FILENAME = "MargaritaFileResult.txt";
 
-    @Override
     public void start(String suppressionFilename,
                       String dir,
                       List<SuppressionChecker> checkers) {

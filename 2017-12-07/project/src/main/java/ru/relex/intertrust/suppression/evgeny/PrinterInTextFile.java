@@ -1,10 +1,7 @@
 package ru.relex.intertrust.suppression.evgeny;
 
-import ru.relex.intertrust.suppression.Registrator;
 import ru.relex.intertrust.suppression.Result;
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
-import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import java.io.FileWriter;
 import java.io.IOException;

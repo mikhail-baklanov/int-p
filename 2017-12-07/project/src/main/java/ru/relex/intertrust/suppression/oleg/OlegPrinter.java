@@ -1,16 +1,10 @@
 package ru.relex.intertrust.suppression.oleg;
 
 
-
-
 import ru.relex.intertrust.suppression.Result;
-import ru.relex.intertrust.suppression.interfaces.Controller;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
-import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.Date;
 import java.util.List;
 
 public class OlegPrinter implements ListPrinter {
