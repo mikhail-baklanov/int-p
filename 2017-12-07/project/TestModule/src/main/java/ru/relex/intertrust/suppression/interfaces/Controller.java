@@ -2,6 +2,7 @@ package ru.relex.intertrust.suppression.interfaces;
 
 import java.util.List;
 
+@Deprecated
 public interface Controller {
 
     /**
