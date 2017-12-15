@@ -21,8 +21,8 @@ public class Main {
         //Registrator.register(new MargaritaChecker());
         //Registrator.register(new MargaritaController());
 
-        //Registrator.register(new SuppresionSergey());
-        //Registrator.register(new ControllerSergey());
+        Registrator.register(new SuppresionSergey());
+        Registrator.register(new PrintAll());
 
         Registrator.register(new FindDeletedClasses());
         Registrator.register(new PrinterInTextFile());
