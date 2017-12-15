@@ -32,7 +32,7 @@ public class Alexander implements SuppressionChecker {
         List<String> paths = new ArrayList<>();
         try {
             for(String item: Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8)) {
-                if (PATTERN.matcher(item).find() && item.indexOf("files=") != -1) {
+                if (PATTERN.matcher(item).find() && item.indexOf("files=") != -1 && item.indexOf("<!--") == -1) {
                     String attribute = "files=\"";
                     int first = item.indexOf(attribute) + attribute.length();
                     int last = item.indexOf("\"", first + 1);

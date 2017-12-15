@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
     <head>
         <title>Статистика</title>
@@ -11,7 +11,7 @@
                     }
 
                     .table {
-                        width: 1100px;
+                        width: 1300px;
                         background-color: #f0f0f0;
                         margin: 200px auto;
                         padding-bottom: 10px;
@@ -26,7 +26,7 @@
 
                     .table .header_item {
                         position: relative;
-                        width: 25%%;
+                        width: 20%%;
                         text-align: center;
                         padding: 10px 0;
                         color: white;
@@ -40,39 +40,47 @@
                         display: block;
                         position: absolute;
                         bottom: -20px;
-                        left: 125px;
+                        left: 120px;
                         border: 10px solid transparent;
                         border-top: 10px solid #82ca11;
                     }
 
-                    .table .iterations.header_item:after{
+                    .table .parseSuppression.header_item:after{
                         border-top-color: #f1b329;
                     }
 
-                    .table .averageTime.header_item:after{
+                    .table .dir.header_item:after{
                         border-top-color: #77c4c3;
                     }
 
-                    .table .time.header_item:after{
+                    .table .findDeletedFiles.header_item:after{
                         border-top-color: #f3566a;
+                    }
+            
+                    .table .time.header_item:after{
+                        border-top-color: #9c54ff;
                     }
 
                     .table header .developers{
                         background-color: #82ca11;
                     }
 
-                    .table header .iterations{
+                    .table header .parseSuppression{
                         background-color: #f1b329;
                     }
 
-                    .table header .averageTime{
+                    .table header .dir{
                         background-color: #77c4c3;
                     }
-
-                    .table header .time{
+            
+                    .table header .findDeletedFiles{
                         background-color: #f3566a;
                     }
 
+                    .table header .time{
+                        background-color: #9c54ff;
+                    }
+                    
                     .table .main_item {
                         width: 100%%;
                         display: flex;
@@ -83,22 +91,10 @@
                         color: #6a6a6a;
                         text-align: center;
                         font-family: "Open Sans";
-                        font-weight: 100;
+                        font-weight: 600;
                         font-size: 19px;
                         padding: 15px 0;
                         cursor: pointer;
-                    }
-
-                    .table .main_row:nth-child(1) .main_item div{
-                        font-weight: 800;
-                    }
-
-                    .table .main_row:nth-child(2) .main_item div{
-                        font-weight: 700;
-                    }
-
-                    .table .main_row:nth-child(3) .main_item div{
-                        font-weight: 600;
                     }
 
                     .table .main_row:nth-child(2n){
@@ -147,9 +143,10 @@
         <div class="table">
             <header>
                 <div class="header_item developers">Разработчики</div>
-                <div class="header_item iterations">Кол-во итераций</div>
-                <div class="header_item averageTime">Среднее время</div>
-                <div class="header_item time">Всё время</div>
+                <div class="header_item parseSuppression">Скорость parseSuppression</div>
+                <div class="header_item dir">Скорость dir</div>
+                <div class="header_item findDeletedFiles">Скорость findDeletedFiles</div>
+                <div class="header_item time">Всё время выполнения</div>
             </header>
             <main>
                 %s
