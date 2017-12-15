@@ -43,7 +43,7 @@ public class AlexanderPrint implements ListPrinter {
             tableItems.append("<div class=\"main_row\"> \n" +
                     "<div class=\"main_item\">\n" +
                     "<div>" + item.getDeveloperName() + "</div>\n" +
-                    "<div>" + item.getParseTime() + "</div>\n" +
+                    "<div>" + item.getParseTime() + " мс</div>\n" +
                     "<div>" + item.getDirTime() + " мс</div>\n" +
                     "<div>" + item.getFindTime() + " мс</div>\n" +
                     "<div>" + (item.getFindTime() + item.getParseTime() + item.getDirTime()) + " мс</div>\n" +
