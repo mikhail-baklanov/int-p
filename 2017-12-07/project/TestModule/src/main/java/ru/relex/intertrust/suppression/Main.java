@@ -2,6 +2,7 @@ package ru.relex.intertrust.suppression;
 
 import ru.relex.intertrust.suppression.alexander.*;
 import ru.relex.intertrust.suppression.evgeny.*;
+import ru.relex.intertrust.suppression.interfaces.ListPrinter;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 import ru.relex.intertrust.suppression.margarita.*;
 import ru.relex.intertrust.suppression.sergei.*;
@@ -15,24 +16,24 @@ import java.util.List;
 public class Main {
     static {
         Registrator.register(new Alexander());
-        Registrator.register(new AlexanderCtrl());
+        Registrator.register(new AlexanderPrint());
 
-        Registrator.register(new MargaritaChecker());
-        Registrator.register(new MargaritaController());
+        //Registrator.register(new MargaritaChecker());
+        //Registrator.register(new MargaritaController());
 
-        Registrator.register(new SuppresionSergey());
-        Registrator.register(new ControllerSergey());
+        //Registrator.register(new SuppresionSergey());
+        //Registrator.register(new ControllerSergey());
 
         Registrator.register(new FindDeletedClasses());
-        Registrator.register(new EvgenyController());
+        //Registrator.register(new EvgenyController());
 
         //Registrator.register(new FindingFilesWithoutRegExp());
-        Registrator.register(new RegStart());
+        //Registrator.register(new RegStart());
 
         Registrator.register(new SupOleg());
         Registrator.register(new OlegController());
 
-        Registrator.register(new DenisovSuppressionCheckerAdapter());
+        //Registrator.register(new DenisovSuppressionCheckerAdapter());
         //Registrator.register(new MainClass());
 
     }
@@ -53,6 +54,8 @@ public class Main {
             result.setFileList(findPaths);
             listResults.add(result);
         }
-
+        for(ListPrinter item: Registrator.getPrinters()){
+            item.visualize(listResults);
+        }
     }
 }

@@ -37,7 +37,7 @@ public class Registrator {
      * Функция, возвращающая список реализаций интерфейса Controller для чтения
      * @return Список реализаций интерфейса
      */
-    public static List<ListPrinter> getControllers() {
+    public static List<ListPrinter> getPrinters() {
         return printer;
     }
 
