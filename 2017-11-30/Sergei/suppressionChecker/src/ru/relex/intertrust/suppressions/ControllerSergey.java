@@ -23,6 +23,9 @@ public class ControllerSergey implements Controller {
      * @param dir Каталог, откуда будет начат поиск java-файлов
      * @param listOfChekers Зарегистрированные реализации интерфейсов каждого разработчика
      */
+
+    //добавить обработку ситуации, если список с результатами будет пуст
+
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         file = new File(FILENAME);
         System.out.println("Control_Sergey is working...");
