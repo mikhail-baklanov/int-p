@@ -7,6 +7,15 @@ public class Result {
     private long dirTime;
     private long findTime;
     private List<String> fileList;
+    private String developerName;
+
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
 
     public long getParseTime() {
         return parseTime;
