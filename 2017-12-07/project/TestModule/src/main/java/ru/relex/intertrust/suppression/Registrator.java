@@ -23,7 +23,7 @@ public class Registrator {
     /**
      * Список всех реализаций интерфейса Controller
      */
-    private static List<Controller> controllers = new ArrayList<>();
+    private static List<ListPrinter> printer = new ArrayList<>();
 
     /**
      * Функция, возвращающая список реализаций интерфейса SuppressionChecker для чтения
@@ -37,8 +37,8 @@ public class Registrator {
      * Функция, возвращающая список реализаций интерфейса Controller для чтения
      * @return Список реализаций интерфейса
      */
-    public static List<Controller> getControllers() {
-        return controllers;
+    public static List<ListPrinter> getControllers() {
+        return printer;
     }
 
     /**
@@ -51,9 +51,9 @@ public class Registrator {
 
     /**
      * Функция регистрации конкретной реализации интерфейса Controller
-     * @param controller Реализация интерфейса, которую требуется зарегистрировать
+     * @param list Реализация интерфейса, которую требуется зарегистрировать
      */
-    public static void register(Controller controller) {
-        controllers.add(controller);
+    public static void register(ListPrinter list) {
+        printer.add(list);
     }
 }
