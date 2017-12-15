@@ -13,7 +13,7 @@ import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
-public class OlegController implements ListPrinter {
+public class OlegPrinter implements ListPrinter {
 
     public void visualize(List<Result> list) {
         String[][] data= new String[list.size()][5];
