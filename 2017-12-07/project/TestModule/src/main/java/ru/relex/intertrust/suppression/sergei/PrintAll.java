@@ -1,7 +1,7 @@
-package ru.relex.intertrust.suppression;
+package ru.relex.intertrust.suppression.sergei;
 
+import ru.relex.intertrust.suppression.Result;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
-
 import java.util.List;
 
 public class PrintAll implements ListPrinter {
@@ -27,3 +27,4 @@ public class PrintAll implements ListPrinter {
         System.out.println("Конец работы");
     }
 }
+
