@@ -25,7 +25,7 @@ public class Main {
         //Registrator.register(new ControllerSergey());
 
         Registrator.register(new FindDeletedClasses());
-        //Registrator.register(new EvgenyController());
+        Registrator.register(new PrinterInTextFile());
 
         //Registrator.register(new FindingFilesWithoutRegExp());
         //Registrator.register(new RegStart());
