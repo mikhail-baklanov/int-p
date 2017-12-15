@@ -31,7 +31,7 @@ public class Main {
         //Registrator.register(new RegStart());
 
         Registrator.register(new SupOleg());
-        Registrator.register(new OlegController());
+        Registrator.register(new OlegPrinter());
 
         //Registrator.register(new DenisovSuppressionCheckerAdapter());
         //Registrator.register(new MainClass());
