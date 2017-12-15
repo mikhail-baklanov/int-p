@@ -64,9 +64,12 @@ public class AlexanderPrint implements ListPrinter {
             StringBuilder page = new StringBuilder();
             for(String line: lines)
                 page.append(line + "\n");
-            File file = new File( "output" + File.separator + "statistic.html");
-
-            PrintWriter output = new PrintWriter(file);
+            File folder = new File( "output");
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+            folder = new File(folder + File.separator + "statistic.html");
+            PrintWriter output = new PrintWriter(folder);
             // Форматированная запись в файл statistic.html
             output.printf(page.toString(), tableItems, new SimpleDateFormat("yyy.MM.dd - HH:mm").format(new Date()).toString());
             output.close();
