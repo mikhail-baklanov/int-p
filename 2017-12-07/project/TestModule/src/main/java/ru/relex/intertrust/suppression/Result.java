@@ -3,10 +3,19 @@ package ru.relex.intertrust.suppression;
 import java.util.List;
 
 public class Result {
-    public long parseTime;
-    public long dirTime;
-    public long findTime;
-    public List<String> fileList;
+    private long parseTime;
+    private long dirTime;
+    private long findTime;
+    private List<String> fileList;
+    private String developerName;
+
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
 
     public long getParseTime() {
         return parseTime;

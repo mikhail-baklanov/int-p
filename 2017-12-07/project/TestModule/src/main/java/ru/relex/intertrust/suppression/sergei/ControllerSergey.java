@@ -12,17 +12,7 @@ import java.util.List;
 
 public class ControllerSergey implements Controller {
 
-    final String FILENAME = "CtrlSergey_results.txt";
-    final int ITERATIONS = 1;
-    File file;
-    FileWriter results;
 
-    /**
-     * Поочередный запуск реализаций из списка и вывод результатов
-     * @param suppressionFilename Полное имя файла suppressions.xml
-     * @param dir Каталог, откуда будет начат поиск java-файлов
-     * @param listOfChekers Зарегистрированные реализации интерфейсов каждого разработчика
-     */
     public void start(String suppressionFilename, String dir, List<SuppressionChecker> listOfChekers) {
         file = new File(FILENAME);
         System.out.println();
