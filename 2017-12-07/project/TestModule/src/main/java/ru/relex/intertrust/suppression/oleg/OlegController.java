@@ -16,7 +16,6 @@ import java.util.List;
 public class OlegController implements ListPrinter {
 
     public void visualize(List<Result> list) {
-    //start(String xmlName, String filePath, List<SuppressionChecker> listOfChekers)  {
         String[][] data= new String[list.size()][5];
          Test(data,list);
         SwingUtilities.invokeLater(new Runnable() {
