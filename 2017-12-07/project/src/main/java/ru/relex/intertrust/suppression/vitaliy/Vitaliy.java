@@ -1,4 +1,4 @@
-package ru.relex.intertrust.suppression.Vitaliy;
+package ru.relex.intertrust.suppression.vitaliy;
 
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 

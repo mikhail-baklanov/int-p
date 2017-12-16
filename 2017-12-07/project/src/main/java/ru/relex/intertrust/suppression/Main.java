@@ -6,7 +6,7 @@ import ru.relex.intertrust.suppression.interfaces.ListPrinter;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 import ru.relex.intertrust.suppression.margarita.*;
 import ru.relex.intertrust.suppression.sergei.*;
-import ru.relex.intertrust.suppression.Vitaliy.*;
+import ru.relex.intertrust.suppression.vitaliy.*;
 import ru.relex.intertrust.suppression.oleg.*;
 import ru.relex.intertrust.suppression.vladilen.*;
 
