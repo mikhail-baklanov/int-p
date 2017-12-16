@@ -1,11 +1,9 @@
 package ru.relex.intertrust.suppression.alexander;
 
-import org.omg.CORBA.Environment;
 import ru.relex.intertrust.suppression.Result;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -36,10 +34,7 @@ public class AlexanderPrint implements ListPrinter {
         */
 
         // Создание блока со всеми участниками
-        int count = 1;
         for(Result item : listOfResults){
-            // Поиск программы с наименьшим временем выполнения и последующая запись его в блок
-
             tableItems.append("<div class=\"main_row\"> \n" +
                     "<div class=\"main_item\">\n" +
                     "<div>" + item.getDeveloperName() + "</div>\n" +
@@ -53,13 +48,11 @@ public class AlexanderPrint implements ListPrinter {
             for(String info: item.getFileList())
                 tableItems.append("<li>" + info + "</li>\n");
             tableItems.append("</ul>\n" + "</div>\n" + "</div>\n");
-            count++;
         }
 
         // Загрузка шаблона сайта и преобразование всего текста в одну строку
-        List<String> lines = null;
         try {
-            lines = Files.readAllLines(Paths.get("template.txt"), StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(Paths.get("template.txt"), StandardCharsets.UTF_8);
 
             StringBuilder page = new StringBuilder();
             for(String line: lines)
@@ -69,7 +62,7 @@ public class AlexanderPrint implements ListPrinter {
                 folder.mkdirs();
             }
             folder = new File(folder + File.separator + "statistic.html");
-            PrintWriter output = new PrintWriter(folder);
+            PrintWriter output = new PrintWriter(folder, StandardCharsets.UTF_8.toString());
             // Форматированная запись в файл statistic.html
             output.printf(page.toString(), tableItems, new SimpleDateFormat("yyy.MM.dd - HH:mm").format(new Date()).toString());
             output.close();

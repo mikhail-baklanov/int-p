@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
+<html>
     <head>
         <title>Статистика</title>
         <meta charset="utf-8">
@@ -151,7 +151,7 @@
             <main>
                 %s
             </main>
-            <footer>Дата и время проверки: %s</footer>
+            <footer>Дата и время првоерки: %s</footer>
         </div>
     <script>
         'use strict'
