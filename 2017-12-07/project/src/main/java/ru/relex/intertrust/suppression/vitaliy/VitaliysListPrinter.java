@@ -20,7 +20,7 @@ public class VitaliysListPrinter implements ListPrinter
         for (Result r : list)
         {
 
-            try (FileWriter writer = new FileWriter("\\output\\report.txt", true))
+            try (FileWriter writer = new FileWriter("output\\report.txt", true))
             {
                 writer.append("---------------------------------------------------------------------------------------------");
                 writer.append('\r');
