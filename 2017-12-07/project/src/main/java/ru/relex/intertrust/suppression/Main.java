@@ -6,7 +6,7 @@ import ru.relex.intertrust.suppression.interfaces.ListPrinter;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 import ru.relex.intertrust.suppression.margarita.*;
 import ru.relex.intertrust.suppression.sergei.*;
-import ru.relex.intertrust.suppression.vitaliy.*;
+import ru.relex.intertrust.suppression.Vitaliy.*;
 import ru.relex.intertrust.suppression.oleg.*;
 import ru.relex.intertrust.suppression.vladilen.*;
 
@@ -27,8 +27,8 @@ public class Main {
         Registrator.register(new FindDeletedClasses());
         Registrator.register(new PrinterInTextFile());
 
-        //Registrator.register(new FindingFilesWithoutRegExp());
-        //Registrator.register(new RegStart());
+        Registrator.register(new Vitaliy());
+        Registrator.register(new VitaliysListPrinter());
 
         Registrator.register(new SupOleg());
         Registrator.register(new OlegPrinter());
