@@ -2,29 +2,53 @@ package ru.relex.intertrust.suppression.sergei;
 
 import ru.relex.intertrust.suppression.Result;
 import ru.relex.intertrust.suppression.interfaces.ListPrinter;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 
 public class PrintAll implements ListPrinter {
 
+    final String FILENAME = "output\\SergeyOut.txt";
+    final String FOLDERNAME = "output";
+    File file;
+    FileWriter results;
+
     /**
-     * Метод, который выводит в консоль список результатов на экран. Выводит поочередно имя разработчика,
+     * Метод, который выводит в файл список результатов. Выводит поочередно имя разработчика,
      * время работы отдельных методов и список резултатов работы реализаций
-     * @param list список с результатами работы реализаций
+     * @param list готовый список с результатами работы реализаций
      */
     public void visualize(List<Result> list) {
-        System.out.println("Результаты:");
-        for (Result res: list){
-            System.out.println("Автор реализации: " + res.getDeveloperName());
-            System.out.println("Время работы parseSuppression:" + res.getParseTime() + " ms");
-            System.out.println("Время работы dir:" + res.getDirTime() + " ms");
-            System.out.println("Время работы findDeletedFiles:" + res.getFindTime() + " ms");
-            System.out.println("*** Результаты работы реализации: ");
-            for (String line: res.getFileList()){
-                System.out.println("<> " + line);
+        File folder = new File( FOLDERNAME);
+        file = new File(FILENAME);
+        //System.out.println("Начинаю печатать результаты...");
+        try {
+            if (!folder.exists()){
+                folder.mkdirs();
             }
-            System.out.println("**********************************");
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            results = new FileWriter(file, false);
+
+            results.write("#------------------------------------- Результаты тестирования -------------------------------------#\r\n");
+            for (Result res : list) {
+                results.write("Автор реализации: " + res.getDeveloperName() + "\r\n");
+                results.write("Время работы parseSuppression:" + res.getParseTime() + " ms" + "\r\n");
+                results.write("Время работы dir:" + res.getDirTime() + " ms" + "\r\n");
+                results.write("Время работы findDeletedFiles:" + res.getFindTime() + " ms" + "\r\n");
+                results.write("-------------------------------------------- Результаты: --------------------------------------------\r\n");
+                for (String line : res.getFileList()) {
+                    results.write("<> " + line + "\r\n");
+                }
+                results.write("-----------------------------------------------------------------------------------------------------\r\n");
+            }
+            results.write("#---------------------------------------- Конец тестирования ---------------------------------------#");
+        } catch (Exception ex){
+            System.out.println("(Печатающий модуль Сергея) Произошла ошибка при выводе данных(");
         }
-        System.out.println("Конец работы");
+        //System.out.println("Вывод данных успешно завершен");
     }
 }
 

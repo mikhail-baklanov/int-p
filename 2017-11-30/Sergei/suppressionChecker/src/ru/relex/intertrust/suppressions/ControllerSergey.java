@@ -54,6 +54,7 @@ public class ControllerSergey implements Controller {
                     if (dirs == null) {
                         continue;
                     }
+
                     res = checker.findDeletedFiles(suppression, dirs);
                 }
                 long end = System.currentTimeMillis() - start;

@@ -1,1 +1,1 @@
-suppresionChecker, пока работает кривенько
+﻿suppresionChecker, работает хорошо

@@ -2,6 +2,10 @@ package com.company;
 
 public class Main {
 
+    /**
+     * Основной класс. Считает и выводит числа от 0 до 80 в троичной системе счисления
+     * @param args Аргументы коммандной строки
+     */
     public static void main(String[] args) {
         int tmp = 0;
         String str = "";
@@ -12,7 +16,8 @@ public class Main {
                 tmp = tmp/3;
             }
             str = str + (tmp);
-            System.out.println(str);
+            StringBuffer buffer = new StringBuffer(str);
+            System.out.println(buffer.reverse());
             str = "";
         }
     }
