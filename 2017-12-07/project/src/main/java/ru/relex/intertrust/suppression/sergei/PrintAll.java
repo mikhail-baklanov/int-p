@@ -34,6 +34,7 @@ public class PrintAll implements ListPrinter {
 
             results.write("#------------------------------------- Результаты тестирования -------------------------------------#\r\n");
             for (Result res : list) {
+                results.write("-------------------------------------------- Реализация: --------------------------------------------\r\n");
                 results.write("Автор реализации: " + res.getDeveloperName() + "\r\n");
                 results.write("Время работы parseSuppression:" + res.getParseTime() + " ms" + "\r\n");
                 results.write("Время работы dir:" + res.getDirTime() + " ms" + "\r\n");
@@ -42,9 +43,10 @@ public class PrintAll implements ListPrinter {
                 for (String line : res.getFileList()) {
                     results.write("<> " + line + "\r\n");
                 }
-                results.write("-----------------------------------------------------------------------------------------------------\r\n");
+                results.write("-----------------------------------------------------------------------------------------------------\r\n\r\n");
             }
             results.write("#---------------------------------------- Конец тестирования ---------------------------------------#");
+            results.close();
         } catch (Exception ex){
             System.out.println("(Печатающий модуль Сергея) Произошла ошибка при выводе данных(");
         }
