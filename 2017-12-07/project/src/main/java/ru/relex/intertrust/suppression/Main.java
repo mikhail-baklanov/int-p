@@ -18,8 +18,8 @@ public class Main {
         Registrator.register(new Alexander());
         Registrator.register(new AlexanderPrint());
 
-        //Registrator.register(new MargaritaChecker());
-        //Registrator.register(new MargaritaController());
+        Registrator.register(new MargaritaChecker());
+        Registrator.register(new MargaritaPrinter());
 
         Registrator.register(new SuppresionSergey());
         Registrator.register(new PrintAll());
