@@ -2,6 +2,7 @@ package ru.relex.intertrust.suppression.margarita;
 
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -66,11 +67,21 @@ public class MargaritaChecker implements SuppressionChecker {
     @Override
     public List<String> dir(String path) {
         try {
-            return Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+            File file = new File(path);
+            if (file.isFile())
+                return Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+
+            if (file.isDirectory()) {
+                List<String> result = new ArrayList<>();
+                Files.walk(Paths.get(path))
+                        .forEach(path1 -> result.add(path1.toString()));
+                return result;
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+
+        return null;
     }
 
     @Override
