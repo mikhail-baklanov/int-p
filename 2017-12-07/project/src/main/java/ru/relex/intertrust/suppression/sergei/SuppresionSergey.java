@@ -54,16 +54,18 @@ public class SuppresionSergey implements SuppressionChecker {
     }
 
     //получение списка файлов
-    private void getFilesFromDirectory(File dir, List<String> files){
+    private void getFilesFromDirectory(File dir, List<String> files, String ext){
         File[] folderEntries = dir.listFiles();
         for (File entry : folderEntries)
         {
             if (entry.isDirectory())
             {
-                getFilesFromDirectory(entry, files);
+                getFilesFromDirectory(entry, files, ext);
                 continue;
             }
-            files.add(entry.getAbsoluteFile().toString());
+            if (entry.getAbsoluteFile().toString().contains(ext)) {
+                files.add(entry.getAbsoluteFile().toString());
+            }
         }
     }
 
@@ -90,7 +92,7 @@ public class SuppresionSergey implements SuppressionChecker {
 
         try {
             if (files.isDirectory()){
-                getFilesFromDirectory(files, dirs);
+                getFilesFromDirectory(files, dirs, ".java");
                 return dirs;
             }
         } catch (Exception e){
