@@ -12,33 +12,37 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class Alexander implements SuppressionChecker {
+
     /**
      * Имя разработчика
      */
     private final static String DEVELOPER_NAME = "Александр Ерофеев";
+
     /**
      * Паттерн регулярного выражения
      */
     private final static Pattern PATTERN = Pattern.compile("<suppress\\u0020");
 
     /**
-     * Идём по всем строкам xml файла, если строка удовлетворяет нашему регулярному выражению, то
-     * "вырезаем" путь из аттрибута files, преобразуем слеши в те, которые предусмотрены системой и
-     * помещаем в массив.
-     * @param fullFileName - путь к xml файлу
-     * @return paths
+     * Разделитель, который используется в аттрибуте SUPPRESS_ATTRIBUTE
      */
+    private final static String REGEX_SEPORATOR = "[\\\\/]";
+
+    /**
+     * Нужный аттрибут
+     */
+    private final static String SUPPRESS_ATTRIBUTE = "files=\"";
+
     public List<String> parseSuppression(String fullFileName){
         List<String> paths = new ArrayList<>();
         try {
             for(String item: Files.readAllLines(Paths.get(fullFileName), StandardCharsets.UTF_8)) {
                 if (PATTERN.matcher(item).find() && item.indexOf("files=") != -1 && item.indexOf("<!--") == -1) {
-                    String attribute = "files=\"";
-                    int first = item.indexOf(attribute) + attribute.length();
+                    int first = item.indexOf(SUPPRESS_ATTRIBUTE) + SUPPRESS_ATTRIBUTE.length();
                     int last = item.indexOf("\"", first + 1);
                     String path = item.substring(first, last);
                     if (path.endsWith(".java") && !paths.contains(path))
-                        paths.add(item.substring(first, last).replace("[\\\\/]", File.separator));
+                        paths.add(item.substring(first, last).replace(REGEX_SEPORATOR, File.separator));
                 }
             }
         } catch (IOException e) {
@@ -47,11 +51,7 @@ public class Alexander implements SuppressionChecker {
         return paths;
     }
 
-    /**
-     * Считываем файл и добавляем строки из файла в массив.
-     * @param path - путь к txt файлу
-     * @return fileNames
-     */
+    @Override
     public List<String> dir(String path){
         List<String> fileNames = null;
         try {
@@ -62,22 +62,12 @@ public class Alexander implements SuppressionChecker {
         return fileNames;
     }
 
-    /**
-     * Возвращаем имя разработчика.
-     * @return DEVELOPER_NAME
-     */
+    @Override
     public String getDeveloperName(){
         return DEVELOPER_NAME;
     }
 
-    /**
-     * Идем по всему массиву suppressionsPaths и сверяем каждый элемент с каждым элементом массива dirPaths.
-     * Если пути совпали, прекращаем внутренний цикл. Если массив dirPaths закончился, а пути не совпали,
-     * добавляем путь в массив удаленных файлов.
-     * @param suppressionsPaths - массив путей к файлам из xml
-     * @param dirPaths - массив путей, взятых из txt файла
-     * @return deletedFilePaths
-     */
+    @Override
     public List<String> findDeletedFiles(List<String> suppressionsPaths, List<String> dirPaths){
         List<String> deletedFilePaths = new ArrayList<>();
         for(String supPath: suppressionsPaths) {

@@ -1,0 +1,22 @@
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>JSON test</title>
+        <!-- Скрипт, показывающий, что при сериализации и десериализации получаются два независимых друг от друга в памяти объекта -->
+        <script>
+            var item = {
+                title: "Surton",
+                num: 36
+            };
+            
+            var json = JSON.stringify(item);
+            
+            var item_2 = JSON.parse(json);
+            alert(item == item_2 ? "Ссылки на объекты равны" : "Ссылки на объекты не равны");
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

@@ -29,7 +29,7 @@ public interface SuppressionChecker extends HasDeveloper {
      * Функция, которая возвращает список путей к файлам.
      * Вид возвращаемых данных (Пример): ru\relex\intertrust\result.java.
      * @param path путь до файла
-     * @return cписок путей
+     * @return cписок строк из файла
      */
     List<String> dir(String path);
 }

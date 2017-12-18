@@ -14,27 +14,14 @@ import java.util.*;
 
 public class AlexanderPrint implements ListPrinter {
     /**
-     * В цикле в порядке возрастания создаем блоки html кода для каждой программы, после этого берем шаблон template.txt,
-     * В который вставляем эти блоки и сохраняем все в statistic.html
+     * Метод, который в цикле в порядке возрастания создает блоки html кода для каждой программы, после этого берет шаблон template.txt,
+     * В который вставляет эти блоки и сохраняет все в statistic.html.
      * @param listOfResults - список всех результатов выполнения программ
      */
     public void visualize(List<Result> listOfResults){
         StringBuilder tableItems = new StringBuilder();
 
-        /*
-        final Comparator<Result> COMPARE_BY_FULLTIME = new Comparator<Result>() {
-            @Override
-            public int compare(Result lhs, Result rhs) {
-                long firstDigit = lhs.getDirTime() + lhs.getFindTime() + lhs.getParseTime();
-                long secondDigit = rhs.getDirTime() + rhs.getFindTime() + rhs.getParseTime();
-                return (int)(firstDigit - secondDigit);
-            }
-        };
-        Collections.sort(listOfResults, COMPARE_BY_FULLTIME);
-        */
-
-        // Создание блока со всеми участниками
-        for(Result item : listOfResults){
+        for(Result item : listOfResults){                   // Создание блока со всеми участниками
             tableItems.append("<div class=\"main_row\"> \n" +
                     "<div class=\"main_item\">\n" +
                     "<div>" + item.getDeveloperName() + "</div>\n" +
@@ -50,8 +37,7 @@ public class AlexanderPrint implements ListPrinter {
             tableItems.append("</ul>\n" + "</div>\n" + "</div>\n");
         }
 
-        // Загрузка шаблона сайта и преобразование всего текста в одну строку
-        try {
+        try {                                               // Загрузка шаблона сайта и преобразование всего текста в одну строку
             List<String> lines = Files.readAllLines(Paths.get("template.txt"), StandardCharsets.UTF_8);
 
             StringBuilder page = new StringBuilder();
@@ -63,8 +49,7 @@ public class AlexanderPrint implements ListPrinter {
             }
             folder = new File(folder + File.separator + "statistic.html");
             PrintWriter output = new PrintWriter(folder, StandardCharsets.UTF_8.toString());
-            // Форматированная запись в файл statistic.html
-            output.printf(page.toString(), tableItems, new SimpleDateFormat("yyy.MM.dd - HH:mm").format(new Date()).toString());
+            output.printf(page.toString(), tableItems, new SimpleDateFormat("yyy.MM.dd - HH:mm").format(new Date()).toString());       // Форматированная запись в файл statistic.html
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
