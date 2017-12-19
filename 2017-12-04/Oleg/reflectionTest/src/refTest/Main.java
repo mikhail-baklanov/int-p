@@ -3,8 +3,13 @@ package refTest;
 import java.lang.reflect.*;
 import java.util.Scanner;
 
+/**
+ * Основной класс программы.
+ */
 public class Main {
-
+    /**
+     * Точка старта программы.
+     */
     public static void main(String[] args) throws Exception {
         while (true) {
             Scanner in = new Scanner(System.in);
@@ -45,6 +50,12 @@ public class Main {
 
         }
     }
+
+    /**
+     * Метод, определяющий модификаторы
+     * @param m - уже определенный модификатор
+     * @return список модификаторов
+     */
     static String getModifiers(int m) {
         String modifiers = "";
         if (Modifier.isPublic(m)) modifiers += "public ";
@@ -55,6 +66,11 @@ public class Main {
         return modifiers;
     }
 
+    /**
+     * Метод,определяющий тип возвращаемых значений
+     * @param clazz
+     * @return тип возвращаемоего значения указанного метода
+     */
     static String getType(Class clazz) {
         String type = clazz.isArray()
                 ? clazz.getComponentType().getSimpleName()
@@ -63,6 +79,11 @@ public class Main {
         return type;
     }
 
+    /**
+     * Метод, определяющий, что поступает на вход проверяемым методам
+     * @param params - параметры, поступающие на вход методам
+     * @return список параметров.
+     */
     static String getParameters(Class[] params) {
         String p = "";
         for (int i = 0, size = params.length; i < size; i++) {

@@ -1,6 +1,12 @@
 import java.io.*;
-
+/**
+ * @author Слепичев Олег
+ */
 //public class Main {
+/**
+ * Метод, который считает и выводит кол-во строк в файлах с помощью BufferedReader.
+ */
+
 //    public static void main(String[] args) {
 //        if(args.length > 0) {
 //            for (int i = 0; i < args.length; i++) {
@@ -22,7 +28,9 @@ import java.io.*;
 //}
 
 public class Main {
-
+    /**
+     * Метод, который считает и выводит кол-во строк и символов в файлах с помощью FileInputStream
+     */
     public static void main(String[] args) {
         if (args.length>0) {
             for (int i=0; i < args.length; i++) {
