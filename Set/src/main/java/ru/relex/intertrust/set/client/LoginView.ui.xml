@@ -130,7 +130,7 @@
         <span class="{style.bar}"></span>
         <label class="{style.nickname-wrapper_label}">Имя</label>
       </div>
-      <button class="{style.login-block_continue}">Продолжить</button>
+      <g:Button styleName="{style.login-block_continue}" ui:field="submitLogin">Продолжить</g:Button>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>

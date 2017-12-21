@@ -6,10 +6,10 @@ import com.google.gwt.user.client.ui.*;
 
 public class Set implements EntryPoint {
 
-
 	public void onModuleLoad() {
-		LoginView loginBlock = new LoginView();
-		RootPanel.get("gwt-wrapper").add(loginBlock);
+            LoginView loginBlock = new LoginView();
+            RootPanel.get("gwt-wrapper").add(loginBlock);
 	}
+
 
 }
