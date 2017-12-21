@@ -1,7 +1,15 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
   xmlns:g="urn:import:com.google.gwt.user.client.ui">
-  <ui:style src="login.css"/>
+  <ui:style src="login.css">
+    @external .login-block;
+    @external .login-block_hello;
+    @external .nickname-wrapper;
+    @external .login-block_nickname;
+    @external .bar;
+    @external .nickname-wrapper_label;
+    @external .login-block_continue;
+  </ui:style>
   <g:HTMLPanel>
     <div class="{style.login-block}">
       <div class="{style.login-block_hello}">Добро пожаловать!</div>
