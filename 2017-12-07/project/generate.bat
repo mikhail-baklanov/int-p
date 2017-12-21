@@ -1,0 +1,1 @@
+dir /S/B *.java > files.txt

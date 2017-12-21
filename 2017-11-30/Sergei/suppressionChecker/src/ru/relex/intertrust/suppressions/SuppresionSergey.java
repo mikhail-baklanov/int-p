@@ -19,10 +19,6 @@ import java.util.regex.Pattern;
 
 public class SuppresionSergey implements SuppressionChecker {
 
-//    static {
-//        Registrator.register(new SuppresionSergey());
-//    }
-
     /**
      * Медод получения списка файлов из файла исключений suppresions.xml
      * @param fullFileName Полное имя файла suppresions.xml на диске
@@ -30,7 +26,6 @@ public class SuppresionSergey implements SuppressionChecker {
      * @return null если в метод передан неверный путь
      */
     final String regexpSuppressLayout = ".*?(<suppress).*?(files=\").*?(\\.java\").*?";
-    final String regexpPackageLayout = ".*?\\\\(ru|com|test)\\\\.*?(\\.java).*?";
 
     public List<String> parseSuppression(String fullFileName) {
         List<String> allLines = null;
@@ -43,30 +38,31 @@ public class SuppresionSergey implements SuppressionChecker {
         }
         List<String> suppresionList = new ArrayList<>();
 
-        //маска исключение вида: <suppress files="
         Pattern suppresPattern = Pattern.compile(regexpSuppressLayout);
         Matcher suppresFind = null;
 
         for (String line: allLines){
             suppresFind = suppresPattern.matcher(line);
             if(suppresFind.matches()){
-                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\"") + 4).replace("[\\\\/]", "\\"));
+                suppresionList.add(line.substring(line.indexOf("files=\"") + 7, line.indexOf("java\"") + 4).replace("[\\\\/]", File.separator));
             }
         }
         return suppresionList;
     }
 
     //получение списка файлов
-    private void getFilesFromDirectory(File dir, List<String> files){
+    private void getFilesFromDirectory(File dir, List<String> files, String ext){
         File[] folderEntries = dir.listFiles();
         for (File entry : folderEntries)
         {
             if (entry.isDirectory())
             {
-                getFilesFromDirectory(entry, files);
+                getFilesFromDirectory(entry, files, ext);
                 continue;
             }
-            files.add(entry.getAbsoluteFile().toString());
+            if (entry.getAbsoluteFile().toString().contains(ext)) {
+                files.add(entry.getAbsoluteFile().toString());
+            }
         }
     }
 
@@ -80,20 +76,10 @@ public class SuppresionSergey implements SuppressionChecker {
         List<String> dirs = new ArrayList<>();
         File files = null;
 
-        Pattern packagePattern = Pattern.compile(regexpPackageLayout);
-        Matcher packageFinder = null;
-
         try {
             files = new File(path);
             if (files.isFile()){
-                List<String> tmp = new ArrayList<>();
-                tmp = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
-                for(String line: tmp){
-                    packageFinder = packagePattern.matcher(line);
-                    if (packageFinder.matches()){
-                        dirs.add(line.substring(packageFinder.start() + 1));
-                    }
-                }
+                dirs = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
                 return dirs;
             }
         } catch (IOException e){
@@ -103,15 +89,7 @@ public class SuppresionSergey implements SuppressionChecker {
 
         try {
             if (files.isDirectory()){
-                List<String> tmp = new ArrayList<>();
-                getFilesFromDirectory(files, tmp);
-
-                for(String line: tmp){
-                    packageFinder = packagePattern.matcher(line);
-                    if (packageFinder.matches()){
-                        dirs.add(line.substring(packageFinder.start() + 1).replace("/", "\\"));
-                    }
-                }
+                getFilesFromDirectory(files, dirs, ".java");
                 return dirs;
             }
         } catch (Exception e){
@@ -130,29 +108,22 @@ public class SuppresionSergey implements SuppressionChecker {
     public List<String> findDeletedFiles(List<String> suppresions, List<String> files) {
         List<String> result = new ArrayList<>();
 
-        Pattern packagePattern = Pattern.compile(regexpPackageLayout);
-        Matcher packageFinder = null;
+       // Pattern packagePattern = Pattern.compile(regexpPackageLayout);
+        //Matcher packageFinder = null;
 
         for (String line: suppresions){
-            if (!files.contains(line)){
-                packageFinder = packagePattern.matcher(line);
-                if (packageFinder.find()){
-                    result.add(line);
-                } else {
-                    boolean flag = false;
-                    for (String eachLine: files){
-                        flag = eachLine.contains(line);
-                        if (flag) break;
-                    }
-                    if (!flag) {
-                        result.add(line);}
-                }
+            boolean flag = false;
+            for (String eachLine: files){
+                flag = eachLine.contains(line);
+                if (flag) break;
             }
+            if (!flag) {
+                result.add(line);}
         }
         return result;
     }
 
     public String getDeveloperName() {
         return "Sergei Stukalov";
-    };
+    }
 }

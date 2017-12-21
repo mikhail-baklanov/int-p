@@ -1,0 +1,35 @@
+<!doctype html>
+<!--
+welcomeGWT.html: созданная страница узла HTML, являющаяся специальным файлом
+приветствия для приложения. Файл web.xml использует элемент welcome-file для указания на то,
+что главная страница — это исходная страница, отображаемая в браузере при развертывании приложения.
+Главная страница ссылается на путь к исходному коду JavaScript и может ссылаться на таблицу стилей приложения. 
+-->
+<html>
+    <head>
+<!--meta: указывает на каталог проекта приложения. Этот тег предоставляет ссылку между страницей HTML и приложением.-->
+        <meta name='gwt:module' content='org.yournamehere.Main=org.yournamehere.Main'>
+        <link rel="stylesheet" type="text/css" href="MySampleApplication.css">
+        <title>Main</title>
+<!--script: импорт кода для файла JavaScript платформы GWT. Этот код содержит необходимый код для начальной загрузки платформы GWT.
+Он использует настройку в модуле проекта, а затем динамически загружает код JavaScript, созданный путем компиляции точки входа,
+для представления приложения. Файл JavaScript создается платформой GWT при запуске приложения в размещенном режиме или при компиляции приложения.-->
+        <script type="text/javascript"  src="MySampleApplication/MySampleApplication.nocache.js"></script>
+    </head>
+    <body>
+        <div id="table">table</div>
+        <div id="cards">cards</div>
+        <div id="players">players</div>
+        <div id="statistics" align="center">statistics
+
+            <table align="center" >
+                <tr>
+                    <td id="slot1" ></td>
+                </tr>
+            </table>
+
+        </div>
+
+
+    </body>
+</html>

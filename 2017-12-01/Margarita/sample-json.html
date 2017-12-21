@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Sample</title>
+        <script>
+            var person = {
+                firstName: "Ivan",
+                lastName: "Ivanov"
+            };
+            
+            var jsonItem = JSON.stringify(person);
+            var parsedItem = JSON.parse(jsonItem);
+
+            console.log(jsonItem);
+            console.log(parsedItem);
+            console.log(jsonItem == parsedItem);
+
+            parsedItem.lastName = "Petrov";
+            console.log(jsonItem == parsedItem);
+        </script>
+    </head>
+    <body>
+        <div>Please, open console to see results (press F12 key)!</div>
+    </body>
+</html>
