@@ -9,14 +9,19 @@
     @external .bar;
     @external .nickname-wrapper_label;
     @external .login-block_continue;
+    @external .login-block_new-player;
+    @external .nickname-wrapper_error;
   </ui:style>
   <g:HTMLPanel styleName="{style.login-block}">
-      <div class="{style.login-block_hello}">Добро пожаловать!</div>
-      <div class="{style.nickname-wrapper}">
-        <input class="{style.login-block_nickname}" type="text" required=""/>
-        <span class="{style.bar}"></span>
-        <label class="{style.nickname-wrapper_label}">Имя</label>
-      </div>
-      <g:Button styleName="{style.login-block_continue}" ui:field="submitLogin">Продолжить</g:Button>
+          <div class="{style.login-block_new-player}">
+              <div class="{style.login-block_hello}">Добро пожаловать!</div>
+              <div class="{style.nickname-wrapper}">
+                  <input ui:field="nicknameLogin" class="{style.login-block_nickname}" type="text" required=""/>
+                  <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Игрок с таким именем уже существует</span>
+                  <span class="{style.bar}"></span>
+                  <label class="{style.nickname-wrapper_label}">Имя</label>
+              </div>
+              <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
+          </div>
   </g:HTMLPanel>
 </ui:UiBinder>
