@@ -17,14 +17,14 @@ public class GameState implements Serializable{
     }
 
     private boolean isStart = false;
-    private long time = -60_000;
+    private long time = -60000;
     private List<Card> deck = cardDeck.getCardsDeck();
     private List<Card> cardsOnDeck;
     private List<String> players;
     private List<Integer> score;
     private int countSets;
 
-    public boolean isStart() {
+    public  boolean isStart() {
         return isStart;
     }
 
@@ -33,7 +33,7 @@ public class GameState implements Serializable{
     }
 
     public long getTime() {
-        return time;
+        return -60000;
     }
 
     public void setTime(long time) {

@@ -1,6 +1,7 @@
 package ru.relex.intertrust.set.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,6 +26,9 @@ public class LoginView extends Composite {
 
     @UiField
     TextBox nicknameLogin;
+
+    @UiField
+    DivElement gameStartedLogin;
 
     public LoginView() {
         initWidget(uiBinder.createAndBindUi(this));
