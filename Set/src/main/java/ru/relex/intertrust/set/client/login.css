@@ -146,6 +146,10 @@
     background-color: rgba(105,127,148,0.1);
 }
 
+.login-block_new-player.active {
+    display: flex;
+}
+
 .login-block_new-player {
     display: none;
     flex-direction: column;
@@ -160,8 +164,12 @@
     box-shadow: 0 3px 7px rgba(105,127,148,0.5);
 }
 
-.login-block_game-started {
+.login-block_game-started.active {
     display: flex;
+}
+
+.login-block_game-started {
+    display: none;
     flex-direction: column;
     width: 100%;
 }

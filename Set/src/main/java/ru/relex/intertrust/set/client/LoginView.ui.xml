@@ -30,7 +30,7 @@
           <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
           <div class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
       </div>
-      <div class="{style.login-block_game-started}">
+      <div ui:field="gameStartedLogin" class="{style.login-block_game-started}">
           <div class="{style.login-block_hello}">Игра уже началась.</div>
           <div class="{style.game-started_item}">
               <span>С начала игры прошло:</span><span>2:31</span>

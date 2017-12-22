@@ -1,5 +1,6 @@
 package ru.relex.intertrust.set.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import ru.relex.intertrust.set.shared.GameState;
