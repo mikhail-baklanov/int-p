@@ -12,17 +12,46 @@
     @external .login-block_new-player;
     @external .nickname-wrapper_error;
     @external .active;
+    @external .login-block_game-start;
+    @external .game-started_players_items;
+    @external .game-started_players_item;
+    @external .login-block_game-started;
+    @external .game-started_item;
   </ui:style>
   <g:HTMLPanel styleName="{style.login-block}">
-          <div class="{style.login-block_new-player}">
-              <div class="{style.login-block_hello}">Добро пожаловать!</div>
-              <div class="{style.nickname-wrapper}">
-                  <input ui:field="nicknameLogin" class="{style.login-block_nickname}" type="text" required=""/>
-                  <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Игрок с таким именем уже существует</span>
-                  <span class="{style.bar}"></span>
-                  <label class="{style.nickname-wrapper_label}">Имя</label>
-              </div>
-              <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
+      <div class="{style.login-block_new-player}">
+          <div class="{style.login-block_hello}">Добро пожаловать!</div>
+          <div class="{style.nickname-wrapper}">
+              <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}" />
+              <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Игрок с таким именем уже существует</span>
+              <span class="{style.bar}"></span>
+              <label class="{style.nickname-wrapper_label}">Имя</label>
           </div>
+          <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
+          <div class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
+      </div>
+      <div class="{style.login-block_game-started}">
+          <div class="{style.login-block_hello}">Игра уже началась.</div>
+          <div class="{style.game-started_item}">
+              <span>С начала игры прошло:</span><span>2:31</span>
+          </div>
+          <div class="{style.game-started_item}">
+              <span>Карт в колоде осталось:</span><span>17</span>
+          </div>
+          <div class="{style.game-started_players_items}">
+              <div class="{style.game-started_players_item}">
+                  <div>Имя игрока</div><div>Баллы</div>
+              </div>
+              <div class="{style.game-started_players_item}">
+                  <div>Михаил</div><div>11</div>
+              </div>
+              <div class="{style.game-started_players_item}">
+                  <div>Виталий</div><div>10</div>
+              </div>
+              <div class="{style.game-started_players_item}">
+                  <div>Олег</div><div>9</div>
+              </div>
+          </div>
+      </div>
   </g:HTMLPanel>
 </ui:UiBinder>

@@ -1,15 +1,14 @@
 package ru.relex.intertrust.set.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public class LoginView extends Composite {
 
@@ -24,6 +23,9 @@ public class LoginView extends Composite {
     @UiField
     SpanElement errorLogin;
 
+    @UiField
+    TextBox nicknameLogin;
+
     public LoginView() {
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -31,6 +33,11 @@ public class LoginView extends Composite {
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
         errorLogin.addClassName("active");
+    }
+
+    @UiHandler("nicknameLogin")
+    public void doClick(ClickEvent e) {
+        errorLogin.removeClassName("active");
     }
 
 }
