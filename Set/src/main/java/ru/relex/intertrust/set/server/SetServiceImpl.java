@@ -24,13 +24,13 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         return false;
     }
 
-    /*
+
     @Override
     public GameState getGameState()
     {
         return null;
     }
-
+/*
     @Override
     public boolean checkSet(Card[] set)
     {
