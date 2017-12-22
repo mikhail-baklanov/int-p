@@ -2,6 +2,7 @@ package ru.relex.intertrust.set.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.SetService;
+import ru.relex.intertrust.set.shared.GameState;
 
 public class SetServiceImpl extends RemoteServiceServlet implements SetService
 {
@@ -23,12 +24,16 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     {
         return false;
     }
-    
-    @Override
+
+  //  @Override
+    /**
+     * @return возвращает описание состояния игры
+     */
     public GameState getGameState()
     {
-        return null;
+        return GameState.getInstance();
     }
+
 /*
     @Override
     public boolean checkSet(Card[] set)
