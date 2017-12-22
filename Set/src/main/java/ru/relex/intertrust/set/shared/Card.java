@@ -1,6 +1,8 @@
-package ru.relex.intertrust.set.server;
+package ru.relex.intertrust.set.shared;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
      private int color, shapeCount, fill, shape;
 
     public Card(int color, int shapeCount, int fill, int shape) {
@@ -9,4 +11,6 @@ public class Card {
         this.fill = fill;
         this.shape = shape;
     }
+
+    public Card() { }
 }

@@ -156,7 +156,12 @@
     width: 100%;
 }
 
+.login-block_game-start.active {
+    display: block;
+}
+
 .login-block_game-start {
+    display: none;
     position: absolute;
     padding: 10px;
     bottom: 0;

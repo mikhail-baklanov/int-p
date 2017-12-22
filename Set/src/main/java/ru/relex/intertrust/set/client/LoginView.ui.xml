@@ -19,7 +19,7 @@
     @external .game-started_item;
   </ui:style>
   <g:HTMLPanel styleName="{style.login-block}">
-      <div class="{style.login-block_new-player}">
+      <div ui:field="newPlayerLogin" class="{style.login-block_new-player}">
           <div class="{style.login-block_hello}">Добро пожаловать!</div>
           <div class="{style.nickname-wrapper}">
               <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}" />
@@ -28,7 +28,7 @@
               <label class="{style.nickname-wrapper_label}">Имя</label>
           </div>
           <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
-          <div class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
+          <div ui:field="gameStartTimeLogin" class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
       </div>
       <div ui:field="gameStartedLogin" class="{style.login-block_game-started}">
           <div class="{style.login-block_hello}">Игра уже началась.</div>

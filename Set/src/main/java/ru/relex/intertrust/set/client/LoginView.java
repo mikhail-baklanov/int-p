@@ -9,7 +9,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.shared.GameState;
 
 public class LoginView extends Composite {
 
@@ -17,6 +19,8 @@ public class LoginView extends Composite {
     }
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
+
+    private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
     @UiField
     Button submitLogin;
@@ -30,8 +34,32 @@ public class LoginView extends Composite {
     @UiField
     DivElement gameStartedLogin;
 
+    @UiField
+    DivElement newPlayerLogin;
+
+    @UiField
+    DivElement gameStartTimeLogin;
+
     public LoginView() {
         initWidget(uiBinder.createAndBindUi(this));
+        ourInstance.getGameState(new AsyncCallback<GameState>() {
+            @Override
+            public void onFailure(Throwable throwable) { }
+            @Override
+            public void onSuccess(GameState gameState) {
+                if (gameState.isStart()) {
+                    if (gameState.getTime() == -60000) {
+                        gameStartedLogin.addClassName("active");
+                    }
+                    else if (gameState.getTime() < 0) {
+                        newPlayerLogin.addClassName("active");
+                        gameStartTimeLogin.addClassName("active");
+                    }
+                } else {
+                    newPlayerLogin.addClassName("active");
+                }
+            }
+        });
     }
 
     @UiHandler("submitLogin")

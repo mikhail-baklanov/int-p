@@ -1,4 +1,6 @@
-package ru.relex.intertrust.set.server;
+package ru.relex.intertrust.set.shared;
+
+import ru.relex.intertrust.set.shared.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;

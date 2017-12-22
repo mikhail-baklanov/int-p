@@ -31,7 +31,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
      */
     public GameState getGameState()
     {
-        return GameState.getInstance();
+        return Application.getGameState();
     }
 
 /*

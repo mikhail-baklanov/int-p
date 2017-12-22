@@ -1,26 +1,16 @@
 package ru.relex.intertrust.set.shared;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class GameState implements Serializable{
-    private static GameState instance;
+public class GameState implements Serializable {
 
-    private GameState() {
-
-    }
-
-    public static GameState getInstance() {
-        if (instance == null)
-            instance = new GameState();
-        return instance;
-    }
-
-    private boolean isStart=false;
-    private long time=-60000;
-//    private List<Card> deck;
-//    private List<Card> cardsOnDeck;
-//    private List<String> players;
-//    private List<Integer> score;
+    private boolean isStart = false;
+    private long time = -60000;
+    private List<Card> deck;
+    private List<Card> cardsOnDeck;
+    private List<String> players;
+    private List<Integer> score;
     private int countSets;
 
     public boolean isStart() {
@@ -39,37 +29,37 @@ public class GameState implements Serializable{
         this.time = time;
     }
 
-//    public List<Card> getDeck() {
-//        return deck;
-//    }
-//
-//    public void setDeck(List<Card> deck) {
-//        this.deck = deck;
-//    }
-//
-//    public List<Card> getCardsOnDeck() {
-//        return cardsOnDeck;
-//    }
-//
-//    public void setCardsOnDeck(List<Card> cardsOnDeck) {
-//        this.cardsOnDeck = cardsOnDeck;
-//    }
-//
-//    public List<String> getPlayers() {
-//        return players;
-//    }
-//
-//    public void setPlayers(List<String> players) {
-//        this.players = players;
-//    }
-//
-//    public List<Integer> getScore() {
-//        return score;
-//    }
-//
-//    public void setScore(List<Integer> score) {
-//        this.score = score;
-//    }
+    public List<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(List<Card> deck) {
+        this.deck = deck;
+    }
+
+    public List<Card> getCardsOnDeck() {
+        return cardsOnDeck;
+    }
+
+    public void setCardsOnDeck(List<Card> cardsOnDeck) {
+        this.cardsOnDeck = cardsOnDeck;
+    }
+
+    public List<String> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<String> players) {
+        this.players = players;
+    }
+
+    public List<Integer> getScore() {
+        return score;
+    }
+
+    public void setScore(List<Integer> score) {
+        this.score = score;
+    }
 
     public int getCountSets() {
         return countSets;
