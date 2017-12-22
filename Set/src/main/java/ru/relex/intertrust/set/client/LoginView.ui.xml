@@ -11,6 +11,7 @@
     @external .login-block_continue;
     @external .login-block_new-player;
     @external .nickname-wrapper_error;
+    @external .active;
   </ui:style>
   <g:HTMLPanel styleName="{style.login-block}">
           <div class="{style.login-block_new-player}">

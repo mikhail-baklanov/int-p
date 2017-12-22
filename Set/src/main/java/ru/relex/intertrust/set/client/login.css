@@ -63,7 +63,7 @@
     position: relative;
 }
 
-.nickname-wrapper input:focus + .nickname-wrapper_error {
+.nickname-wrapper .nickname-wrapper_error.active {
     opacity: 1;
     padding: 10px;
     width: 200px;
