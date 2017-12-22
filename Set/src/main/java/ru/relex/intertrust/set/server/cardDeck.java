@@ -7,7 +7,11 @@ import java.util.List;
  * cardDeck - класс, содержащий информацию о колоде карт.
  */
 public class cardDeck {
-    public static List<Card> cardDeck=new ArrayList<>();
+    public static List<Card> getCardsDeck() {
+        return cardsDeck;
+    }
+
+    private static List<Card> cardsDeck=new ArrayList<>();
 
     /**
      * Метод startCardDeck() собирает колоду из 81 неповторяющейся карты из класса Card
@@ -19,7 +23,8 @@ public class cardDeck {
                     (int)Math.floor((cardNumber%9)/3)+1,
                     (int)Math.floor((cardNumber%27)/9)+1,
                     cardNumber%3+1);
-            cardDeck.add(card);
+            cardsDeck.add(card);
         }
+        //TODO сделать перемешивание карт.
     }
 }
