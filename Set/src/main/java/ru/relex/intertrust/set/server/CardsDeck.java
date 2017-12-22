@@ -1,12 +1,13 @@
 package ru.relex.intertrust.set.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * cardDeck - класс, содержащий информацию о колоде карт.
+ * CardsDeck - класс, содержащий информацию о колоде карт.
  */
-public class cardDeck {
+public class CardsDeck {
     public static List<Card> getCardsDeck() {
         return cardsDeck;
     }
@@ -15,9 +16,10 @@ public class cardDeck {
 
     /**
      * Метод startCardDeck() собирает колоду из 81 неповторяющейся карты из класса Card
+     * Collections.shuffle(cardsDeck) - перемешивает собранную колоду
      */
 
-    public static void startCardDeck() {
+    public static void startCardsDeck() {
         for (int cardNumber=0;cardNumber<=80;cardNumber++) {
             Card card=new Card((int)Math.floor(cardNumber/27)+1,
                     (int)Math.floor((cardNumber%9)/3)+1,
@@ -25,6 +27,6 @@ public class cardDeck {
                     cardNumber%3+1);
             cardsDeck.add(card);
         }
-        //TODO сделать перемешивание карт.
+        Collections.shuffle(cardsDeck);
     }
 }
