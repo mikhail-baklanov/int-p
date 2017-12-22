@@ -1,8 +1,9 @@
 package ru.relex.intertrust.set.server;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GameState {
+public class GameState implements Serializable{
     private static GameState instance;
 
     private GameState() {

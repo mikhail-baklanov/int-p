@@ -23,8 +23,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     {
         return false;
     }
-
-
+    
     @Override
     public GameState getGameState()
     {

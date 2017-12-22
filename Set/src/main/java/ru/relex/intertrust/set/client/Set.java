@@ -17,7 +17,6 @@ public class Set implements EntryPoint {
                 public void onResponseReceived(Request request, Response response) {
 
                     //GWT.log(response.getText());
-
                     // You get the response as a String so more processing required to convert/extract data
                 }
 

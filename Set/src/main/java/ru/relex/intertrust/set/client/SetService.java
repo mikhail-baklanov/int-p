@@ -9,7 +9,9 @@ import ru.relex.intertrust.set.server.GameState;
 public interface SetService extends RemoteService
 {
     void login(String name);
+
     GameState getGameState();
+
     //boolean checkSet(Card[] set);
     void exit();
     boolean pass(int cardsInDeck);
