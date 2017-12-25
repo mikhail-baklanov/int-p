@@ -1,6 +1,7 @@
 package ru.relex.intertrust.set.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import ru.relex.intertrust.set.shared.GameState;
 
 public interface SetServiceAsync
@@ -13,6 +14,6 @@ public interface SetServiceAsync
      */
     void getGameState(AsyncCallback<GameState> async);
 
-    void login(String name, AsyncCallback<Void> async);
+    void login(String name, AsyncCallback<Boolean> async);
     void pass(int cardsInDeck, AsyncCallback<Boolean> async);
 }

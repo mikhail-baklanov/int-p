@@ -1,6 +1,7 @@
 package ru.relex.intertrust.set.shared;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameState implements Serializable {
@@ -9,9 +10,16 @@ public class GameState implements Serializable {
     private long time = -60000;
     private List<Card> deck;
     private List<Card> cardsOnDeck;
-    private List<String> players;
+    private List<String> players = new ArrayList<>();
     private List<Integer> score;
     private int countSets;
+
+    public boolean hasPlayer(String name) {
+        for (String player: players)
+            if (name.equals(player))
+                return true;
+        return false;
+    };
 
     public boolean isStart() {
         return isStart;
@@ -67,5 +75,9 @@ public class GameState implements Serializable {
 
     public void setCountSets(int countSets) {
         this.countSets = countSets;
+    }
+
+    public void addPlayer(String name) {
+        players.add(name);
     }
 }

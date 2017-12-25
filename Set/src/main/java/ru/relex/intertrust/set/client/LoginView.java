@@ -44,7 +44,9 @@ public class LoginView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
         ourInstance.getGameState(new AsyncCallback<GameState>() {
             @Override
-            public void onFailure(Throwable throwable) { }
+            public void onFailure(Throwable throwable) {
+                Window.alert(throwable.getMessage());
+            }
             @Override
             public void onSuccess(GameState gameState) {
                 if (gameState.isStart()) {
@@ -65,6 +67,17 @@ public class LoginView extends Composite {
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
         errorLogin.addClassName("active");
+        ourInstance.login(nicknameLogin.getValue(), new AsyncCallback<Boolean>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                Window.alert(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Boolean success) {
+                Window.alert("login:"+success );
+            }
+        });
     }
 
     @UiHandler("nicknameLogin")

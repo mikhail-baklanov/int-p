@@ -8,16 +8,17 @@
   <servlet>
     <servlet-name>setServlet</servlet-name>
     <servlet-class>ru.relex.intertrust.set.server.SetServiceImpl</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>setServlet</servlet-name>
-    <url-pattern>/set/SetService</url-pattern>
+    <url-pattern>/set/service</url-pattern>
   </servlet-mapping>
 
   <!-- Default page to serve -->
-  <!--<welcome-file-list>-->
-    <!--<welcome-file>Set.html</welcome-file>-->
-  <!--</welcome-file-list>-->
+  <welcome-file-list>
+    <welcome-file>Set.html</welcome-file>
+  </welcome-file-list>
 
 </web-app>

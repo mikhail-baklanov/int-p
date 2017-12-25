@@ -23,10 +23,10 @@ public class CardsDeck {
 
     public static void startCardsDeck() {
         for (int cardNumber=0;cardNumber<=80;cardNumber++) {
-            Card card=new Card((int)Math.floor(cardNumber/27)+1,
-                    (int)Math.floor((cardNumber%9)/3)+1,
-                    (int)Math.floor((cardNumber%27)/9)+1,
-                    cardNumber%3+1);
+            Card card=new Card(cardNumber / 27 + 1,
+                    (cardNumber % 9) / 3 + 1,
+                    (cardNumber%27) / 9+1,
+                    cardNumber % 3+1);
             cardsDeck.add(card);
         }
         Collections.shuffle(cardsDeck);

@@ -5,15 +5,15 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import ru.relex.intertrust.set.shared.GameState;
 
-@RemoteServiceRelativePath("SetService")
+@RemoteServiceRelativePath("service")
 public interface SetService extends RemoteService
 {
-    void login(String name);
+    boolean login(String name);
 
     /**
      * @return возвращает описание состояния игры
      */
-    public GameState getGameState();
+    GameState getGameState();
 
     //boolean checkSet(Card[] set);
     void exit();
