@@ -108,7 +108,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
      * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
      *            если нет, - у клиента вычитаются очки
      *            если являются, - идет проверка на то, есть в текущей игре на столе данные карты
-     *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты
+     *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде
+     *                  если остались - на стол добавляются 3 новые карты, и из колоды они соответственно удаляются
+     *                  если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается.
      * @return gameState после прохождения метода
      */
     @Override
@@ -141,6 +143,15 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             gameState.getScore().set(oldScore,oldScore+3);
             for (int i = 0; i <= 3; i++) {
                 gameState.getCardsOnDesk().remove(set[i]);
+            }
+            if (gameState.getDeck().size()>0) {
+                for (int i = 0; i <= 3; i++) {
+                    gameState.getCardsOnDesk().add(gameState.getDeck().get(gameState.getDeck().size() - 1));
+                    gameState.getDeck().remove(gameState.getDeck().size() - 1);
+                }
+            }
+            else {
+                //TODO в этом блоке должно быть завершение игры
             }
             return gameState;
         }
