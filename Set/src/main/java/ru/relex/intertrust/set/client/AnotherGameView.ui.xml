@@ -12,17 +12,17 @@
         @external .game-started_item;
         @external .login-block_exit;
     </ui:style>
-    <g:HTMLPanel ui:field="anotherGame">
+    <g:HTMLPanel>
         <div class="{style.login-block_game-started}">
             <div class="{style.login-block_hello}">Игра уже началась.</div>
             <div class="{style.game-started_item}">
-                <span>С начала игры прошло:</span><span>2:31</span>
+                <span>С начала игры прошло:</span><span ui:field="anotherGameTime">2:31</span>
             </div>
             <div class="{style.game-started_item}">
-                <span>Карт в колоде осталось:</span><span>17</span>
+                <span>Карт в колоде осталось:</span><span ui:field="anotherGameCards">17</span>
             </div>
             <div class="{style.game-started_players_items}">
-                <div class="overflow">
+                <g:HTMLPanel class="overflow" ui:field="anotherGamePlayers">
                     <div class="{style.game-started_players_item}">
                         <div>Имя игрока</div><div>Баллы</div>
                     </div>
@@ -41,9 +41,9 @@
                     <div class="{style.game-started_players_item}">
                         <div>Александр</div><div>9</div>
                     </div>
-                </div>
+                </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
+            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти</g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>

@@ -1,16 +1,10 @@
 package ru.relex.intertrust.set.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.shared.GameState;
 
 public class AnotherGameView extends Composite {
     interface AnotherGameViewUiBinder extends UiBinder<Widget, AnotherGameView> {
@@ -22,11 +16,28 @@ public class AnotherGameView extends Composite {
     Button exitGame;
 
     @UiField
-    HTMLPanel anotherGame;
+    SpanElement anotherGameTime;
+
+    @UiField
+    SpanElement anotherGameCards;
+
+    @UiField
+    HTMLPanel anotherGamePlayers;
 
     public AnotherGameView() {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    public void setAnotherGameTime(String time) {
+        this.anotherGameTime.setInnerHTML(time);
+    }
+
+    public void setAnotherGameCards(String cards) {
+        this.anotherGameCards.setInnerHTML(cards);
+    }
+
+    public void setAnotherGamePlayers(Widget players) {
+        this.anotherGamePlayers.add(players);
+    }
 }
 
