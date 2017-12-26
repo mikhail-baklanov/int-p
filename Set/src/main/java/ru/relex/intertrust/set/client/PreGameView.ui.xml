@@ -1,0 +1,40 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <ui:style src="login.css">
+        @external .login-block_waiting-game;
+        @external .login-block_hello;
+        @external .game-started_players_items;
+        @external .login-block_exit;
+    </ui:style>
+    <g:HTMLPanel ui:field="preGame">
+        <div class="{style.login-block_waiting-game}">
+            <div class="{style.login-block_hello}">До начала игры:
+                <span ui:field="preGameTimer"></span>
+            </div>
+            <div class="{style.game-started_players_items}">
+                <g:HTMLPanel ui:field="playersContainer" class="overflow">
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>Номер</div><div>Имя игрока</div>-->
+                    <!--</div>-->
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>1</div><div>Михаил</div>-->
+                    <!--</div>-->
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>2</div><div>Виталий</div>-->
+                    <!--</div>-->
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>3</div><div>Олег</div>-->
+                    <!--</div>-->
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>4</div><div>Сергей</div>-->
+                    <!--</div>-->
+                    <!--<div class="{style.game-started_players_item}">-->
+                        <!--<div>5</div><div>Александр</div>-->
+                    <!--</div>-->
+                </g:HTMLPanel>
+            </div>
+            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
+        </div>
+    </g:HTMLPanel>
+</ui:UiBinder>
