@@ -13,6 +13,14 @@ public class GameState implements Serializable {
     private List<String> players = new ArrayList<>();
     private List<Integer> score;
     private int countSets;
+    /**
+     * Хранит состояния игроков
+     * true=>может менять стол
+     * false=>не может
+     * false выставляется у каждого отдельного игрока при удачном нажатии на пас
+     * true выставляется у всех игроков при каждом добавлении карт на стол
+     */
+    private List<Boolean> ableToPlay;
 
     public boolean hasPlayer(String name) {
         for (String player: players)
@@ -80,4 +88,10 @@ public class GameState implements Serializable {
     public void addPlayer(String name) {
         players.add(name);
     }
+
+    public List<Boolean> getAbleToPlay() {return ableToPlay;}
+
+    public void addAbleToPlay(Boolean isAble) {ableToPlay.add(isAble);}
+
+    public void setAbleToPlay(List<Boolean> ableToPlay) {this.ableToPlay=ableToPlay;}
 }

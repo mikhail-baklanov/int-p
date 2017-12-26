@@ -2,6 +2,7 @@ package ru.relex.intertrust.set.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.SetService;
+import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
 import javax.servlet.ServletException;
@@ -48,6 +49,15 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     @Override
     public boolean pass(int cardsInDeck)
     {
+        //TODO добавить изменение состояния в ableToPlay
+        //Как получить имя(номер) игрока нажавшнего пас?
+        GameState gameState=getGameState();
+        if(cardsInDeck==gameState.getDeck().size())
+        {
+            //gameState.getAbleToPlay()
+            return true;
+        }
+
         return false;
     }
 
@@ -58,17 +68,18 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     public GameState getGameState()
     {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
-        synchronized (gameState) {
+        synchronized (gameState)
+        {
             return gameState;
         }
     }
 
-/*
+
     @Override
     public boolean checkSet(Card[] set)
     {
         return false;
     }
-*/
+
 
 }
