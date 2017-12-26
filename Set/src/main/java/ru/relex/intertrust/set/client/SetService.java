@@ -24,9 +24,8 @@ public interface SetService extends RemoteService
 
     /**
      * Проверяет 3 карты на наличие в них сета
-     * @param set
-     * @return true если есть
-     *         false если нет
+     * @param set - 3 карты, отправленные клиентом
+     * @return измененное состояние игры
      */
     GameState checkSet(Card[] set);
 

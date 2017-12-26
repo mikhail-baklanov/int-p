@@ -3,9 +3,11 @@ package ru.relex.intertrust.set.server;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.SetService;
 import ru.relex.intertrust.set.shared.Card;
+import ru.relex.intertrust.set.shared.CardsDeck;
 import ru.relex.intertrust.set.shared.GameState;
 
 import javax.servlet.ServletException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SetServiceImpl extends RemoteServiceServlet implements SetService
@@ -37,6 +39,27 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             }
         }
         return success;
+    }
+
+    /**
+     * Метод, который вызывают при начале игры
+     * меняет флаг isStart на true, т.е. показывает, что игра уже идет
+     * генерирует колоду карт (cardsDeck)
+     * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
+     * удаляет из колоды cardsDeck карты из cardsOnDesk
+     */
+    public void StartGame() {
+        GameState gameState = getGameState();
+        gameState.setStart(true);
+        List<Card> cardsDeck = new CardsDeck().startCardsDeck();
+        gameState.setDeck(cardsDeck);
+        List<Card> cardsOnDesk = new ArrayList<>();
+        for (int i=0;i<12;i++) {
+            Card CardInDeck=gameState.getDeck().get(gameState.getDeck().size()-1);
+            cardsOnDesk.add(CardInDeck);
+            gameState.getDeck().remove(CardInDeck);
+        }
+        gameState.setCardsOnDesk(cardsOnDesk);
     }
 
     @Override
@@ -82,7 +105,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
     /**
      * @param set принимает 3 карты от клиента
-     * метод checkSet проверяет, являются ли полученные в аргументе карты сетом
+     * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
      *            если нет, - у клиента вычитаются очки
      *            если являются, - идет проверка на то, есть в текущей игре на столе данные карты
      *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты

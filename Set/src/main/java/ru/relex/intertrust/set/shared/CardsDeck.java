@@ -10,9 +10,6 @@ import java.util.List;
  * CardsDeck - класс, содержащий информацию о колоде карт.
  */
 public class CardsDeck {
-    public static List<Card> getCardsDeck() {
-        return cardsDeck;
-    }
 
     private static List<Card> cardsDeck=new ArrayList<>();
 
@@ -21,7 +18,7 @@ public class CardsDeck {
      * Collections.shuffle(cardsDeck) - перемешивает собранную колоду
      */
 
-    public static void startCardsDeck() {
+    public List<Card> startCardsDeck() {
         for (int cardNumber=0;cardNumber<=80;cardNumber++) {
             Card card=new Card(cardNumber / 27 + 1,
                     (cardNumber % 9) / 3 + 1,
@@ -30,5 +27,6 @@ public class CardsDeck {
             cardsDeck.add(card);
         }
         Collections.shuffle(cardsDeck);
+        return cardsDeck;
     }
 }
