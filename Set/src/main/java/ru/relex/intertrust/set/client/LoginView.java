@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.shared.GameState;
 
 public class LoginView extends Composite {
 
@@ -53,6 +54,14 @@ public class LoginView extends Composite {
         });
         */
     }
+    /**
+     * Функция изменения экрана в зависимости от состояния игры
+     * @param gameState Текущее состояние игры
+     */
+    public void changeState(GameState gameState) {
+
+    }
+
     /*
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
@@ -78,5 +87,4 @@ public class LoginView extends Composite {
         errorLogin.removeClassName("active");
     }
     */
-
 }
