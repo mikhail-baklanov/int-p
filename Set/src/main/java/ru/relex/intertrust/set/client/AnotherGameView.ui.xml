@@ -1,16 +1,57 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <ui:style src="login.css">
-        @external .login-block;
-        @external .login-block_hello;
-        @external .active;
-        @external .login-block_game-start;
-        @external .game-started_players_items;
-        @external .game-started_players_item;
-        @external .login-block_game-started;
-        @external .game-started_item;
-        @external .login-block_exit;
+    <ui:style>
+        .login-block_game-started {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .login-block_game-started .login-block_hello {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .game-started_item {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .game-started_players_items {
+            display: flex;
+            overflow-y: scroll;
+            flex-direction: column;
+            width: 90%;
+            height: 140px;
+            margin: 10px auto 0 auto;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .game-started_players_items::-webkit-scrollbar
+        {
+            width: 8px;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .game-started_players_items::-webkit-scrollbar-thumb
+        {
+            background-color: rgba(105,127,148,0.8);
+        }
+
+        .game-started_players_item {
+            display: flex;
+            width: 100%;
+            height: 30px;
+        }
+
+        .game-started_players_item div{
+            width: 50%;
+            text-align: center;
+            height: 30px;
+        }
     </ui:style>
     <g:HTMLPanel>
         <div class="{style.login-block_game-started}">
@@ -22,7 +63,7 @@
                 <span>Карт в колоде осталось:</span><span ui:field="anotherGameCards">17</span>
             </div>
             <div class="{style.game-started_players_items}">
-                <g:HTMLPanel class="overflow" ui:field="anotherGamePlayers">
+                <g:HTMLPanel ui:field="anotherGamePlayers">
                     <div class="{style.game-started_players_item}">
                         <div>Имя игрока</div><div>Баллы</div>
                     </div>
@@ -43,7 +84,6 @@
                     </div>
                 </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти</g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>

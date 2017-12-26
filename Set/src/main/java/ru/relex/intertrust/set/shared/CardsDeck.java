@@ -1,7 +1,5 @@
 package ru.relex.intertrust.set.shared;
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

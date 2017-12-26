@@ -28,22 +28,12 @@ public class Set implements EntryPoint {
      * Обработчик для успешной регистрации пользователя.
      * Необходимо сохранить имя текущего пользователя
      */
-    private OnLoginSuccessCallback loginCallback = name -> {
-        playerName = name;
-    };
 
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     public void onModuleLoad() {
         ContainerView containerView = new ContainerView();
-        PreGameView preGameView = new PreGameView();
         //gameView = new GameView();
-
-        AnotherGameView anotherGameView = new AnotherGameView();
-        LoginView loginView = new LoginView(loginCallback);
-
-        RootPanel.get("gwt-wrapper").add(loginView);
-
         Timer timer = new Timer() {
            @Override
            public void run() {
@@ -60,30 +50,35 @@ public class Set implements EntryPoint {
                        //Если состояние игры изменилось, то переключаем экран
                        currentGameState = gameState;
                        if (gameState.isStart()) {
+                           if (gameState.getTime() > 0) {
+                               containerView.setView(new AnotherGameView());
+                               RootPanel.get("gwt-wrapper").add(containerView);
+                           } else
+                           /*
+                            Если игра не началась, проверяем, зарегистрирован ли текущий пользователь.
+                            Если пользователь не зарегистрирован, отображаем экран регистрации,
+                            иначе отображаем экран ожидания других игроков с оставшимся временем до начала игры.
+                            */
+                               if (gameState.hasPlayer(playerName)) {
+                                   containerView.setView(new PreGameView());
+                                   RootPanel.get("gwt-wrapper").add(containerView);
+                               }
                            /*
                             Игра идет. Если текущий игрок в ней зарегистрирован,
                             то будет отображен экран основной игры, в которой он может принять участие,
                             иначе будет отображен экран с информацией о начатой ранее игре.
                             */
                            //containerView.setView(gameState.hasPlayer(playerName) ? gameView : anotherGameView);
-                       } else if (gameState.getTime() < 0) {
-                           /*
-                            Если игра не началась, проверяем, зарегистрирован ли текущий пользователь.
-                            Если пользователь не зарегистрирован, отображаем экран регистрации,
-                            иначе отображаем экран ожидания других игроков с оставшимся временем до начала игры.
-                            */
-                           if (gameState.hasPlayer(playerName))
-                               containerView.setView(preGameView);
-                           else {
-                               loginView.changeState(gameState);
-                               containerView.setView(loginView);
+                       } else {
+                               containerView.setView(new LoginView());
+                               RootPanel.get("gwt-wrapper").add(containerView);
                            }
                        }
-                   }
                });
            }
        };
-       timer.schedule(REQUEST_PERIOD);
+        timer.schedule(REQUEST_PERIOD);
+        timer.run();
     }
 
     /**

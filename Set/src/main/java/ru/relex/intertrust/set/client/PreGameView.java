@@ -16,8 +16,6 @@ public class PreGameView extends Composite {
 
     private static PreGameViewUiBinder uiBinder = GWT.create(PreGameViewUiBinder.class);
 
-    private static SetServiceAsync ourInstance = GWT.create(SetService.class);
-
     @UiField
     Button exitGame;
 
