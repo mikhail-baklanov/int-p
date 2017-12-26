@@ -76,9 +76,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
 
     @Override
-    public boolean checkSet(Card[] set)
-    {
-        return false;
+    public int checkSet(Card[] set) {
+
+
     }
 
 

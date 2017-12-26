@@ -12,5 +12,21 @@ public class Card implements Serializable {
         this.shape = shape;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public int getShapeCount() {
+        return shapeCount;
+    }
+
+    public int getFill() {
+        return fill;
+    }
+
+    public int getShape() {
+        return shape;
+    }
+
     public Card() { }
 }
