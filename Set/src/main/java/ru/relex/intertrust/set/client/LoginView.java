@@ -3,14 +3,8 @@ package ru.relex.intertrust.set.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.GameState;
 
@@ -21,7 +15,7 @@ public class LoginView extends Composite {
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
 
-    private static SetServiceAsync ourInstance = GWT.create(SetService.class);
+    //private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
     @UiField
     Button submitLogin;
@@ -33,20 +27,18 @@ public class LoginView extends Composite {
     TextBox nicknameLogin;
 
     @UiField
-    DivElement gameStartedLogin;
-
-    @UiField
-    DivElement newPlayerLogin;
-
-    @UiField
     DivElement gameStartTimeLogin;
 
-    @UiField
-    DivElement waitingForGame;
+    /**
+     * Обработчик события регистрации пользователя
+     */
+    private OnLoginSuccessCallback loginListener;
 
-    public LoginView() {
+    public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
+        this.loginListener = loginListener;
 
+        /*
         ourInstance.getGameState(new AsyncCallback<GameState>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -67,11 +59,21 @@ public class LoginView extends Composite {
                 }
             }
         });
+        */
+    }
+    /**
+     * Функция изменения экрана в зависимости от состояния игры
+     * @param gameState Текущее состояние игры
+     */
+    public void changeState(GameState gameState) {
+
     }
 
+    /*
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
-        ourInstance.login(nicknameLogin.getValue(), new AsyncCallback<Boolean>() {
+        String name = nicknameLogin.getValue();
+        ourInstance.login(name, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
                 Window.alert(throwable.getMessage());
@@ -79,8 +81,12 @@ public class LoginView extends Composite {
 
             @Override
             public void onSuccess(Boolean success) {
-                newPlayerLogin.removeClassName("active");
-                waitingForGame.addClassName("active");
+                if (success) {
+                    newPlayerLogin.removeClassName("active");
+                    waitingForGame.addClassName("active");
+                    loginListener.onLogin(name);
+                } else
+                    errorLogin.addClassName("active");
             }
         });
     }
@@ -89,5 +95,5 @@ public class LoginView extends Composite {
     public void doClick(ClickEvent e) {
         errorLogin.removeClassName("active");
     }
-
+    */
 }
