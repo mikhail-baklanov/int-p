@@ -69,6 +69,14 @@ public class LoginView extends Composite {
         });
     }
 
+    /**
+     * Функция изменения экрана в зависимости от состояния игры
+     * @param gameState Текущее состояние игры
+     */
+    public void changeState(GameState gameState) {
+
+    }
+
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
         ourInstance.login(nicknameLogin.getValue(), new AsyncCallback<Boolean>() {
@@ -89,5 +97,4 @@ public class LoginView extends Composite {
     public void doClick(ClickEvent e) {
         errorLogin.removeClassName("active");
     }
-
 }
