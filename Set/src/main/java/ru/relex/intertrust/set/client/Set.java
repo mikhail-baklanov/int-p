@@ -19,21 +19,38 @@ public class Set implements EntryPoint {
      */
     private GameState currentGameState;
 
-    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
+    /**
+     * Глобальный контейнер, который переключает экраны в зависимости от состояния игры
+     */
+    private ContainerView containerView;
 
     /**
-     * Обработчик для успешной регистрации пользователя
+     * Экраны для ожидания игроков и самой игры
      */
-    private OnLoginSuccessCallback loginCallback = new OnLoginSuccessCallback() {
-        @Override
-        public void onLogin(String name) {
+    private PreGameView preGameView;
+    // private Game gameView;
 
-        }
+    /**
+     * Имя текущего игрока
+     */
+    private String playerName;
+
+    /**
+     * Обработчик для успешной регистрации пользователя.
+     * Необходимо сохранить имя текущего пользователя
+     */
+    private OnLoginSuccessCallback loginCallback = name -> {
+        playerName = name;
     };
 
-    public void onModuleLoad() {
-        ContainerView containerView = new ContainerView();
+    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
+    public void onModuleLoad() {
+        containerView = new ContainerView();
+        preGameView = new PreGameView();
+        //gameView = new GameView();
+
+        AnotherGameView anotherGameView = new AnotherGameView();
         LoginView loginView = new LoginView(loginCallback);
 
         RootPanel.get("gwt-wrapper").add(loginView);
@@ -47,14 +64,31 @@ public class Set implements EntryPoint {
                        consoleLog(caught.getMessage());
                    }
 
+                   // Добавление нужного экрана для текущего состояния игры
                    @Override
                    public void onSuccess(GameState gameState) {
+                       //TODO Сравнить gameState и currentGameState?
+                       //Если состояние игры изменилось, то переключаем экран
                        currentGameState = gameState;
-                       // Добавление нужного экрана для текущего состояния игры
-                       if (gameState.getTime() < 0) {
-                           containerView.setView(loginView);
-                       } else if (gameState.isStart()){
-                           // TODO Add game screen
+                       if (gameState.isStart()) {
+                           /*
+                            Игра идет. Если текущий игрок в ней зарегистрирован,
+                            то будет отображен экран основной игры, в которой он может принять участие,
+                            иначе будет отображен экран с информацией о начатой ранее игре.
+                            */
+                           //containerView.setView(gameState.hasPlayer(playerName) ? gameView : anotherGameView);
+                       } else if (gameState.getTime() < 0) {
+                           /*
+                            Если игра не началась, проверяем, зарегистрирован ли текущий пользователь.
+                            Если пользователь не зарегистрирован, отображем экран регистрации,
+                            иначе отображаем экран ожидания других игроков с оставшимся временем до начала игры.
+                            */
+                           if (gameState.hasPlayer(playerName))
+                               containerView.setView(preGameView);
+                           else {
+                               loginView.changeState(gameState);
+                               containerView.setView(loginView);
+                           }
                        }
                    }
                });
