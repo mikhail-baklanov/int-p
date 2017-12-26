@@ -7,7 +7,7 @@ import ru.relex.intertrust.set.shared.GameState;
 
 public interface SetServiceAsync
 {
-    void checkSet(Card[] set, AsyncCallback<Void> async);
+
     void exit(AsyncCallback<Void> async);
 
     /**
@@ -16,5 +16,14 @@ public interface SetServiceAsync
     void getGameState(AsyncCallback<GameState> async);
 
     void login(String name, AsyncCallback<Boolean> async);
-    void pass(int cardsInDeck, AsyncCallback<Boolean> async);
+    void pass(int cardsInDeck, AsyncCallback<Void> async);
+
+    /**
+     * Проверяет 3 карты на наличие в них сета
+     *
+     * @param set
+     * @return true если есть
+     * false если нет
+     */
+    void checkSet(Card[] set, AsyncCallback<GameState> async);
 }

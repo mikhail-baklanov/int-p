@@ -12,15 +12,13 @@ public class GameState implements Serializable {
     private List<Card> cardsOnDesk;
     private List<String> players = new ArrayList<>();
     private List<Integer> score;
-    private int countSets;
+    private int countSets=0;
     /**
-     * Хранит состояния игроков
-     * true=>может менять стол
-     * false=>не может
-     * false выставляется у каждого отдельного игрока при удачном нажатии на пас
-     * true выставляется у всех игроков при каждом добавлении карт на стол
+     * Хранит имена игроков нажавших пас
+     * Каждый раз когда игрок нажимает пас сюда добавляется его имя
+     * При каждом изменении стола лист очищается
      */
-    private List<Boolean> ableToPlay;
+    private List<String> NotAbleToPlay;
 
     public boolean hasPlayer(String name) {
         for (String player: players)
@@ -53,11 +51,11 @@ public class GameState implements Serializable {
         this.deck = deck;
     }
 
-    public List<Card> getCardsOnDeck() {
+    public List<Card> getCardsOnDesk() {
         return cardsOnDesk;
     }
 
-    public void setCardsOnDeck(List<Card> cardsOnDeck) {
+    public void setCardsOnDesk(List<Card> cardsOnDeck) {
         this.cardsOnDesk = cardsOnDeck;
     }
 
@@ -87,11 +85,14 @@ public class GameState implements Serializable {
 
     public void addPlayer(String name) {
         players.add(name);
+        score.add(0);
     }
+/*
+    public List<String> getAbleToPlay() {return ableToPlay;}
 
-    public List<Boolean> getAbleToPlay() {return ableToPlay;}
-
-    public void addAbleToPlay(Boolean isAble) {ableToPlay.add(isAble);}
+    public void addAbleToPlay(String name) {ableToPlay.add(isAble);}
 
     public void setAbleToPlay(List<Boolean> ableToPlay) {this.ableToPlay=ableToPlay;}
+
+    */
 }
