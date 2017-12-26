@@ -24,7 +24,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     {
         if (name == null)
             return false;
-        GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
+        GameState gameState = getGameState();//(GameState) getServletContext().getAttribute(GAME_STATE);
         boolean success;
 
         synchronized (gameState) {
@@ -47,18 +47,22 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
 
     @Override
-    public boolean pass(int cardsInDeck)
+    public void pass(int cardsInDeck)
     {
         //TODO добавить изменение состояния в ableToPlay
         //Как получить имя(номер) игрока нажавшнего пас?
         GameState gameState=getGameState();
         if(cardsInDeck==gameState.getDeck().size())
         {
+            String nickname= (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
+
+
+
             //gameState.getAbleToPlay()
-            return true;
+
         }
 
-        return false;
+
     }
 
   //  @Override
@@ -76,9 +80,19 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
 
     @Override
-    public int checkSet(Card[] set) {
+    public int checkSet(Card[] set)
+    {
+        return 0;
+    }
 
-
+    
+    public int getPlayerNumber(String nickname)
+    {
+        GameState gameState=getGameState();
+        int i=0;
+        while(nickname!=gameState.getPlayers().get(i))
+            i++;
+        return i;
     }
 
 
