@@ -29,8 +29,15 @@ public class LoginView extends Composite {
     @UiField
     DivElement gameStartTimeLogin;
 
-    public LoginView() {
+    /**
+     * Обработчик события регистрации пользователя
+     */
+    private OnLoginSuccessCallback loginListener;
+
+    public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
+        this.loginListener = loginListener;
+
         /*
         ourInstance.getGameState(new AsyncCallback<GameState>() {
             @Override
@@ -65,7 +72,8 @@ public class LoginView extends Composite {
     /*
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
-        ourInstance.login(nicknameLogin.getValue(), new AsyncCallback<Boolean>() {
+        String name = nicknameLogin.getValue();
+        ourInstance.login(name, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
                 Window.alert(throwable.getMessage());
@@ -76,6 +84,7 @@ public class LoginView extends Composite {
                 if (success) {
                     newPlayerLogin.removeClassName("active");
                     waitingForGame.addClassName("active");
+                    loginListener.onLogin(name);
                 } else
                     errorLogin.addClassName("active");
             }

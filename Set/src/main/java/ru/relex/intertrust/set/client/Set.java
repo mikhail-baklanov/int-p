@@ -32,10 +32,13 @@ public class Set implements EntryPoint {
     };
 
     public void onModuleLoad() {
-       LoginView loginBlock = new LoginView();
-       RootPanel.get("gwt-wrapper").add(loginBlock);
+        ContainerView containerView = new ContainerView();
 
-       Timer timer = new Timer() {
+        LoginView loginView = new LoginView(loginCallback);
+
+        RootPanel.get("gwt-wrapper").add(loginView);
+
+        Timer timer = new Timer() {
            @Override
            public void run() {
                serviceAsync.getGameState(new AsyncCallback<GameState>() {
@@ -49,7 +52,7 @@ public class Set implements EntryPoint {
                        currentGameState = gameState;
                        // Добавление нужного экрана для текущего состояния игры
                        if (gameState.getTime() < 0) {
-                           //TODO Add login view using container
+                           containerView.setView(loginView);
                        } else if (gameState.isStart()){
                            // TODO Add game screen
                        }
