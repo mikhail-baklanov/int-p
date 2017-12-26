@@ -125,6 +125,17 @@
     right: 50%;
 }
 
+.nickname-wrapper .login-block_nickname:focus ~ .nickname-wrapper_label,
+.nickname-wrapper login-block_nickname:valid ~ .nickname-wrapper_label {
+    left: 20px;
+    font-size: 14px;
+    color: #697f94;
+}
+
+.nickname-wrapper input:focus ~ .bar:before,
+.nickname-wrapper input:focus ~ .bar:after {
+    width: 50%;
+}
 
 .login-block_continue {
     width: 200px;
@@ -201,13 +212,60 @@
     background-color: rgba(255,255,255,0.5);
 }
 
+.game-started_players_items::-webkit-scrollbar
+{
+    width: 8px;
+    background-color: rgba(255,255,255,0.5);
+}
+
+.game-started_players_items::-webkit-scrollbar-thumb
+{
+    background-color: rgba(105,127,148,0.8);
+}
+
 .game-started_players_item {
     display: flex;
     width: 100%;
-    padding: 5px 0;
+    height: 30px;
 }
 
 .game-started_players_item div{
     width: 50%;
     text-align: center;
+    height: 30px;
+}
+
+.login-block_waiting-game.active {
+    display: flex;
+}
+
+.login-block_waiting-game {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+.login-block_waiting-game .login-block_hello {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.login-block_exit {
+    width: 200px;
+    height: 50px;
+    margin: 10px auto;
+    cursor: pointer;
+    border: 1px solid #cd6060;
+    background-color: transparent;
+    color: #cd6060;
+    font-size: 20px;
+    font-family: "Open Sans";
+    font-weight: 300;
+    transition: .15s;
+    outline: none;
+}
+
+.login-block_exit:hover {
+    color: #934c4c;
+    background-color: rgba(205,96,96,0.1);
 }

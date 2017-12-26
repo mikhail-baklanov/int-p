@@ -5,6 +5,8 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -40,8 +42,12 @@ public class LoginView extends Composite {
     @UiField
     DivElement gameStartTimeLogin;
 
+    @UiField
+    DivElement waitingForGame;
+
     public LoginView() {
         initWidget(uiBinder.createAndBindUi(this));
+
         ourInstance.getGameState(new AsyncCallback<GameState>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -50,7 +56,7 @@ public class LoginView extends Composite {
             @Override
             public void onSuccess(GameState gameState) {
                 if (gameState.isStart()) {
-                    if (gameState.getTime() == -60000) {
+                    if (gameState.getTime() > 0) {
                         gameStartedLogin.addClassName("active");
                     }
                     else if (gameState.getTime() < 0) {
@@ -66,7 +72,6 @@ public class LoginView extends Composite {
 
     @UiHandler("submitLogin")
     public void onClick(ClickEvent e) {
-        errorLogin.addClassName("active");
         ourInstance.login(nicknameLogin.getValue(), new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -75,7 +80,8 @@ public class LoginView extends Composite {
 
             @Override
             public void onSuccess(Boolean success) {
-                Window.alert("login:"+success );
+                newPlayerLogin.removeClassName("active");
+                waitingForGame.addClassName("active");
             }
         });
     }
