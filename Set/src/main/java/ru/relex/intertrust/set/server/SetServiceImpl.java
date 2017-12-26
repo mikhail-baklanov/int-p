@@ -61,7 +61,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         return false;
     }
 
-  //  @Override
+    @Override
     /**
      * @return возвращает описание состояния игры
      */
@@ -76,8 +76,20 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
 
     @Override
-    public int checkSet(Card[] set) {
-
+    public void checkSet(Card[] set) {
+        GameState gameState=getGameState();
+        int[] summ= {0,0,0,0};
+        for (int i=0;i<=2;i++) {
+            summ[0]+=set[i].getColor();
+            summ[1]+=set[i].getShapeCount();
+            summ[2]+=set[i].getFill();
+            summ[3]+=set[i].getShape();
+        }
+        for (int i=0;i<=3;i++) {
+            if (summ[i]!=3 || summ[i]!=6 || summ[i]!=9) {
+                gameState.
+            }
+        }
 
     }
 

@@ -28,7 +28,7 @@ public interface SetService extends RemoteService
      * @return true если есть
      *         false если нет
      */
-    int checkSet(Card[] set);
+    void checkSet(Card[] set);
 
     /**
      *  выход игрока из игры и выход из режима ожидания игры

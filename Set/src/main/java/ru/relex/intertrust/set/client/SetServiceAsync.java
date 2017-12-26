@@ -7,7 +7,7 @@ import ru.relex.intertrust.set.shared.GameState;
 
 public interface SetServiceAsync
 {
-    void checkSet(Card[] set, AsyncCallback<Integer> async);
+    void checkSet(Card[] set, AsyncCallback<Void> async);
     void exit(AsyncCallback<Void> async);
 
     /**

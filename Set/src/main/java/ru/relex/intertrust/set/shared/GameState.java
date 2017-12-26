@@ -9,7 +9,7 @@ public class GameState implements Serializable {
     private boolean isStart = false;
     private long time = -60000;
     private List<Card> deck;
-    private List<Card> cardsOnDeck;
+    private List<Card> cardsOnDesk;
     private List<String> players = new ArrayList<>();
     private List<Integer> score;
     private int countSets;
@@ -54,11 +54,11 @@ public class GameState implements Serializable {
     }
 
     public List<Card> getCardsOnDeck() {
-        return cardsOnDeck;
+        return cardsOnDesk;
     }
 
     public void setCardsOnDeck(List<Card> cardsOnDeck) {
-        this.cardsOnDeck = cardsOnDeck;
+        this.cardsOnDesk = cardsOnDeck;
     }
 
     public List<String> getPlayers() {
