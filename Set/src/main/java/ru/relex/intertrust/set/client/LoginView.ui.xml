@@ -20,8 +20,8 @@
         @external .login-block_waiting-game;
         @external .login-block_exit;
     </ui:style>
-    <g:HTMLPanel styleName="{style.login-block}">
-        <div ui:field="newPlayerLogin" class="{style.login-block_new-player}">
+    <g:HTMLPanel ui:field="login">
+        <div class="{style.login-block_new-player}">
             <div class="{style.login-block_hello}">Добро пожаловать!</div>
             <div class="{style.nickname-wrapper}">
                 <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}" />
@@ -31,63 +31,6 @@
             </div>
             <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
             <div ui:field="gameStartTimeLogin" class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
-        </div>
-        <div ui:field="gameStartedLogin" class="{style.login-block_game-started}">
-            <div class="{style.login-block_hello}">Игра уже началась.</div>
-            <div class="{style.game-started_item}">
-                <span>С начала игры прошло:</span><span>2:31</span>
-            </div>
-            <div class="{style.game-started_item}">
-                <span>Карт в колоде осталось:</span><span>17</span>
-            </div>
-            <div class="{style.game-started_players_items}">
-                <div class="overflow">
-                    <div class="{style.game-started_players_item}">
-                        <div>Имя игрока</div><div>Баллы</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Михаил</div><div>11</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Виталий</div><div>10</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Олег</div><div>9</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Сергей</div><div>9</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Александр</div><div>9</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div ui:field="waitingForGame" class="{style.login-block_waiting-game}">
-            <div class="{style.login-block_hello}">До начала игры: 00:45</div>
-            <div class="{style.game-started_players_items}">
-                <div class="overflow">
-                    <div class="{style.game-started_players_item}">
-                        <div>Номер</div><div>Имя игрока</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>1</div><div>Михаил</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>2</div><div>Виталий</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>3</div><div>Олег</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>4</div><div>Сергей</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>5</div><div>Александр</div>
-                    </div>
-                </div>
-            </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>
