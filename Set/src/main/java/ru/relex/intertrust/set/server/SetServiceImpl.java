@@ -42,13 +42,13 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     }
 
     /**
-     * Метод, который вызывают при начале игры
+     * Метод, который необходимо вызвать при начале игры
      * меняет флаг isStart на true, т.е. показывает, что игра уже идет
      * генерирует колоду карт (cardsDeck)
      * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
      * удаляет из колоды cardsDeck карты из cardsOnDesk
      */
-    public void StartGame() {
+    public void startGame() {
         GameState gameState = getGameState();
         gameState.setStart(true);
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
