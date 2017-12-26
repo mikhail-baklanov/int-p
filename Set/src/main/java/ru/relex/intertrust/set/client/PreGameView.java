@@ -31,11 +31,20 @@ public class PreGameView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Вывод информации об оставшемся времени до начала игры
+     * @param time время до начала игры, представленное в виде строки
+     */
     public void setPreGameTimer(String time){
         preGameTimer.setInnerHTML(time);
     }
 
+    /**
+     * Добавление списка с игроками на окно ожидания игры
+     * @param widget виджет со списком игроков
+     */
     public void fillPlauerTable(Widget widget){
+        playersContainer.clear();
         playersContainer.add(widget);
     }
 }
