@@ -20,17 +20,6 @@ public class Set implements EntryPoint {
     private GameState currentGameState;
 
     /**
-     * Глобальный контейнер, который переключает экраны в зависимости от состояния игры
-     */
-    private ContainerView containerView;
-
-    /**
-     * Экраны для ожидания игроков и самой игры
-     */
-    private PreGameView preGameView;
-    // private Game gameView;
-
-    /**
      * Имя текущего игрока
      */
     private String playerName;
@@ -46,8 +35,8 @@ public class Set implements EntryPoint {
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     public void onModuleLoad() {
-        containerView = new ContainerView();
-        preGameView = new PreGameView();
+        ContainerView containerView = new ContainerView();
+        PreGameView preGameView = new PreGameView();
         //gameView = new GameView();
 
         AnotherGameView anotherGameView = new AnotherGameView();
@@ -80,7 +69,7 @@ public class Set implements EntryPoint {
                        } else if (gameState.getTime() < 0) {
                            /*
                             Если игра не началась, проверяем, зарегистрирован ли текущий пользователь.
-                            Если пользователь не зарегистрирован, отображем экран регистрации,
+                            Если пользователь не зарегистрирован, отображаем экран регистрации,
                             иначе отображаем экран ожидания других игроков с оставшимся временем до начала игры.
                             */
                            if (gameState.hasPlayer(playerName))
