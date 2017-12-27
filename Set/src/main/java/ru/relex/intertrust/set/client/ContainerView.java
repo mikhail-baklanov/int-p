@@ -13,14 +13,14 @@ public class ContainerView extends Composite {
     private static ContainerView.ContainerViewUiBinder uiBinder = GWT.create(ContainerView.ContainerViewUiBinder.class);
 
     @UiField
-    SimplePanel simplePanel;
+    HTMLPanel containerPanel;
 
     public ContainerView () {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     public void setView (Widget widget) {
-        simplePanel.clear();
-        simplePanel.add(widget);
+        containerPanel.clear();
+        containerPanel.add(widget);
     }
 }

@@ -13,9 +13,6 @@ public class AnotherGameView extends Composite {
     private static AnotherGameView.AnotherGameViewUiBinder uiBinder = GWT.create(AnotherGameView.AnotherGameViewUiBinder.class);
 
     @UiField
-    Button exitGame;
-
-    @UiField
     SpanElement anotherGameTime;
 
     @UiField
