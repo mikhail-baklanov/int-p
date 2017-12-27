@@ -13,6 +13,9 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PreGameView extends Composite {
 
     interface PreGameViewUiBinder extends UiBinder<Widget, PreGameView> {
@@ -30,6 +33,8 @@ public class PreGameView extends Composite {
     HTMLPanel playersContainer;
 
     private OnExitGameCallback exitListener;
+
+    List<String> players = new ArrayList<>();
 
     public PreGameView(OnExitGameCallback exitListener) {
         this.exitListener = exitListener;
@@ -49,12 +54,17 @@ public class PreGameView extends Composite {
         preGameTimer.setInnerHTML(time);
     }
 
-    /**
-     * Добавление списка с игроками на окно ожидания игры
-     * @param widget виджет со списком игроков
-     */
-    public void fillPlauerTable(Widget widget){
-        playersContainer.clear();
+    public void fillPlayerTable(){
+        HTMLPanel widget = new HTMLPanel(" <div class=\"{style.game-started_players_item}\">\n" +
+                "                        <div>Номер</div><div>Имя игрока</div>\n" +
+                "                    </div>");
         playersContainer.add(widget);
     }
+
+    public void setPlayers (List<String> players) {
+        this.players.clear();
+        this.players.addAll(players);
+        fillPlayerTable();
+    }
+
 }
