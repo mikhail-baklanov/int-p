@@ -14,7 +14,13 @@
             background-color: rgba(255,255,255,0.5);
             box-shadow: 0 3px 7px rgba(105,127,148,0.5);
         }
+         .login-block div {
+             transition: .4s;
+         }
+
+         @external .login-block;
     </ui:style>
-    <g:HTMLPanel ui:field="containerPanel" styleName="{style.login-block}">
+    <g:HTMLPanel styleName="{style.login-block}">
+            <g:HTMLPanel ui:field="containerPanel"></g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>

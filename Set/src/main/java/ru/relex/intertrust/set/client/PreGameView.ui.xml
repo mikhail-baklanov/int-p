@@ -71,10 +71,13 @@
             text-align: center;
             height: 30px;
         }
+        @external .game-started_players_items;
         @external .game-started_players_item;
+        @external .login-block_waiting-game;
+        @external .login-block_hello;
+        @external .login-block_exit;
     </ui:style>
-    <g:HTMLPanel ui:field="preGame">
-        <div class="{style.login-block_waiting-game}">
+    <g:HTMLPanel ui:field="preGame" styleName="{style.login-block_waiting-game}">
             <div class="{style.login-block_hello}">До начала игры:
                 <span ui:field="preGameTimer"></span>
             </div>
@@ -101,6 +104,5 @@
                 </g:HTMLPanel>
             </div>
             <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
-        </div>
     </g:HTMLPanel>
 </ui:UiBinder>
