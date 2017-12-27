@@ -8,7 +8,14 @@
             width: 100%;
         }
 
-        .login-block_waiting-game .login-block_hello {
+        .login-block_hello {
+            width: 100%;
+            text-align: center;
+            font-family: "Open Sans";
+            color: #6a6a6a;
+            font-weight: 300;
+            margin-top: 20px;
+            cursor: default;
             font-size: 30px;
             margin-bottom: 10px;
         }
