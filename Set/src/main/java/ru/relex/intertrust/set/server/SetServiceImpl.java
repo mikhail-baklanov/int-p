@@ -132,9 +132,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
         synchronized (gameState)
         {
-            long time=gameState.getTime();
-            gameState.setTime(System.currentTimeMillis());
-            gameState.setTimer(time - gameState.getTime());
+            if(!gameState.isStart()) {
+                long time = gameState.getTime();
+                gameState.setTime(System.currentTimeMillis());
+                gameState.setTimer(gameState.getTime() - time - 60000);
+            }
+            else {
+                gameState.setTimer(System.currentTimeMillis() - gameState.getTime());
+            }
             return gameState;
         }
     }
