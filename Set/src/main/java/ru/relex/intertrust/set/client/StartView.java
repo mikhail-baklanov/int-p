@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.shared.Card;
 
 import java.util.List;
 
@@ -76,5 +77,13 @@ public class StartView extends Composite {
 
     public void setCardLeft(int cardLeftCount){
         this.cardLeft.setHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
+    }
+
+    public void setCards(List<Card> cardsOnDesk){
+        cardContainer.clear();
+        for (int i = 0; i < cardsOnDesk.size(); i++) {
+            CardView cardView = new CardView(cardsOnDesk.get(i));
+            cardContainer.add(cardView);
+        }
     }
 }
