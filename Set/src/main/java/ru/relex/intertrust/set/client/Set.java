@@ -19,6 +19,8 @@ public class Set implements EntryPoint {
      */
     private GameState currentGameState;
 
+    private final ContainerView containerView = new ContainerView();
+
     /**
      * Имя текущего игрока
      */
@@ -28,11 +30,15 @@ public class Set implements EntryPoint {
      * Обработчик для успешной регистрации пользователя.
      * Необходимо сохранить имя текущего пользователя
      */
+    private OnLoginSuccessCallback loginCallback = name -> {
+        playerName = name;
+        containerView.setView(new PreGameView());
+        RootPanel.get("gwt-wrapper").add(containerView);
+    };
 
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     public void onModuleLoad() {
-        final ContainerView containerView = new ContainerView();
         //gameView = new GameView();
         Timer timer = new Timer() {
            @Override
@@ -70,7 +76,7 @@ public class Set implements EntryPoint {
                             */
                            //containerView.setView(gameState.hasPlayer(playerName) ? gameView : anotherGameView);
                        } else {
-                               containerView.setView(new LoginView());
+                               containerView.setView(new LoginView(loginCallback));
                                RootPanel.get("gwt-wrapper").add(containerView);
                            }
                        }
@@ -78,7 +84,6 @@ public class Set implements EntryPoint {
            }
        };
         timer.schedule(REQUEST_PERIOD);
-        timer.run();
     }
 
     /**

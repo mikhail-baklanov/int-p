@@ -154,6 +154,7 @@
             left: 130px;
             box-shadow: 0 3px 7px rgba(105,127,148,0.5);
         }
+        @external .active;
     </ui:style>
     <g:HTMLPanel ui:field="login" styleName="{style.login-block_new-player}">
             <div class="{style.login-block_hello}">Добро пожаловать!</div>
