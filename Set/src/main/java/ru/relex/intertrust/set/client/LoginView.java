@@ -40,6 +40,7 @@ public class LoginView extends Composite {
 
     public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
+        this.loginListener = loginListener;
     }
 
     @UiHandler("submitLogin")
