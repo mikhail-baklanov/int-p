@@ -27,7 +27,7 @@ public interface SetService extends RemoteService
      * @param set - 3 карты, отправленные клиентом
      * @return измененное состояние игры
      */
-    GameState checkSet(Card[] set);
+    void checkSet(Card[] set);
 
     /**
      *  выход игрока из игры и выход из режима ожидания игры

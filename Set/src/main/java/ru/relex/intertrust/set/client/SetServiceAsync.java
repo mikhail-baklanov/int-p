@@ -25,7 +25,7 @@ public interface SetServiceAsync
      * @return true если есть
      * false если нет
      */
-    void checkSet(Card[] set, AsyncCallback<GameState> async);
+    void checkSet(Card[] set, AsyncCallback<Void> async);
 
     void isPassed(AsyncCallback<Boolean> async);
 }

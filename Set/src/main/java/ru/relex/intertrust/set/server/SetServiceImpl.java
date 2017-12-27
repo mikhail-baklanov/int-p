@@ -34,6 +34,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
+                //отсчет счетчика, если игрок первый
+
                 gameState.addPlayer(name);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
             }
@@ -81,7 +83,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
         GameState gameState=getGameState();
 
-        if(cardsInDeck==gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя пасуевшнего в список
+        if(cardsInDeck==gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
             gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
 
 
@@ -114,14 +116,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
      * @param set принимает 3 карты от клиента
      * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
      *            если нет, - у клиента вычитаются очки
-     *            если являются, - идет проверка на то, есть в текущей игре на столе данные карты
+     *            если являются, - идет проверка на то, есть ли в текущей игре на столе данные карты
      *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде
      *                  если остались - на стол добавляются 3 новые карты, и из колоды они соответственно удаляются
      *                  если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
      * @return gameState после прохождения метода
      */
     @Override
-    public GameState checkSet(Card[] set) {
+    public void checkSet(Card[] set) {
         GameState gameState = getGameState();
         int playerNumber=getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
         int oldScore=gameState.getScore().get(playerNumber);
@@ -135,7 +137,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         for (int i = 0; i <= 3; i++) {
             if (summ[i] != 3 || summ[i] != 6 || summ[i] != 9) {
                 gameState.getScore().set(oldScore,oldScore-5);
-                return gameState;
             }
         }
         int existSet=0;
@@ -158,11 +159,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
                 }
             }
             else {
-                gameState.setStart(false);
+                if (gameState.getCardsOnDesk().size()==0)
+                    gameState.setStart(false);
             }
-            return gameState;
         }
-        return gameState;
     }
 
 
