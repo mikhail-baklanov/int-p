@@ -83,9 +83,12 @@ public class GameState implements Serializable {
         this.countSets = countSets;
     }
 
-    public void addPlayer(String name) {
+    public void addScore(Integer scores){score.add(scores);}
+
+    public void addPlayer(String name)
+    {
         players.add(name);
-        score.add(0);
+        //score.add(new Integer(0));
     }
 
     public List<String> getNotAbleToPlay() {return notAbleToPlay;}

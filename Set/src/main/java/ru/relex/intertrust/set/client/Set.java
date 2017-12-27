@@ -32,7 +32,7 @@ public class Set implements EntryPoint {
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     public void onModuleLoad() {
-        ContainerView containerView = new ContainerView();
+        final ContainerView containerView = new ContainerView();
         //gameView = new GameView();
         Timer timer = new Timer() {
            @Override

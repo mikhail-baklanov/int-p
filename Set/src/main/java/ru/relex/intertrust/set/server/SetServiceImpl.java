@@ -24,10 +24,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
 
     @Override
     public boolean login(String name)
+            //TODO смотри gameState.addScore(0);
     {
         if (name == null)
             return false;
-        GameState gameState = getGameState();//(GameState) getServletContext().getAttribute(GAME_STATE);
+        GameState gameState =(GameState) getServletContext().getAttribute(GAME_STATE);//getGameState();?
         boolean success;
 
         synchronized (gameState) {
@@ -35,9 +36,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
                 gameState.addPlayer(name);
+                //gameState.addScore(new Integer(0));//Почему не работает и как добавить?
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
             }
         }
+
         return success;
     }
 
