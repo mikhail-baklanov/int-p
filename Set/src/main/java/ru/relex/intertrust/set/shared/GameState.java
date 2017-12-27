@@ -13,6 +13,16 @@ public class GameState implements Serializable {
     private List<String> players = new ArrayList<>();
     private List<Integer> score = new ArrayList<>();
     private int countSets=0;
+    private int activePlayers=0;
+
+    public int getActivePlayers() {
+        return activePlayers;
+    }
+
+    public void setActivePlayers(int activePlayers) {
+        this.activePlayers = activePlayers;
+    }
+
     /**
      * Хранит имена игроков нажавших пас
      * Каждый раз когда игрок нажимает пас сюда добавляется его имя
