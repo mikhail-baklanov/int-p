@@ -19,9 +19,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     @Override
     public void init() throws ServletException {
         super.init();
-        getServletContext().setAttribute(GAME_STATE, new GameState());
+        initGame();
     }
 
+    public void initGame() {
+        getServletContext().setAttribute(GAME_STATE, new GameState());
+    }
     @Override
     public boolean login(String name)
     {
@@ -43,6 +46,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         return success;
     }
 
+    public void addCards (int amountOfCards) {
+        GameState gameState = getGameState();
+        for (int i=0;i<amountOfCards;i++) {
+            Card CardInDeck=gameState.getDeck().get(gameState.getDeck().size()-1);
+            gameState.getCardsOnDesk().add(CardInDeck);
+            gameState.getDeck().remove(CardInDeck);
+        }
+    }
     /**
      * Метод, который необходимо вызвать при начале игры
      * меняет флаг isStart на true, т.е. показывает, что игра уже идет
@@ -55,13 +66,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         gameState.setStart(true);
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         gameState.setDeck(cardsDeck);
-        List<Card> cardsOnDesk = new ArrayList<>();
-        for (int i=0;i<12;i++) {
-            Card CardInDeck=gameState.getDeck().get(gameState.getDeck().size()-1);
-            cardsOnDesk.add(CardInDeck);
-            gameState.getDeck().remove(CardInDeck);
-        }
-        gameState.setCardsOnDesk(cardsOnDesk);
+        addCards(12);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
         gameState.setActivePlayers(gameState.getActivePlayers()-1);
         if (gameState.getActivePlayers()==0) {
-            //TODO вернуть исходное состояние сервера
+            initGame();
         }
         if (!gameState.isStart()) {
             gameState.getPlayers().remove(playerNumber);
@@ -87,7 +92,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     @Override
     public void pass(int cardsInDeck)
     {
-        //TODO addCards
 
         GameState gameState=getGameState();
 
@@ -95,12 +99,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
 
 
-        //TODO узнать про конец игры
+
         if(gameState.getNotAbleToPlay().size()==(gameState.getPlayers().size()/2)+1)//если список спасовавших больше половины игроков, то
         {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
             gameState.clearNotAbleToPlay();
-            if(gameState.getDeck().size()==0) {gameState.setStart(false);return;}//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-            //else addCards(3);
+            if(gameState.getDeck().size()==0) {gameState.setStart(false);}//если все нажали на пас, а карт в деке нет, то заканчиваем игру
+            else addCards(3);
         }
 
 
@@ -145,6 +149,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         for (int i = 0; i <= 3; i++) {
             if (summ[i] != 3 || summ[i] != 6 || summ[i] != 9) {
                 gameState.getScore().set(oldScore,oldScore-5);
+                return;
             }
         }
         int existSet=0;
@@ -157,14 +162,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         }
         if (existSet==3) {
             gameState.getScore().set(oldScore,oldScore+3);
+            gameState.setCountSets(gameState.getCountSets()+1);
             for (int i = 0; i <= 3; i++) {
                 gameState.getCardsOnDesk().remove(set[i]);
             }
             if (gameState.getDeck().size()>0) {
-                for (int i = 0; i <= 3; i++) {
-                    gameState.getCardsOnDesk().add(gameState.getDeck().get(gameState.getDeck().size() - 1));
-                    gameState.getDeck().remove(gameState.getDeck().size() - 1);
-                }
+                addCards(3);
             }
             else {
                 if (gameState.getCardsOnDesk().size()==0)
