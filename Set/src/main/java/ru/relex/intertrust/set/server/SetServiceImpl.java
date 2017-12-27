@@ -34,9 +34,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                //отсчет счетчика, если игрок первый
-
                 gameState.addPlayer(name);
+                gameState.setActivePlayers(gameState.getActivePlayers()+1);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
             }
         }
@@ -68,8 +67,17 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     @Override
     public void exit()
     {
+        GameState gameState = getGameState();
+        int playerNumber=getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
         getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
-        // TODO проверить, началась ли игра. Если не началась, удалить игрока из списка и остановить игру, если список пуст
+        gameState.setActivePlayers(gameState.getActivePlayers()-1);
+        if (gameState.getActivePlayers()==0) {
+            //TODO вернуть исходное состояние сервера
+        }
+        if (!gameState.isStart()) {
+            gameState.getPlayers().remove(playerNumber);
+            gameState.getScore().remove(playerNumber);
+        }
     }
 
     /**
