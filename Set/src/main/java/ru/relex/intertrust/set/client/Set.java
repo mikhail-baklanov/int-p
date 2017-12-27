@@ -16,13 +16,35 @@ public class Set implements EntryPoint {
     private static final int REQUEST_PERIOD = 2000;
 
     private final ContainerView containerView = new ContainerView();
-    private final PreGameView preGameView = new PreGameView();
     private final AnotherGameView anotherGameView = new AnotherGameView();
 
     /**
      * Текущий экран
      */
     private Widget currentView;
+
+    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
+
+    private OnExitGameCallback exitGameCallback = new OnExitGameCallback() {
+        @Override
+        public void onExit() {
+            serviceAsync.exit(new AsyncCallback<Void>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+                    consoleLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onSuccess(Void aVoid) {
+                    containerView.setView(loginView);
+                    currentView = loginView;
+                }
+            });
+        }
+    };
+
+
+    private final PreGameView preGameView = new PreGameView(exitGameCallback);
 
     /**
      * Обработчик для успешной регистрации пользователя.
@@ -35,8 +57,6 @@ public class Set implements EntryPoint {
 
     private final LoginView loginView = new LoginView(loginCallback);
 
-
-    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     public void onModuleLoad() {
         RootPanel.get("gwt-wrapper").add(containerView);

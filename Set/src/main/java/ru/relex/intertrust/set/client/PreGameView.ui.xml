@@ -79,9 +79,9 @@
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="playersContainer">
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>Номер</div><div>Имя игрока</div>-->
-                    <!--</div>-->
+                    <div class="{style.game-started_players_item}">
+                        <div>Номер</div><div>Имя игрока</div>
+                    </div>
                     <!--<div class="{style.game-started_players_item}">-->
                         <!--<div>1</div><div>Михаил</div>-->
                     <!--</div>-->
