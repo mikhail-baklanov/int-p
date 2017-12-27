@@ -8,7 +8,14 @@
             width: 100%;
         }
 
-        .login-block_waiting-game .login-block_hello {
+        .login-block_hello {
+            width: 100%;
+            text-align: center;
+            font-family: "Open Sans";
+            color: #6a6a6a;
+            font-weight: 300;
+            margin-top: 20px;
+            cursor: default;
             font-size: 30px;
             margin-bottom: 10px;
         }
@@ -64,6 +71,7 @@
             text-align: center;
             height: 30px;
         }
+        @external .game-started_players_item;
     </ui:style>
     <g:HTMLPanel ui:field="preGame">
         <div class="{style.login-block_waiting-game}">
@@ -72,9 +80,9 @@
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="playersContainer">
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>Номер</div><div>Имя игрока</div>-->
-                    <!--</div>-->
+                    <div class="{style.game-started_players_item}">
+                        <div>Номер</div><div>Имя игрока</div>
+                    </div>
                     <!--<div class="{style.game-started_players_item}">-->
                         <!--<div>1</div><div>Михаил</div>-->
                     <!--</div>-->
