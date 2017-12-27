@@ -41,10 +41,16 @@ public interface SetService extends RemoteService
      * если одинаковое, то игрок ждет пока остальные не нажмут пас
      * или не найдут сет ,и на столе появятся новые карты
      * @param cardsInDeck
-     * @return true если кол-во карт на сервере равно кол-ву карт у клиента
-     *         false если не равны
      */
     void pass(int cardsInDeck);
+
+    /**
+     * Для проверки перед каждым действием со столом
+     * @return
+     * Если игрок в списке спасовавших true
+     * если нет false
+     */
+    boolean isPassed();
 
 }
 

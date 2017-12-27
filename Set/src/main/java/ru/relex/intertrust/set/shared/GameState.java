@@ -18,7 +18,7 @@ public class GameState implements Serializable {
      * Каждый раз когда игрок нажимает пас сюда добавляется его имя
      * При каждом изменении стола лист очищается
      */
-    private List<String> NotAbleToPlay;
+    private List<String> notAbleToPlay;
 
     public boolean hasPlayer(String name) {
         for (String player: players)
@@ -87,12 +87,14 @@ public class GameState implements Serializable {
         players.add(name);
         score.add(0);
     }
-/*
-    public List<String> getAbleToPlay() {return ableToPlay;}
 
-    public void addAbleToPlay(String name) {ableToPlay.add(isAble);}
+    public List<String> getNotAbleToPlay() {return notAbleToPlay;}
 
-    public void setAbleToPlay(List<Boolean> ableToPlay) {this.ableToPlay=ableToPlay;}
+    public void AddNotAbleToPlay(String name) {notAbleToPlay.add(name);}
 
-    */
+    public void setAbleToPlay(List<String> notAbleToPlay) {this.notAbleToPlay=notAbleToPlay;}
+
+    public void clearNotAbleToPlay() { notAbleToPlay.clear();}
+
+
 }

@@ -69,21 +69,27 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
         // TODO проверить, началась ли игра. Если не началась, удалить игрока из списка и остановить игру, если список пуст
     }
 
-
+    /**
+     * добавялет в список спасовавших игроков
+     * @param cardsInDeck
+     */
     @Override
     public void pass(int cardsInDeck)
     {
-        //TODO добавить изменение состояния в ableToPlay
+        //TODO addCards
 
         GameState gameState=getGameState();
-        if(cardsInDeck==gameState.getDeck().size())
-        {
-            String nickname= (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
+
+        if(cardsInDeck==gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя пасуевшнего в список
+            gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
 
 
-
-            //gameState.getAbleToPlay()
-
+        //TODO узнать про конец игры
+        if(gameState.getNotAbleToPlay().size()==(gameState.getPlayers().size()/2)+1)//если список спасовавших больше половины игроков, то
+        {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
+            gameState.clearNotAbleToPlay();
+            if(gameState.getDeck().size()==0) {gameState.setStart(false);return;}//если все нажали на пас, а карт в деке нет, то заканчиваем игру
+            //else addCards(3);
         }
 
 
@@ -167,6 +173,21 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
             i++;
         return i;
     }
+
+    /**
+     * Если игрок в списке спасовавших true
+     * если нет false
+     * Для проверки перед каждым действием со столом
+     */
+    public boolean isPassed()
+    {
+        for(String str : getGameState().getNotAbleToPlay())
+            if(str.equals((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME)))return true;
+        return false;
+
+    }
+
+
 
 
 }
