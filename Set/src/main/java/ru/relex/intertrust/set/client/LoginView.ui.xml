@@ -168,7 +168,7 @@
             <div class="{style.login-block_hello}">Добро пожаловать!</div>
             <div class="{style.nickname-wrapper}">
                 <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}"/>
-                <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Игрок с таким именем уже существует</span>
+                <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Неверное имя или такой игрок уже существует</span>
                 <span class="{style.bar}"></span>
                 <label>Имя</label>
             </div>
