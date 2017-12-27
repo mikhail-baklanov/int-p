@@ -1,6 +1,6 @@
 package ru.relex.intertrust.set.server;
 
-import com.google.gwt.user.client.Timer;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.SetService;
 import ru.relex.intertrust.set.shared.Card;
@@ -10,6 +10,8 @@ import ru.relex.intertrust.set.shared.GameState;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
@@ -37,8 +39,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                if (gameState.getActivePlayers()==0) startTimer();
-
+                if (gameState.getActivePlayers()==0) {
+                    gameState.setTime(System.currentTimeMillis());
+                    Timer timer=new Timer();
+                    StartTimer startTimer=new StartTimer();
+                    timer.schedule(startTimer,60000);
+                }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
@@ -128,7 +134,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     {
             long time=gameState.getTime();
             gameState.setTime(System.currentTimeMillis());
-            gameState.setTimer(time -gameState.getTime());
+            gameState.setTimer(time - gameState.getTime());
         return gameState;
     }
     }
@@ -208,20 +214,17 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     }
 
-    public void startTimer()
+    class StartTimer extends TimerTask
     {
-        GameState gameState = getGameState();
-        gameState.setTime(System.currentTimeMillis());
-        Timer startingTimer = new Timer()
-        {
             @Override
             public void run()
             {
+                GameState gameState = getGameState();
+                gameState.setTime(System.currentTimeMillis());
                 if(gameState.getActivePlayers()==0) return;
                 startGame();
             }
-        };
-        startingTimer.schedule(60000);
+
 
     }
 
