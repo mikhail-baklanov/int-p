@@ -1,6 +1,6 @@
 package ru.relex.intertrust.set.server;
 
-import com.google.gwt.user.client.Timer;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.SetService;
 import ru.relex.intertrust.set.shared.Card;
@@ -10,6 +10,8 @@ import ru.relex.intertrust.set.shared.GameState;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
@@ -38,7 +40,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
                 if (gameState.getActivePlayers()==0) {
-                    startTimer();
+                    gameState.setTime(System.currentTimeMillis());
+                    Timer timer=new Timer();
+                    StartTimer startTimer=new StartTimer();
+                    timer.schedule(startTimer,60000);
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
@@ -78,10 +83,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void exit() {
         GameState gameState = getGameState();
         synchronized (gameState) {
-        int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
             getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
-        gameState.setActivePlayers(gameState.getActivePlayers() - 1);
-        if (gameState.getActivePlayers() == 0) {
+            gameState.setActivePlayers(gameState.getActivePlayers() - 1);
+            if (gameState.getActivePlayers() == 0) {
                 initGame();
             }
             if (!gameState.isStart()) {
@@ -102,16 +107,16 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         GameState gameState=getGameState();
         synchronized (gameState) {
 
-        if (cardsInDeck == gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
+            if (cardsInDeck == gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
                 gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
 
 
-        if (gameState.getNotAbleToPlay().size() == (gameState.getPlayers().size() / 2) + 1)//если список спасовавших больше половины игроков, то
+            if (gameState.getNotAbleToPlay().size() == (gameState.getPlayers().size() / 2) + 1)//если список спасовавших больше половины игроков, то
             {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
                 gameState.clearNotAbleToPlay();
-            if (gameState.getDeck().size() == 0) {
-                gameState.setStart(false);
-            }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
+                if (gameState.getDeck().size() == 0) {
+                    gameState.setStart(false);
+                }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
                 else addCards(3);
             }
 
@@ -126,12 +131,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
         synchronized (gameState)
-    {
+        {
             long time=gameState.getTime();
             gameState.setTime(System.currentTimeMillis());
-            gameState.setTimer(time -gameState.getTime());
-        return gameState;
-    }
+            gameState.setTimer(time - gameState.getTime());
+            return gameState;
+        }
     }
 
 
@@ -149,8 +154,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void checkSet(Card[] set) {
         GameState gameState = getGameState();
         synchronized (gameState) {
-        int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
-        int oldScore = gameState.getScore().get(playerNumber);
+            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            int oldScore = gameState.getScore().get(playerNumber);
             int[] summ = {0, 0, 0, 0};
             for (int i = 0; i <= 2; i++) {
                 summ[0] += set[i].getColor();
@@ -160,28 +165,28 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             }
             for (int i = 0; i <= 3; i++) {
                 if (summ[i] != 3 || summ[i] != 6 || summ[i] != 9) {
-                gameState.getScore().set(oldScore, oldScore - 5);
+                    gameState.getScore().set(oldScore, oldScore - 5);
                     return;
                 }
             }
-        int existSet = 0;
-        List<Card> cardsOnDesk = gameState.getCardsOnDesk();
-        for (int j = 0; j <= 2; j++) {
+            int existSet = 0;
+            List<Card> cardsOnDesk = gameState.getCardsOnDesk();
+            for (int j = 0; j <= 2; j++) {
                 for (int i = 0; i < cardsOnDesk.size(); i++) {
-                if (set[j] == cardsOnDesk.get(i))
+                    if (set[j] == cardsOnDesk.get(i))
                         existSet++;
                 }
             }
-        if (existSet == 3) {
-            gameState.getScore().set(oldScore, oldScore + 3);
-            gameState.setCountSets(gameState.getCountSets() + 1);
+            if (existSet == 3) {
+                gameState.getScore().set(oldScore, oldScore + 3);
+                gameState.setCountSets(gameState.getCountSets() + 1);
                 for (int i = 0; i <= 3; i++) {
                     gameState.getCardsOnDesk().remove(set[i]);
                 }
-            if (gameState.getDeck().size() > 0) {
+                if (gameState.getDeck().size() > 0) {
                     addCards(3);
-            } else {
-                if (gameState.getCardsOnDesk().size() == 0)
+                } else {
+                    if (gameState.getCardsOnDesk().size() == 0)
                         gameState.setStart(false);
                 }
             }
@@ -209,19 +214,16 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     }
 
-    public void startTimer()
+    class StartTimer extends TimerTask
     {
-        GameState gameState = getGameState();
-        gameState.setTime(System.currentTimeMillis());
-        Timer startingTimer = new Timer()
+        @Override
+        public void run()
         {
-            @Override
-            public void run()
-            {
-                startGame();
-            }
-        };
-        //startingTimer.schedule(60000);
+            GameState gameState = getGameState();
+            gameState.setTime(System.currentTimeMillis());
+            if(gameState.getActivePlayers()==0) return;
+            startGame();
+        }
     }
 
 
