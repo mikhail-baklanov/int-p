@@ -37,9 +37,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                if (gameState.getActivePlayers()==0) {
-                    startTimer();
-                }
+                if (gameState.getActivePlayers()==0) startTimer();
+
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers() + 1);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
@@ -213,10 +212,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             @Override
             public void run()
             {
+                if(gameState.getActivePlayers()==0) return;
                 startGame();
             }
         };
         startingTimer.schedule(60000);
+
     }
 
 
