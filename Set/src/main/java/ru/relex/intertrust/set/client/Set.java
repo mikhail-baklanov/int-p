@@ -3,6 +3,7 @@ package ru.relex.intertrust.set.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.GameState;
@@ -14,73 +15,57 @@ public class Set implements EntryPoint {
      */
     private static final int REQUEST_PERIOD = 2000;
 
-    /**
-     * Текущее состояние игры
-     */
-    private GameState currentGameState;
-
     private final ContainerView containerView = new ContainerView();
+    private final AnotherGameView anotherGameView = new AnotherGameView();
 
     /**
-     * Имя текущего игрока
+     * Текущий экран
      */
-    private String playerName;
+    private Widget currentView;
+
+    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
+
+    private OnExitGameCallback exitGameCallback = new OnExitGameCallback() {
+        @Override
+        public void onExit() {
+            serviceAsync.exit(new AsyncCallback<Void>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+                    consoleLog(throwable.getMessage());
+                }
+
+                @Override
+                public void onSuccess(Void aVoid) {
+                    containerView.setView(loginView);
+                    currentView = loginView;
+                }
+            });
+        }
+    };
+
+
+    private final PreGameView preGameView = new PreGameView(exitGameCallback);
 
     /**
      * Обработчик для успешной регистрации пользователя.
      * Необходимо сохранить имя текущего пользователя
      */
     private OnLoginSuccessCallback loginCallback = name -> {
-        playerName = name;
-        containerView.setView(new PreGameView());
-        RootPanel.get("gwt-wrapper").add(containerView);
+        containerView.setView(preGameView);
+        currentView = preGameView;
     };
 
-    private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
+    private final LoginView loginView = new LoginView(loginCallback);
+
 
     public void onModuleLoad() {
-        //gameView = new GameView();
+        RootPanel.get("gwt-wrapper").add(containerView);
+        requestServer();
+
         Timer timer = new Timer() {
            @Override
            public void run() {
-               serviceAsync.getGameState(new AsyncCallback<GameState>() {
-                   @Override
-                   public void onFailure(Throwable caught) {
-                       consoleLog(caught.getMessage());
-                   }
-
-                   // Добавление нужного экрана для текущего состояния игры
-                   @Override
-                   public void onSuccess(GameState gameState) {
-                       //TODO Сравнить gameState и currentGameState?
-                       //Если состояние игры изменилось, то переключаем экран
-                       currentGameState = gameState;
-                       if (gameState.isStart()) {
-                           if (gameState.getTime() > 0) {
-                               containerView.setView(new AnotherGameView());
-                               RootPanel.get("gwt-wrapper").add(containerView);
-                           } else
-                           /*
-                            Если игра не началась, проверяем, зарегистрирован ли текущий пользователь.
-                            Если пользователь не зарегистрирован, отображаем экран регистрации,
-                            иначе отображаем экран ожидания других игроков с оставшимся временем до начала игры.
-                            */
-                               if (gameState.hasPlayer(playerName)) {
-                                   containerView.setView(new PreGameView());
-                                   RootPanel.get("gwt-wrapper").add(containerView);
-                               }
-                           /*
-                            Игра идет. Если текущий игрок в ней зарегистрирован,
-                            то будет отображен экран основной игры, в которой он может принять участие,
-                            иначе будет отображен экран с информацией о начатой ранее игре.
-                            */
-                           //containerView.setView(gameState.hasPlayer(playerName) ? gameView : anotherGameView);
-                       } else {
-                               containerView.setView(new LoginView(loginCallback));
-                               RootPanel.get("gwt-wrapper").add(containerView);
-                           }
-                       }
-               });
+               requestServer();
            }
        };
         timer.schedule(REQUEST_PERIOD);
@@ -93,4 +78,34 @@ public class Set implements EntryPoint {
     native void consoleLog(String message) /*-{
         console.log(message);
     }-*/;
+
+    private void requestServer () {
+        serviceAsync.getGameState(new AsyncCallback<GameState>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                consoleLog(caught.getMessage());
+            }
+
+            // Добавление нужного экрана для текущего состояния игры
+            @Override
+            public void onSuccess(GameState gameState) {
+                //TODO Сравнить gameState и currentGameState?
+                //Если состояние игры изменилось, то переключаем экран
+                Widget newView;
+                if (gameState.isStart()) {
+                    if (gameState.getTime() > 0) {
+                        newView = anotherGameView;
+                    } else {
+                        newView = loginView;
+                    }
+                } else {
+                    newView = loginView;
+                }
+                if (!newView.equals(currentView)) {
+                    currentView = newView;
+                    containerView.setView(currentView);
+                }
+            }
+        });
+    }
 }
