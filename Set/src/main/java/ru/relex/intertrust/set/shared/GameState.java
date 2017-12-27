@@ -11,14 +11,14 @@ public class GameState implements Serializable {
     private List<Card> deck;
     private List<Card> cardsOnDesk;
     private List<String> players = new ArrayList<>();
-    private List<Integer> score;
+    private List<Integer> score = new ArrayList<>();
     private int countSets=0;
     /**
      * Хранит имена игроков нажавших пас
      * Каждый раз когда игрок нажимает пас сюда добавляется его имя
      * При каждом изменении стола лист очищается
      */
-    private List<String> notAbleToPlay;
+    private List<String> notAbleToPlay = new ArrayList<>();
 
     public boolean hasPlayer(String name) {
         for (String player: players)
@@ -88,7 +88,7 @@ public class GameState implements Serializable {
     public void addPlayer(String name)
     {
         players.add(name);
-        //score.add(new Integer(0));
+        score.add(new Integer(0));
     }
 
     public List<String> getNotAbleToPlay() {return notAbleToPlay;}
