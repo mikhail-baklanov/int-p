@@ -3,7 +3,7 @@ package ru.relex.intertrust.set.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -41,6 +41,18 @@ public class LoginView extends Composite {
     public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
         this.loginListener = loginListener;
+
+        KeyDownHandler returnKeyHandler = new KeyDownHandler() {
+
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+                    submitLogin.click();
+                }
+            }
+        };
+
+        nicknameLogin.addKeyDownHandler(returnKeyHandler);
     }
 
     @UiHandler("submitLogin")
