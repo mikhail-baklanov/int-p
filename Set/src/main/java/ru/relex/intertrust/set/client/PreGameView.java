@@ -34,7 +34,7 @@ public class PreGameView extends Composite {
 
     private OnExitGameCallback exitListener;
 
-    List<String> players = new ArrayList<>();
+    private List<String> players = new ArrayList<>();
 
     public PreGameView(OnExitGameCallback exitListener) {
         this.exitListener = exitListener;
@@ -54,17 +54,18 @@ public class PreGameView extends Composite {
         preGameTimer.setInnerHTML(time);
     }
 
-    public void fillPlayerTable(){
-        HTMLPanel widget = new HTMLPanel(" <div class=\"{style.game-started_players_item}\">\n" +
-                "                        <div>Номер</div><div>Имя игрока</div>\n" +
-                "                    </div>");
-        playersContainer.add(widget);
-    }
 
     public void setPlayers (List<String> players) {
-        this.players.clear();
-        this.players.addAll(players);
-        fillPlayerTable();
+        if (!this.players.containsAll(players)) {
+            this.players = players;
+            playersContainer.clear();
+            for (int i = 0; i < players.size(); i++) {
+                HTMLPanel widget = new HTMLPanel(" <div class=\"game-started_players_item\">\n" +
+                        "                        <div>" + (i + 1) + "</div><div>" + players.get(i) + "</div>\n" +
+                        "                    </div>");
+                playersContainer.add(widget);
+            }
+        }
     }
 
 }

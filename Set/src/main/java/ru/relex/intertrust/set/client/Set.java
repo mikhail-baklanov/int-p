@@ -93,18 +93,18 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                //TODO Сравнить gameState и currentGameState?
-                //Если состояние игры изменилось, то переключаем экран
                 Widget newView;
                 if (gameState.isStart()) {
-                    if (gameState.getTime() > 0) {
+                    if (gameState.getTimer() > 0) {
                         newView = anotherGameView;
                     } else {
                         newView = loginView;
                     }
                 } else {
-                    if (gameState.hasPlayer(playerName))
+                    if (playerName != null && gameState.hasPlayer(playerName)) {
+                        preGameView.setPlayers(gameState.getPlayers());
                         newView = preGameView;
+                    }
                     else
                         newView = loginView;
                 }

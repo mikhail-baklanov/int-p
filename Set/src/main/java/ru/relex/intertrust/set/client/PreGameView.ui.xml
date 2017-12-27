@@ -71,6 +71,7 @@
             text-align: center;
             height: 30px;
         }
+        @external .game-started_players_item;
     </ui:style>
     <g:HTMLPanel ui:field="preGame">
         <div class="{style.login-block_waiting-game}">
