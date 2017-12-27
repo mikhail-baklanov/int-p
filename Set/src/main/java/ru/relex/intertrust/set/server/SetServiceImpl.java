@@ -28,7 +28,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     public boolean login(String name) {
-        if (name == null)
+        if (name.trim().isEmpty())
             return false;
         GameState gameState =(GameState) getServletContext().getAttribute(GAME_STATE);//getGameState();?
         boolean success;
