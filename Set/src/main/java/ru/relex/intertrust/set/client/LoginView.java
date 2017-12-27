@@ -38,7 +38,7 @@ public class LoginView extends Composite {
      */
     private OnLoginSuccessCallback loginListener;
 
-    public LoginView() {
+    public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -53,7 +53,9 @@ public class LoginView extends Composite {
 
             @Override
             public void onSuccess(Boolean success) {
-                if (!success)
+                if (success)
+                    loginListener.onLogin(name);
+                else
                     errorLogin.addClassName("active");
             }
         });
