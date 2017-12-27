@@ -56,7 +56,7 @@ public class PreGameView extends Composite {
 
 
     public void setPlayers (List<String> players) {
-        if (!this.players.containsAll(players)) {
+        if (!this.players.containsAll(players) || !players.containsAll(this.players)) {
             this.players = players;
             playersContainer.clear();
             for (int i = 0; i < players.size(); i++) {
