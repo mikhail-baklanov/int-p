@@ -73,15 +73,17 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     public void exit()
     {
         GameState gameState = getGameState();
-        int playerNumber=getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
-        getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
-        gameState.setActivePlayers(gameState.getActivePlayers()-1);
-        if (gameState.getActivePlayers()==0) {
-            initGame();
-        }
-        if (!gameState.isStart()) {
-            gameState.getPlayers().remove(playerNumber);
-            gameState.getScore().remove(playerNumber);
+        synchronized (gameState) {
+            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
+            gameState.setActivePlayers(gameState.getActivePlayers() - 1);
+            if (gameState.getActivePlayers() == 0) {
+                initGame();
+            }
+            if (!gameState.isStart()) {
+                gameState.getPlayers().remove(playerNumber);
+                gameState.getScore().remove(playerNumber);
+            }
         }
     }
 
@@ -94,20 +96,22 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     {
 
         GameState gameState=getGameState();
+        synchronized (gameState) {
 
-        if(cardsInDeck==gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
-            gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            if (cardsInDeck == gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
+                gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
 
 
+            if (gameState.getNotAbleToPlay().size() == (gameState.getPlayers().size() / 2) + 1)//если список спасовавших больше половины игроков, то
+            {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
+                gameState.clearNotAbleToPlay();
+                if (gameState.getDeck().size() == 0) {
+                    gameState.setStart(false);
+                }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
+                else addCards(3);
+            }
 
-        if(gameState.getNotAbleToPlay().size()==(gameState.getPlayers().size()/2)+1)//если список спасовавших больше половины игроков, то
-        {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
-            gameState.clearNotAbleToPlay();
-            if(gameState.getDeck().size()==0) {gameState.setStart(false);}//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-            else addCards(3);
         }
-
-
     }
 
     @Override
@@ -118,9 +122,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
         synchronized (gameState)
-        {
-            return gameState;
-        }
+    {
+        return gameState;
+    }
     }
 
 
@@ -137,41 +141,42 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService
     @Override
     public void checkSet(Card[] set) {
         GameState gameState = getGameState();
-        int playerNumber=getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
-        int oldScore=gameState.getScore().get(playerNumber);
-        int[] summ = {0, 0, 0, 0};
-        for (int i = 0; i <= 2; i++) {
-            summ[0] += set[i].getColor();
-            summ[1] += set[i].getShapeCount();
-            summ[2] += set[i].getFill();
-            summ[3] += set[i].getShape();
-        }
-        for (int i = 0; i <= 3; i++) {
-            if (summ[i] != 3 || summ[i] != 6 || summ[i] != 9) {
-                gameState.getScore().set(oldScore,oldScore-5);
-                return;
+        synchronized (gameState) {
+            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            int oldScore = gameState.getScore().get(playerNumber);
+            int[] summ = {0, 0, 0, 0};
+            for (int i = 0; i <= 2; i++) {
+                summ[0] += set[i].getColor();
+                summ[1] += set[i].getShapeCount();
+                summ[2] += set[i].getFill();
+                summ[3] += set[i].getShape();
             }
-        }
-        int existSet=0;
-        List<Card> cardsOnDesk=gameState.getCardsOnDesk();
-        for (int j=0;j<=2;j++) {
-            for (int i = 0; i < cardsOnDesk.size(); i++) {
-                if (set[j]==cardsOnDesk.get(i))
-                    existSet++;
-            }
-        }
-        if (existSet==3) {
-            gameState.getScore().set(oldScore,oldScore+3);
-            gameState.setCountSets(gameState.getCountSets()+1);
             for (int i = 0; i <= 3; i++) {
-                gameState.getCardsOnDesk().remove(set[i]);
+                if (summ[i] != 3 || summ[i] != 6 || summ[i] != 9) {
+                    gameState.getScore().set(oldScore, oldScore - 5);
+                    return;
+                }
             }
-            if (gameState.getDeck().size()>0) {
-                addCards(3);
+            int existSet = 0;
+            List<Card> cardsOnDesk = gameState.getCardsOnDesk();
+            for (int j = 0; j <= 2; j++) {
+                for (int i = 0; i < cardsOnDesk.size(); i++) {
+                    if (set[j] == cardsOnDesk.get(i))
+                        existSet++;
+                }
             }
-            else {
-                if (gameState.getCardsOnDesk().size()==0)
-                    gameState.setStart(false);
+            if (existSet == 3) {
+                gameState.getScore().set(oldScore, oldScore + 3);
+                gameState.setCountSets(gameState.getCountSets() + 1);
+                for (int i = 0; i <= 3; i++) {
+                    gameState.getCardsOnDesk().remove(set[i]);
+                }
+                if (gameState.getDeck().size() > 0) {
+                    addCards(3);
+                } else {
+                    if (gameState.getCardsOnDesk().size() == 0)
+                        gameState.setStart(false);
+                }
             }
         }
     }
