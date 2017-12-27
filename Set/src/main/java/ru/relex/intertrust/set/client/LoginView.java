@@ -40,6 +40,7 @@ public class LoginView extends Composite {
 
     public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
+        nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
 
         KeyDownHandler returnKeyHandler = new KeyDownHandler() {

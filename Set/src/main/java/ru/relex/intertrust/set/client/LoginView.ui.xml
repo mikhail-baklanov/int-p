@@ -37,7 +37,7 @@
             outline: none;
         }
 
-        .nickname-wrapper_label{
+        .nickname-wrapper label{
             color: #999;
             font-size: 18px;
             position: absolute;
@@ -154,15 +154,23 @@
             left: 130px;
             box-shadow: 0 3px 7px rgba(105,127,148,0.5);
         }
+        @external .login-block_new-player;
         @external .active;
+        @external .login-block_hello;
+        @external .nickname-wrapper;
+        @external .login-block_nickname;
+        @external .nickname-wrapper_error;
+        @external .bar;
+        @external .login-block_continue;
+        @external .login-block_game-start;
     </ui:style>
     <g:HTMLPanel ui:field="login" styleName="{style.login-block_new-player}">
             <div class="{style.login-block_hello}">Добро пожаловать!</div>
             <div class="{style.nickname-wrapper}">
-                <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}" />
+                <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}"/>
                 <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Игрок с таким именем уже существует</span>
                 <span class="{style.bar}"></span>
-                <label class="{style.nickname-wrapper_label}">Имя</label>
+                <label>Имя</label>
             </div>
             <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
             <div ui:field="gameStartTimeLogin" class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
