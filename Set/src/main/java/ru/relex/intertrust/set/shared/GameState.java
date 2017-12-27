@@ -7,9 +7,10 @@ import java.util.List;
 public class GameState implements Serializable {
 
     private boolean isStart = false;
-    private long time = -60000;
+    private long timer = -60000;
+    private long time= System.currentTimeMillis();
     private List<Card> deck;
-    private List<Card> cardsOnDesk;
+    private List<Card> cardsOnDesk =new ArrayList<>();
     private List<String> players = new ArrayList<>();
     private List<Integer> score = new ArrayList<>();
     private int countSets=0;
@@ -94,6 +95,15 @@ public class GameState implements Serializable {
     }
 
     public void addScore(Integer scores){score.add(scores);}
+
+    public long getTimer() {
+        return timer;
+    }
+
+    public void setTimer(long timer) {
+        this.timer = timer;
+    }
+
 
     public void addPlayer(String name)
     {
