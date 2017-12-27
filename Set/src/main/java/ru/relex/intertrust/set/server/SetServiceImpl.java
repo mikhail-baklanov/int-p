@@ -221,7 +221,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 startGame();
             }
         };
-        startingTimer.schedule(60000);
+        //startingTimer.schedule(60000);
     }
 
 

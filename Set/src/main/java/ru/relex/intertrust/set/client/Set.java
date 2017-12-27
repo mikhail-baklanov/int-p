@@ -18,6 +18,8 @@ public class Set implements EntryPoint {
     private final ContainerView containerView = new ContainerView();
     private final AnotherGameView anotherGameView = new AnotherGameView();
 
+    private String playerName;
+
     /**
      * Текущий экран
      */
@@ -51,6 +53,7 @@ public class Set implements EntryPoint {
      * Необходимо сохранить имя текущего пользователя
      */
     private OnLoginSuccessCallback loginCallback = name -> {
+        playerName = name;
         containerView.setView(preGameView);
         currentView = preGameView;
     };
@@ -68,7 +71,7 @@ public class Set implements EntryPoint {
                requestServer();
            }
        };
-        timer.schedule(REQUEST_PERIOD);
+        timer.scheduleRepeating(REQUEST_PERIOD);
     }
 
     /**
@@ -99,7 +102,10 @@ public class Set implements EntryPoint {
                         newView = loginView;
                     }
                 } else {
-                    newView = loginView;
+                    if (gameState.hasPlayer(playerName))
+                        newView = preGameView;
+                    else
+                        newView = loginView;
                 }
                 if (!newView.equals(currentView)) {
                     currentView = newView;
