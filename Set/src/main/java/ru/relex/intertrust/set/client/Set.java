@@ -103,7 +103,7 @@ public class Set implements EntryPoint {
 
     static class NextState{
         int counter = 0;
-        int tics[] = {0,10,10,10,10};
+        int tics[] = {0,1,1,1,1};
         GameState states[] = {
                 TestGameState.getInitialGameState(),
                 TestGameState.getWaitingGameState(),
@@ -114,10 +114,12 @@ public class Set implements EntryPoint {
         int index=0;
         public GameState get() {
             GameState s;
+            isCurrentPlayerRegistered = index >= 2;
             if (index>=states.length) {
                 s = states[states.length-1];
             } else {
                 s = states[index];
+                consoleLog("state = " + index);
                 if (counter==0){
                     index++;
                     //consoleLog("Фейковое состояние №"+index);
@@ -128,7 +130,6 @@ public class Set implements EntryPoint {
                     counter--;
                 }
             }
-            isCurrentPlayerRegistered = index > 2;
             return s;
         }
     }
@@ -177,8 +178,9 @@ public class Set implements EntryPoint {
     }
 
     private GameState getTestGameState() {
+        GameState gameState = nextState.get();
         if (nextState.isCurrentPlayerRegistered)
             playerName = TestGameState.getCurrentPlayerName();
-        return nextState.get();
+        return gameState;
     }
 }
