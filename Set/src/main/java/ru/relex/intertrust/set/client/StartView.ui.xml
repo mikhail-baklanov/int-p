@@ -278,7 +278,7 @@
                         </g:FlowPanel>
                     </div>
                 </div>
-                <button class="{style.pass}">Пac</button>
+                <g:Button ui:field="passButton" styleName="{style.pass}">Пас</g:Button>
             </div>
         </main>
     </g:HTMLPanel>
