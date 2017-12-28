@@ -95,7 +95,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                //gameState = nextState.get();
+                //gameState = getTestGameState();
                 processGameState(gameState);
             }
         });
@@ -110,6 +110,7 @@ public class Set implements EntryPoint {
                 TestGameState.getAnotherGameState(),
                 TestGameState.getWaitingWithCurrentGameState(),
                 TestGameState.getRunningGameState()};
+        boolean isCurrentPlayerRegistered;
         int index=0;
         public GameState get() {
             GameState s;
@@ -126,6 +127,7 @@ public class Set implements EntryPoint {
                     counter--;
                 }
             }
+            isCurrentPlayerRegistered = index > 2;
             return s;
         }
     }
@@ -134,7 +136,7 @@ public class Set implements EntryPoint {
         long gameStateTime = gameState.getTime();
         Widget newView;
         if (gameState.isStart()) {
-            if (gameStateTime > 0)
+            if (gameStateTime >= 0)
                 if (hasCurrentPlayer(gameState)) {
                     startView.setGameState(gameState);
                     newView =  startView;
@@ -171,5 +173,11 @@ public class Set implements EntryPoint {
 
     private boolean hasCurrentPlayer(GameState gameState) {
         return playerName != null && gameState.hasPlayer(playerName);
+    }
+
+    private GameState getTestGameState() {
+        if (nextState.isCurrentPlayerRegistered)
+            playerName = TestGameState.getCurrentPlayerName();
+        return nextState.get();
     }
 }
