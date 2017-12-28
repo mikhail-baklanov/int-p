@@ -62,6 +62,8 @@ public class Set implements EntryPoint {
 
     private final LoginView loginView = new LoginView(loginCallback);
 
+    private final StartView startView = new StartView();
+
 
     public void onModuleLoad() {
         RootPanel.get("gwt-wrapper").add(containerView);
@@ -108,7 +110,7 @@ public class Set implements EntryPoint {
                         newView = preGameView;
                     }
                     else {
-                        if (gameStateTime < 0 && gameStateTime != -60000)
+                        if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
                             loginView.setLoginTimer(gameStateTime);
                         else
                             loginView.removeLoginTimer();
