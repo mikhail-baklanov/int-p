@@ -34,6 +34,11 @@ public class ContainerView extends Composite {
     }
 
     public void setView (Widget widget) {
+        if(widget instanceof StartView)
+            block.removeStyleName(style.loginBlock());
+        else
+            block.setStyleName(style.loginBlock());
+
         Timer timer = new Timer() {
             @Override
             public void run() {

@@ -38,6 +38,7 @@ public class Set implements EntryPoint {
 
                 @Override
                 public void onSuccess(Void aVoid) {
+                    playerName = null;
                     currentView = loginView;
                     containerView.setView(currentView);
                 }
@@ -168,11 +169,6 @@ public class Set implements EntryPoint {
         if (!newView.equals(currentView)) {
             currentView = newView;
             containerView.setView(currentView);
-            if(currentView == startView)
-                containerView.removeStyle();
-            else
-                containerView.addStyle();
-
         }
     }
 

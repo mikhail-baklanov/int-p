@@ -19,15 +19,20 @@
 
         .left-bar {
             position: relative;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
             background-color: rgba(255, 255, 255, 0.4);
             height: 100%;
             width: 80%;
             margin: 0 60px;
-            justify-content: center;
             transition: .2s;
+        }
+
+        .left-bar_container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
         }
 
         .left-bar.active {
@@ -35,7 +40,7 @@
             padding: 0 10%;
         }
 
-        .left-bar .card {
+        .left-bar_container .card {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -49,7 +54,7 @@
             transition: .2s;
         }
 
-        .left-bar .card .shape {
+        .left-bar_container .card .shape {
             width: 90%;
             height: 25%;
             background-size: 100%;
@@ -57,7 +62,7 @@
             margin: 2px auto;
         }
 
-        .left-bar .card:hover {
+        .left-bar_container .card:hover {
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: 1px 3px 7px rgba(105, 127, 148, 1);
         }
@@ -67,7 +72,7 @@
             top: -61px;
             left: 50%;
             transform: translate(-50%, 0);
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.4);
             width: 300px;
             height: 60px;
             text-align: center;
@@ -82,7 +87,7 @@
             bottom: -31px;
             left: 50%;
             transform: translate(-50%, 0);
-            background-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.4);
             width: 330px;
             height: 30px;
             text-align: center;
@@ -94,6 +99,7 @@
 
         .right-bar {
             display: flex;
+            overflow: hidden;
             flex-direction: column;
             background-color: rgba(255, 255, 255, 0.4);
             height: 100%;
@@ -112,8 +118,8 @@
             height: 45%;
         }
 
-        .right-bar .statistic .seporator,
-        .right-bar .history .seporator {
+        .right-bar .statistic .separator,
+        .right-bar .history .separator {
             width: 80%;
             margin: 0 auto;
             height: 1px;
@@ -220,10 +226,10 @@
         .left-bar .slide-button {
             position: absolute;
             width: 40px;
-            height: 38px;
+            height: 39px;
             right: -60px;
             background-color: rgba(255, 255, 255, 0.5);
-            background-image: url("../../../../../../webapp/images/hamburger.png");
+            background-image: url("images/hamburger.png");
             background-position: center;
             background-size: 80%;
             cursor: pointer;
@@ -248,7 +254,6 @@
             background-color: rgba(205,96,96,0.1);
         }
         @external .statistic-item;
-        @external .seporator;
         @external .history-item;
         @external .time-remaining;
         @external .wrapper;
@@ -259,26 +264,29 @@
         @external .cards-remaining;
         @external .right-bar;
         @external .statistic;
-        @external .seporator;
+        @external .separator;
         @external .history;
         @external .header;
         @external .overflow;
         @external .pass;
         @external .slide-button;
         @external .login-block_exit;
+        @external .left-bar_container;
     </ui:style>
     <g:HTMLPanel ui:field="start">
         <main class="{style.wrapper}">
-            <g:HTMLPanel ui:field="cardContainer" styleName="{style.left-bar}">
+            <g:HTMLPanel ui:field="leftBar" styleName="{style.left-bar}">
                 <div class="{style.time-remaining}">
-                    <div ui:field="time">4:30</div>
+                    <div ui:field="time"></div>
                 </div>
-                <div class="{style.slide-button}"/>
+                <g:SimplePanel ui:field="slideButton" styleName="{style.slide-button}"/>
                 <div ui:field="cardLeft" class="{style.cards-remaining}">
-                    <div>Карт в колоде: 69</div>
+                    <div></div>
                 </div>
+                <g:HTMLPanel ui:field="cardContainer" styleName="{style.left-bar_container}">
+                </g:HTMLPanel>
             </g:HTMLPanel>
-            <div class="{style.right-bar}">
+            <g:HTMLPanel ui:field="rightBar" styleName="{style.right-bar}">
                 <div class="{style.statistic}">
                     <div class="{style.statistic-item} {style.header}">
                         <span>Игроки</span>
@@ -300,7 +308,7 @@
                 </div>
                 <g:Button ui:field="passButton" styleName="{style.pass}">Пас</g:Button>
                 <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
-            </div>
+            </g:HTMLPanel>
         </main>
     </g:HTMLPanel>
 </ui:UiBinder>

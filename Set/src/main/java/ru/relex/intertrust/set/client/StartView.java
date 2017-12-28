@@ -4,10 +4,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
@@ -26,6 +28,7 @@ public class StartView extends Composite {
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
 
+    private static HTML separator = new HTML("<div class=\"separator\"></div>");
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
 
@@ -34,6 +37,19 @@ public class StartView extends Composite {
     public StartView(OnExitGameCallback exitListener) {
         this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
+        slideButton.sinkEvents(Event.ONCLICK);
+        slideButton.addHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if (!leftBar.getElement().hasClassName("active")) {
+                    leftBar.getElement().addClassName("active");
+                    rightBar.getElement().addClassName("active");
+                } else {
+                    leftBar.getElement().removeClassName("active");
+                    rightBar.getElement().removeClassName("active");
+                }
+            }
+        }, ClickEvent.getType());
     }
 
     @UiField
@@ -52,13 +68,22 @@ public class StartView extends Composite {
     DivElement time;
 
     @UiField
+    HTMLPanel leftBar;
+
+    @UiField
     DivElement cardLeft;
+
+    @UiField
+    SimplePanel slideButton;
 
     @UiField
     Button passButton;
 
     @UiField
     Button exitGame;
+
+    @UiField
+    HTMLPanel rightBar;
 
     private OnExitGameCallback exitListener;
 
@@ -76,17 +101,14 @@ public class StartView extends Composite {
         for (int i = 0; i < nickNames.size()-1; i++) {
             String s = "";
             if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(i)))
-                s = "background: red;";
+                s = "background-color: red;";
             //todo Один или несколько стилей игнорируются компилятором - (конкретно не отображаются палочки между ником и его результатом)
             HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0;"+s+"\"><span>"+nickNames.get(i)+"</span><span>"+scores.get(i)+"</span>\n</div>");
             this.statisticContainer.add(player);
-            HTML separator = new HTML("<div class=\"seporator\"></div>");
             this.statisticContainer.add(separator);
         }
         String s = "";
-        if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(nickNames.size()-1)))
-            s = "background: red;";
-        HTML player = new HTML("<div class=\"statistic-item\">\n<span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
+        HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0; \"><span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
         this.statisticContainer.add(player);
     }
 
@@ -115,7 +137,7 @@ public class StartView extends Composite {
     }
 
     @UiHandler("passButton")
-    public void onClick(ClickEvent e) {
+    public void doClick(ClickEvent e) {
         ourInstance.pass(gs.getDeck().size(), new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
