@@ -8,7 +8,6 @@ import ru.relex.intertrust.set.shared.CardsDeck;
 import ru.relex.intertrust.set.shared.GameState;
 
 import javax.servlet.ServletException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,7 +24,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void init() throws ServletException {
         super.init();
         initGame();
-        timer.schedule(t,0,500);
     }
 
     /**
@@ -52,8 +50,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 if (gameState.getActivePlayers()==0)
                 {
                     gameState.setTime(-60000);
-
-
+                    timer.schedule(t,0,500);
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
@@ -103,7 +100,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             gameState.setActivePlayers(gameState.getActivePlayers() - 1);
             if (gameState.getActivePlayers() == 0) {
                 initGame();
-                //timer.cancel();
             }
             if (!gameState.isStart()) {
                 gameState.getPlayers().remove(playerNumber);
@@ -242,12 +238,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      */
     private class StartTimer extends TimerTask
     {
-        //private Timer timer = new Timer();
 
         @Override
         public void run()
         {
             GameState gameState = getGameState();
+            if (gameState.getActivePlayers()==0) {
+                gameState.setTime(-60000);
+            }
             if(gameState.getTime()==0) startGame();
             gameState.setTime(gameState.getTime()+500);
 
