@@ -51,8 +51,7 @@ public class PreGameView extends Composite {
      * @param time время до начала игры, представленное в виде строки
      */
     public void setPreGameTimer(long time){
-        String gameTimer = " 00:" + -time/1000;
-        preGameTimer.setInnerHTML(gameTimer);
+        preGameTimer.setInnerHTML(Utils.formatTime(time));
     }
 
 

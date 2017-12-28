@@ -81,7 +81,7 @@ public class Set implements EntryPoint {
      * Функция печати сообщения в консоль браузера.
      * @param message сообщение, которое будет напечатано
      */
-    native void consoleLog(String message) /*-{
+    native static void consoleLog(String message) /*-{
         console.log(message);
     }-*/;
 
@@ -95,7 +95,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                gameState = nextState.get();
+                //gameState = nextState.get();
                 processGameState(gameState);
             }
         });
@@ -114,6 +114,7 @@ public class Set implements EntryPoint {
                 s = states[index];
                 if (counter==0){
                     index++;
+                    //consoleLog("Фейковое состояние №"+index);
                     if (index<states.length){
                         counter=tics[index];
                     }

@@ -85,8 +85,7 @@ public class LoginView extends Composite {
 
     public void setLoginTimer(long time){
         timeBlockLogin.addClassName("active");
-        String gameTimer = " 00:" + -time/1000;
-        loginTimer.setInnerHTML(gameTimer);
+        loginTimer.setInnerHTML(Utils.formatTime(time));
     }
 
     public void removeLoginTimer(){
