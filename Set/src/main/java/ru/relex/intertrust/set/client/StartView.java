@@ -19,12 +19,9 @@ import java.util.List;
 
 public class StartView extends Composite {
 
-    public void setGameState(GameState gameState) {
-        setStatistics(gameState.getPlayers(), gameState.getScore());
-        setCardLeft(gameState.getDeck().size());
-        setCards(gameState.getCardsOnDesk());
-        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
-    }
+    GameState gs = null;
+
+    private List<Card> cards = new ArrayList<>();
 
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
@@ -34,7 +31,8 @@ public class StartView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    public StartView() {
+    public StartView(OnExitGameCallback exitListener) {
+        this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
@@ -42,7 +40,7 @@ public class StartView extends Composite {
     HTMLPanel start;
 
     @UiField
-    FlowPanel cardContainer;
+    HTMLPanel cardContainer;
 
     @UiField
     FlowPanel historyContainer;
@@ -51,39 +49,43 @@ public class StartView extends Composite {
     FlowPanel statisticContainer;
 
     @UiField
-    HTML time;
+    DivElement time;
 
     @UiField
-    HTML cardLeft;
+    DivElement cardLeft;
+
+    @UiField
+    Button passButton;
 
     @UiField
     Button exitGame;
 
     private OnExitGameCallback exitListener;
 
-    public StartView(OnExitGameCallback exitListener) {
-        this.exitListener = exitListener;
-        initWidget(uiBinder.createAndBindUi(this));
-    }
-
     @UiHandler("exitGame")
-    public void onClick(ClickEvent e) {
+    public void onClickExit(ClickEvent e) {
         exitListener.onExit();
     }
 
     public void setTime(String time){
-        this.time.setHTML("<div>"+time+"</div>");
+        this.time.setInnerHTML("<div>"+time+"</div>");
     }
 
     public void setStatistics(List<String> nickNames, List<Integer> scores){
         this.statisticContainer.clear();
         for (int i = 0; i < nickNames.size()-1; i++) {
+            String s = "";
+            if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(i)))
+                s = "background: red;";
             //todo Один или несколько стилей игнорируются компилятором - (конкретно не отображаются палочки между ником и его результатом)
-            HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0;\"><span>"+nickNames.get(i)+"</span><span>"+scores.get(i)+"</span>\n</div>");
+            HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0;"+s+"\"><span>"+nickNames.get(i)+"</span><span>"+scores.get(i)+"</span>\n</div>");
             this.statisticContainer.add(player);
             HTML separator = new HTML("<div class=\"seporator\"></div>");
             this.statisticContainer.add(separator);
         }
+        String s = "";
+        if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(nickNames.size()-1)))
+            s = "background: red;";
         HTML player = new HTML("<div class=\"statistic-item\">\n<span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
         this.statisticContainer.add(player);
     }
@@ -101,7 +103,7 @@ public class StartView extends Composite {
     }
 
     public void setCardLeft(int cardLeftCount){
-        this.cardLeft.setHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
+        this.cardLeft.setInnerHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
     }
 
     public void setCards(List<Card> cardsOnDesk){
@@ -110,5 +112,31 @@ public class StartView extends Composite {
             CardView cardView = new CardView(cardsOnDesk.get(i));
             cardContainer.add(cardView);
         }
+    }
+
+    @UiHandler("passButton")
+    public void onClick(ClickEvent e) {
+        ourInstance.pass(gs.getDeck().size(), new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+    }
+
+    public void setGameState(GameState gameState) {
+        setStatistics(gameState.getPlayers(), gameState.getScore());
+        setCardLeft(gameState.getDeck().size());
+        if (!cards.containsAll(gameState.getCardsOnDesk()))
+        {
+            cards = gameState.getCardsOnDesk();
+            setCards(gameState.getCardsOnDesk());
+        }
+        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
     }
 }
