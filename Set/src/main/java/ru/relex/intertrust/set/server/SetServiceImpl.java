@@ -24,6 +24,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         initGame();
     }
 
+    /**
+     * инициализирует новую игру
+     */
     public void initGame() {
         getServletContext().setAttribute(GAME_STATE, new GameState());
     }
@@ -39,11 +42,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                if (gameState.getActivePlayers()==0) {
-                    gameState.setTime(System.currentTimeMillis());
-                    Timer timer=new Timer();
-                    StartTimer startTimer=new StartTimer();
-                    timer.schedule(startTimer,60000);
+                if (gameState.getActivePlayers()==0)
+                {
+                    TimerTask t = new StartTimer();
+                    Timer timer = new Timer();
+                    timer.schedule(t,0,500);
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
@@ -55,6 +58,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         return success;
     }
 
+    /**
+     * добавляет amountOfCards карт на стол
+     * удаляя их из колоды
+     * @param amountOfCards
+     */
     public void addCards (int amountOfCards) {
         GameState gameState = getGameState();
         for (int i=0;i<amountOfCards;i++) {
@@ -98,6 +106,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     /**
      * добавялет в список спасовавших игроков
+     * принимает список карт в колоде клиента
+     * для проверки состояния игрока
      *
      * @param cardsInDeck
      */
@@ -132,14 +142,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
         synchronized (gameState)
         {
-            if(!gameState.isStart()) {
-                long time = gameState.getTime();
-                gameState.setTime(System.currentTimeMillis());
-                gameState.setTimer(gameState.getTime() - time - 60000);
-            }
-            else {
-                gameState.setTimer(System.currentTimeMillis() - gameState.getTime());
-            }
             return gameState;
         }
     }
@@ -198,7 +200,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-
+    /**
+     * Возвращает номер, по которому можно получить инфу о игроке в листах
+     * @param nickname
+     * @return
+     */
     public int getPlayerNumber(String nickname) {
         GameState gameState=getGameState();
         int i=0;
@@ -219,20 +225,26 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     }
 
-    class StartTimer extends TimerTask
+    /**
+     * Просто таймер тактирующий нашу переменную time каждые 0,5секунды
+     * если через 60секунд после начала есть активные игроки, то игра начинается
+     * как только все игроки вышли таймер прекращает работать
+     * => в Game State time лежит время прошедшее со времени 1го логина
+     * время в мс
+     */
+    private class StartTimer extends TimerTask
     {
+        private Timer timer = new Timer();
+
         @Override
         public void run()
         {
             GameState gameState = getGameState();
-            gameState.setTime(System.currentTimeMillis());
-            if(gameState.getActivePlayers()==0) return;
-            startGame();
+            if(gameState.getTime()==0) startGame();
+            gameState.setTime(gameState.getTime()+500);
+            if(gameState.getActivePlayers()==0) timer.cancel();
         }
     }
-
-
-
 
 
 }
