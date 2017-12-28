@@ -24,6 +24,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void init() throws ServletException {
         super.init();
         initGame();
+        timer.schedule(t, 0, 500);
     }
 
     /**
@@ -50,7 +51,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 if (gameState.getActivePlayers()==0)
                 {
                     gameState.setTime(-60000);
-                    timer.schedule(t,0,500);
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
