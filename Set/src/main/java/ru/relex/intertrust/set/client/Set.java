@@ -104,7 +104,7 @@ public class Set implements EntryPoint {
     static class NextState{
         int counter = 0;
         int tics[] = {0,10,10,10};
-        GameState states[] = {getGameState1(),getGameState2(),getGameState3(),getGameState4()};
+        GameState states[] = {TestGameState.getGameState1(),TestGameState.getGameState2(),TestGameState.getGameState3(),TestGameState.getGameState4()};
         int index=0;
         public GameState get() {
             GameState s;
