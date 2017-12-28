@@ -14,7 +14,7 @@ public class Set implements EntryPoint {
     /**
      * Период опроса сервера для получения значений таймера
      */
-    private static final int REQUEST_PERIOD = 2000;
+    private static final int REQUEST_PERIOD = 1000;
 
     private final ContainerView containerView = new ContainerView();
     private final AnotherGameView anotherGameView = new AnotherGameView();
