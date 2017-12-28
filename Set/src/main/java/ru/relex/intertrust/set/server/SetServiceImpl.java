@@ -15,6 +15,8 @@ import java.util.TimerTask;
 
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
+    private TimerTask t = new StartTimer();
+    private Timer timer = new Timer();
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
 
@@ -44,8 +46,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             if (success) {
                 if (gameState.getActivePlayers()==0)
                 {
-                    TimerTask t = new StartTimer();
-                    Timer timer = new Timer();
+
                     timer.schedule(t,0,500);
                 }
                 gameState.addPlayer(name);
@@ -96,6 +97,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             gameState.setActivePlayers(gameState.getActivePlayers() - 1);
             if (gameState.getActivePlayers() == 0) {
                 initGame();
+                timer.cancel();
             }
             if (!gameState.isStart()) {
                 gameState.getPlayers().remove(playerNumber);
@@ -234,7 +236,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      */
     private class StartTimer extends TimerTask
     {
-        private Timer timer = new Timer();
+        //private Timer timer = new Timer();
 
         @Override
         public void run()
@@ -242,7 +244,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             GameState gameState = getGameState();
             if(gameState.getTime()==0) startGame();
             gameState.setTime(gameState.getTime()+500);
-            if(gameState.getActivePlayers()==0) timer.cancel();
+
         }
     }
 
