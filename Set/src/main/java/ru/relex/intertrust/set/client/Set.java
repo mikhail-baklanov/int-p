@@ -3,10 +3,8 @@ package ru.relex.intertrust.set.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
 public class Set implements EntryPoint {
@@ -14,7 +12,7 @@ public class Set implements EntryPoint {
     /**
      * Период опроса сервера для получения значений таймера
      */
-    private static final int REQUEST_PERIOD = 2000;
+    private static final int REQUEST_PERIOD = 1000;
 
     private final ContainerView containerView = new ContainerView();
     private final AnotherGameView anotherGameView = new AnotherGameView();
@@ -153,5 +151,9 @@ public class Set implements EntryPoint {
             currentView = newView;
             containerView.setView(currentView);
         }
+    }
+
+    private boolean hasCurrentPlayer(GameState gameState) {
+        return playerName != null && gameState.hasPlayer(playerName);
     }
 }
