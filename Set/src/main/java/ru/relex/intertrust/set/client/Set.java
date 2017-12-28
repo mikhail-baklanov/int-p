@@ -150,6 +150,11 @@ public class Set implements EntryPoint {
         if (!newView.equals(currentView)) {
             currentView = newView;
             containerView.setView(currentView);
+            if(currentView == startView)
+                containerView.removeStyle();
+            else
+                containerView.addStyle();
+
         }
     }
 
