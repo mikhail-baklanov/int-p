@@ -249,18 +249,15 @@
     </ui:style>
     <g:HTMLPanel ui:field="start">
         <main class="{style.wrapper}">
-            <div class="{style.left-bar}">
-                <g:HTML ui:field="time" styleName="{style.time-remaining}">
-                    <div>4:30</div>
-                </g:HTML>
+            <g:HTMLPanel ui:field="cardContainer" styleName="{style.left-bar}">
+                <div class="{style.time-remaining}">
+                    <div ui:field="time">4:30</div>
+                </div>
                 <div class="{style.slide-button}"/>
-                <g:FlowPanel ui:field="cardContainer">
-
-                </g:FlowPanel>
-                <g:HTML ui:field="cardLeft" styleName="{style.cards-remaining}">
+                <div ui:field="cardLeft" class="{style.cards-remaining}">
                     <div>Карт в колоде: 69</div>
-                </g:HTML>
-            </div>
+                </div>
+            </g:HTMLPanel>
             <div class="{style.right-bar}">
                 <div class="{style.statistic}">
                     <div class="{style.statistic-item} {style.header}">
