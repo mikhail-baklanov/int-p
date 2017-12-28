@@ -50,7 +50,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             if (success) {
                 if (gameState.getActivePlayers()==0)
                 {
-                    gameState.setTime(-60000);
+                    gameState.prepareTime();
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
@@ -251,7 +251,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         {
             GameState gameState = getGameState();
             if (gameState.getActivePlayers()==0) {
-                gameState.setTime(-60000);
+                gameState.prepareTime();
             }
             if(gameState.getTime()==0) startGame();
             gameState.setTime(gameState.getTime()+500);

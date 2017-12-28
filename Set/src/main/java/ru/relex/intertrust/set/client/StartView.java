@@ -12,10 +12,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.Card;
+import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
 public class StartView extends Composite {
+
+    public void setGameState(GameState gameState) {
+        setStatistics(gameState.getPlayers(), gameState.getScore());
+    }
+
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
 

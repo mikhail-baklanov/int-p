@@ -18,6 +18,7 @@ public class Set implements EntryPoint {
     private final AnotherGameView anotherGameView = new AnotherGameView();
 
     private String playerName;
+    private NextState nextState = new NextState();
 
     /**
      * Текущий экран
@@ -94,32 +95,73 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                long gameStateTime = gameState.getTime();
-                Widget newView;
-                if (gameState.isStart()) {
-                    if (gameStateTime > 0)
-                        newView = hasCurrentPlayer(gameState) ? startView : anotherGameView;
-                    else
-                        newView = loginView;
-                } else {
-                    if (hasCurrentPlayer(gameState)) {
-                        preGameView.setPreGameTimer(gameStateTime);
-                        preGameView.setPlayers(gameState.getPlayers());
-                        newView = preGameView;
-                    } else {
-                        if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
-                            loginView.setLoginTimer(gameStateTime);
-                        else
-                            loginView.removeLoginTimer();
-                        newView = loginView;
-                    }
-                }
-                if (!newView.equals(currentView)) {
-                    currentView = newView;
-                    containerView.setView(currentView);
-                }
+                gameState = nextState.get();
+                processGameState(gameState);
             }
         });
+    }
+
+    static class NextState{
+        int counter = 0;
+        int tics[] = {0,10,10,10};
+        GameState states[] = {TestGameState.getGameState1(),TestGameState.getGameState2(),TestGameState.getGameState3()};
+        int index=0;
+        public GameState get() {
+            GameState s;
+            if (index>=states.length) {
+                s = states[states.length-1];
+            } else {
+                s = states[index];
+                if (counter==0){
+                    index++;
+                    if (index<states.length){
+                        counter=tics[index];
+                    }
+                } else {
+                    counter--;
+                }
+            }
+            return s;
+        }
+    }
+
+    private void processGameState(GameState gameState) {
+        long gameStateTime = gameState.getTime();
+        Widget newView;
+        if (gameState.isStart()) {
+            if (gameStateTime > 0)
+                if (hasCurrentPlayer(gameState)) {
+                    startView.setGameState(gameState);
+                    newView =  startView;
+                } else {
+                    anotherGameView.setGameState(gameState);
+                    newView =  anotherGameView;
+                }
+            else
+                newView = loginView;
+        } else {
+            if (hasCurrentPlayer(gameState)) {
+                preGameView.setPreGameTimer(gameStateTime);
+                preGameView.setPlayers(gameState.getPlayers());
+                newView = preGameView;
+            }
+            else {
+                if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
+                    loginView.setLoginTimer(gameStateTime);
+                else
+                    loginView.removeLoginTimer();
+                newView = loginView;
+            }
+        }
+        if (!newView.equals(currentView)) {
+            currentView = newView;
+            containerView.setView(currentView);
+            if(currentView == startView)
+                containerView.removeStyle();
+            else
+                containerView.addStyle();
+
+        }
     }
 
     private boolean hasCurrentPlayer(GameState gameState) {

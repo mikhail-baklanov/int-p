@@ -5,8 +5,12 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.shared.GameState;
 
 public class AnotherGameView extends Composite {
+    public void setGameState(GameState gameState) {
+    }
+
     interface AnotherGameViewUiBinder extends UiBinder<Widget, AnotherGameView> {
     }
 

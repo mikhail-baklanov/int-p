@@ -13,6 +13,7 @@ public class GameState implements Serializable {
      */
     private boolean isStart = false;
 
+<<<<<<< .mine
     private long time= -60000;//серверное время
     private List<Card> deck;//колода
     private List<Card> cardsOnDesk =new ArrayList<>();//карты на столе
@@ -26,6 +27,21 @@ public class GameState implements Serializable {
      * При каждом изменении стола лист очищается
      */
     private List<String> notAbleToPlay = new ArrayList<>();
+=======
+    private static final long TIME_TO_GAME = 10000;
+
+    private long time= -TIME_TO_GAME;
+    private List<Card> deck;
+    private List<Card> cardsOnDesk =new ArrayList<>();
+    private List<String> players = new ArrayList<>();
+    private List<Integer> score = new ArrayList<>();
+    private int countSets=0;
+    private int activePlayers=0;
+
+
+
+
+>>>>>>> .theirs
 
     public int getActivePlayers() {
         return activePlayers;
@@ -102,9 +118,6 @@ public class GameState implements Serializable {
 
     public void addScore(Integer scores){score.add(scores);}
 
-
-
-
     public void addPlayer(String name)
     {
         players.add(name);
@@ -119,5 +132,7 @@ public class GameState implements Serializable {
 
     public void clearNotAbleToPlay() { notAbleToPlay.clear();}
 
-
+    public void prepareTime() {
+        setTime(-GameState.TIME_TO_GAME);
+    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <ui:style>
+    <ui:style type="ru.relex.intertrust.set.client.ContainerView.MyStyle">
          .login-block {
             position: absolute;
             display: flex;
@@ -20,7 +20,7 @@
 
          @external .login-block;
     </ui:style>
-    <g:HTMLPanel styleName="{style.login-block}">
+    <g:HTMLPanel ui:field="block" styleName="{style.login-block}">
             <g:HTMLPanel ui:field="containerPanel"></g:HTMLPanel>
     </g:HTMLPanel>
 </ui:UiBinder>
