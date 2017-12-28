@@ -64,7 +64,7 @@ public class StartView extends Composite {
         this.statisticContainer.clear();
         for (int i = 0; i < nickNames.size()-1; i++) {
             String s = "";
-            if (gs.getNotAbleToPlay().contains(nickNames.get(i)))
+            if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(i)))
                 s = "background: red;";
             //todo Один или несколько стилей игнорируются компилятором - (конкретно не отображаются палочки между ником и его результатом)
             HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0;"+s+"\"><span>"+nickNames.get(i)+"</span><span>"+scores.get(i)+"</span>\n</div>");
@@ -73,7 +73,7 @@ public class StartView extends Composite {
             this.statisticContainer.add(separator);
         }
         String s = "";
-        if (gs.getNotAbleToPlay().contains(nickNames.get(nickNames.size()-1)))
+        if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(nickNames.size()-1)))
             s = "background: red;";
         HTML player = new HTML("<div class=\"statistic-item\">\n<span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
         this.statisticContainer.add(player);
