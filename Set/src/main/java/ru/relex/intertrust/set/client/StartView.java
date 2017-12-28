@@ -20,6 +20,10 @@ public class StartView extends Composite {
 
     public void setGameState(GameState gameState) {
         setStatistics(gameState.getPlayers(), gameState.getScore());
+        setCardLeft(gameState.getDeck().size());
+        setCards(gameState.getCardsOnDesk());
+        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
+        setHistory(gameState.getNotAbleToPlay()); //todo убрать кнопку истории (Олег)
     }
 
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
