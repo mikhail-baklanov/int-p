@@ -91,23 +91,28 @@ public class Set implements EntryPoint {
                 consoleLog(caught.getMessage());
             }
 
+            
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
+                long gameStateTime = gameState.getTime();
                 Widget newView;
                 if (gameState.isStart()) {
-                    if (gameState.getTime() > 0) {//изменил getTimer на getTime .Виталий
-                        newView = anotherGameView;//т.к. таймера больше нет
-                    } else {                      //см. описание класса StartTimer
+                    if (gameStateTime > 0)
+                        newView = anotherGameView;
+                    else
                         newView = loginView;
-                    }
                 } else {
                     if (playerName != null && gameState.hasPlayer(playerName)) {
+                        preGameView.setPreGameTimer(gameStateTime);
                         preGameView.setPlayers(gameState.getPlayers());
                         newView = preGameView;
                     }
-                    else
+                    else {
+                        if (gameStateTime < 0 && gameStateTime != -60000)
+                            loginView.setLoginTimer(gameStateTime);
                         newView = loginView;
+                    }
                 }
                 if (!newView.equals(currentView)) {
                     currentView = newView;

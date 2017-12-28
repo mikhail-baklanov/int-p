@@ -50,8 +50,9 @@ public class PreGameView extends Composite {
      * Вывод информации об оставшемся времени до начала игры
      * @param time время до начала игры, представленное в виде строки
      */
-    public void setPreGameTimer(String time){
-        preGameTimer.setInnerHTML(time);
+    public void setPreGameTimer(long time){
+        String gameTimer = " 00:" + -time/1000;
+        preGameTimer.setInnerHTML(gameTimer);
     }
 
 

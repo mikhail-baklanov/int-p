@@ -173,6 +173,6 @@
                 <label>Имя</label>
             </div>
             <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
-            <div ui:field="gameStartTimeLogin" class="{style.login-block_game-start}">Игра начнется через: 00:51</div>
+        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}">Игра начнется через: <span ui:field="loginTimer"></span></div>
     </g:HTMLPanel>
 </ui:UiBinder>

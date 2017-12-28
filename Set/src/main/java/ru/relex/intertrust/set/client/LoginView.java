@@ -31,7 +31,10 @@ public class LoginView extends Composite {
     TextBox nicknameLogin;
 
     @UiField
-    DivElement gameStartTimeLogin;
+    SpanElement loginTimer;
+
+    @UiField
+    DivElement timeBlockLogin;
 
     /**
      * Обработчик события регистрации пользователя
@@ -78,5 +81,11 @@ public class LoginView extends Composite {
     @UiHandler("nicknameLogin")
     public void doClick(ClickEvent e) {
         errorLogin.removeClassName("active");
+    }
+
+    public void setLoginTimer(long time){
+        timeBlockLogin.addClassName("active");
+        String gameTimer = " 00:" + -time/1000;
+        loginTimer.setInnerHTML(gameTimer);
     }
 }
