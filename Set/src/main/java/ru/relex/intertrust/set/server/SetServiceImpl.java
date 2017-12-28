@@ -91,6 +91,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         addCards(12);
     }
 
+    /**
+     * Выход из игры
+     * удаляется игрок
+     * удаляются очки
+     * создается новая игра
+     */
     @Override
     public void exit() {
         GameState gameState = getGameState();
@@ -235,6 +241,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      * как только все игроки вышли таймер прекращает работать
      * => в Game State time лежит время прошедшее со времени 1го логина
      * время в мс
+     * таймер идет всегда, но при отсутствии игрока постоянно держит переменную time=-60000
      */
     private class StartTimer extends TimerTask
     {

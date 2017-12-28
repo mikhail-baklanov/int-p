@@ -6,15 +6,26 @@ import java.util.List;
 
 public class GameState implements Serializable {
 
+    /*
+    флаг начала и конца игры
+    true-игра идет
+    false-игра закончилась(не началась)
+     */
     private boolean isStart = false;
 
-    private long time= -60000;
-    private List<Card> deck;
-    private List<Card> cardsOnDesk =new ArrayList<>();
-    private List<String> players = new ArrayList<>();
-    private List<Integer> score = new ArrayList<>();
-    private int countSets=0;
-    private int activePlayers=0;
+    private long time= -60000;//серверное время
+    private List<Card> deck;//колода
+    private List<Card> cardsOnDesk =new ArrayList<>();//карты на столе
+    private List<String> players = new ArrayList<>();//список игроков в игре
+    private List<Integer> score = new ArrayList<>();//список с количеством очков каждого игрока
+    private int countSets=0;//найдено сетов
+    private int activePlayers=0;//активные игроки
+    /**
+     * Хранит имена игроков нажавших пас
+     * Каждый раз когда игрок нажимает пас сюда добавляется его имя
+     * При каждом изменении стола лист очищается
+     */
+    private List<String> notAbleToPlay = new ArrayList<>();
 
     public int getActivePlayers() {
         return activePlayers;
@@ -24,12 +35,7 @@ public class GameState implements Serializable {
         this.activePlayers = activePlayers;
     }
 
-    /**
-     * Хранит имена игроков нажавших пас
-     * Каждый раз когда игрок нажимает пас сюда добавляется его имя
-     * При каждом изменении стола лист очищается
-     */
-    private List<String> notAbleToPlay = new ArrayList<>();
+
 
     public boolean hasPlayer(String name) {
         for (String player: players)
