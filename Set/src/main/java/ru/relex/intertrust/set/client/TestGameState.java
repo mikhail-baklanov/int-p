@@ -16,6 +16,7 @@ public class TestGameState {
 
     /**
      * Начальное состояние игры, когда в ней еще нет игроков
+     * initialGameState
      */
     public static GameState getGameState1() {
         return new GameState();
@@ -23,6 +24,7 @@ public class TestGameState {
 
     /**
      * Состояние игры, когда кто-то уже зарегистрировался; идет ожидание следующих игроков
+     * waitingGameState
      */
     public static GameState getGameState2() {
         GameState gameState = new GameState();
@@ -32,6 +34,7 @@ public class TestGameState {
 
     /**
      * Состояние игры, которая идет в данный момент, но текущий игрок в ней не участвует
+     * anotherGameState
      */
     public static GameState getGameState3() {
         GameState gameState = getGameState2();
@@ -41,6 +44,7 @@ public class TestGameState {
 
     /**
      * Состояние игры, которая идет в данный момент, и текущий игрок в ней участвует
+     * runningGameState
      */
     public static GameState getGameState4() {
         GameState gameState = getGameState3();
@@ -54,5 +58,9 @@ public class TestGameState {
     private static void addPlayer(GameState gameState, String playerName) {
         gameState.addPlayer(playerName);
         gameState.setActivePlayers(gameState.getActivePlayers() + 1);
+    }
+
+    public static String getCurrentPlayerName() {
+        return CURRENT_PLAYER_NAME;
     }
 }

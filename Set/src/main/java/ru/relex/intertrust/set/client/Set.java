@@ -135,11 +135,13 @@ public class Set implements EntryPoint {
                 newView = loginView;
         } else {
             if (playerName != null && gameState.hasPlayer(playerName)) {
+                consoleLog(playerName);
                 preGameView.setPreGameTimer(gameStateTime);
                 preGameView.setPlayers(gameState.getPlayers());
                 newView = preGameView;
             }
             else {
+                consoleLog("null");
                 if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
                     loginView.setLoginTimer(gameStateTime);
                 else
