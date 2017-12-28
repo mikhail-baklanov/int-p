@@ -134,10 +134,10 @@ public class Set implements EntryPoint {
         long gameStateTime = gameState.getTime();
         Widget newView;
         if (gameState.isStart()) {
-            if (gameStateTime > 0)
+            if (gameStateTime >= 0)
                 if (hasCurrentPlayer(gameState)) {
                     startView.setGameState(gameState);
-                    newView =  startView;
+                    newView = startView;
                 } else {
                     anotherGameView.setGameState(gameState);
                     newView =  anotherGameView;
