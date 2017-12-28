@@ -14,18 +14,14 @@ import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StartView extends Composite {
 
     GameState gs = null;
-    public void setGameState(GameState gameState) {
-        gs = gameState;
-        setStatistics(gameState.getPlayers(), gameState.getScore());
-        setCardLeft(gameState.getDeck().size());
-        setCards(gameState.getCardsOnDesk());
-        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
-    }
+
+    private List<Card> cards = new ArrayList<>();
 
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
@@ -43,7 +39,7 @@ public class StartView extends Composite {
     HTMLPanel start;
 
     @UiField
-    FlowPanel cardContainer;
+    HTMLPanel cardContainer;
 
     @UiField
     FlowPanel historyContainer;
@@ -52,16 +48,16 @@ public class StartView extends Composite {
     FlowPanel statisticContainer;
 
     @UiField
-    HTML time;
+    DivElement time;
 
     @UiField
-    HTML cardLeft;
+    DivElement cardLeft;
 
     @UiField
     Button passButton;
 
     public void setTime(String time){
-        this.time.setHTML("<div>"+time+"</div>");
+        this.time.setInnerHTML("<div>"+time+"</div>");
     }
 
     public void setStatistics(List<String> nickNames, List<Integer> scores){
@@ -96,7 +92,7 @@ public class StartView extends Composite {
     }
 
     public void setCardLeft(int cardLeftCount){
-        this.cardLeft.setHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
+        this.cardLeft.setInnerHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
     }
 
     public void setCards(List<Card> cardsOnDesk){
@@ -120,5 +116,16 @@ public class StartView extends Composite {
 
             }
         });
+    }
+
+    public void setGameState(GameState gameState) {
+        setStatistics(gameState.getPlayers(), gameState.getScore());
+        setCardLeft(gameState.getDeck().size());
+        if (!cards.containsAll(gameState.getCardsOnDesk()))
+        {
+            cards = gameState.getCardsOnDesk();
+            setCards(gameState.getCardsOnDesk());
+        }
+        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
     }
 }
