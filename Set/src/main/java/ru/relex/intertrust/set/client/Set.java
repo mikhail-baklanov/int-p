@@ -95,7 +95,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                gameState = nextState.get();
+                //gameState = nextState.get();
                 processGameState(gameState);
             }
         });
