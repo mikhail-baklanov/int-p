@@ -103,8 +103,13 @@ public class Set implements EntryPoint {
 
     static class NextState{
         int counter = 0;
-        int tics[] = {0,10,10,10};
-        GameState states[] = {TestGameState.getGameState1(),TestGameState.getGameState2(),TestGameState.getGameState3()};
+        int tics[] = {0,10,10,10,10};
+        GameState states[] = {
+                TestGameState.getInitialGameState(),
+                TestGameState.getWaitingGameState(),
+                TestGameState.getAnotherGameState(),
+                TestGameState.getWaitingWithCurrentGameState(),
+                TestGameState.getRunningGameState()};
         int index=0;
         public GameState get() {
             GameState s;
