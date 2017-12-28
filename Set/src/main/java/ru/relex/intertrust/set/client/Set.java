@@ -3,10 +3,8 @@ package ru.relex.intertrust.set.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
 public class Set implements EntryPoint {
@@ -100,16 +98,15 @@ public class Set implements EntryPoint {
                 Widget newView;
                 if (gameState.isStart()) {
                     if (gameStateTime > 0)
-                        newView = anotherGameView;
+                        newView = hasCurrentPlayer(gameState) ? startView : anotherGameView;
                     else
                         newView = loginView;
                 } else {
-                    if (playerName != null && gameState.hasPlayer(playerName)) {
+                    if (hasCurrentPlayer(gameState)) {
                         preGameView.setPreGameTimer(gameStateTime);
                         preGameView.setPlayers(gameState.getPlayers());
                         newView = preGameView;
-                    }
-                    else {
+                    } else {
                         if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
                             loginView.setLoginTimer(gameStateTime);
                         else
@@ -123,5 +120,9 @@ public class Set implements EntryPoint {
                 }
             }
         });
+    }
+
+    private boolean hasCurrentPlayer(GameState gameState) {
+        return playerName != null && gameState.hasPlayer(playerName);
     }
 }
