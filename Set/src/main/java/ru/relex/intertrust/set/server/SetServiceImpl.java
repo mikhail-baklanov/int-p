@@ -20,10 +20,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
 
+
     @Override
     public void init() throws ServletException {
         super.init();
         initGame();
+        timer.schedule(t,0,500);
     }
 
     /**
@@ -35,19 +37,23 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     public boolean login(String name) {
+
         if (name.trim().isEmpty())
             return false;
         GameState gameState =(GameState) getServletContext().getAttribute(GAME_STATE);//getGameState();?
         boolean success;
 
         synchronized (gameState) {
+
+
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
                 if (gameState.getActivePlayers()==0)
                 {
+                    gameState.setTime(-60000);
 
-                    timer.schedule(t,0,500);
+
                 }
                 gameState.addPlayer(name);
                 gameState.setActivePlayers(gameState.getActivePlayers()+1);
@@ -97,7 +103,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             gameState.setActivePlayers(gameState.getActivePlayers() - 1);
             if (gameState.getActivePlayers() == 0) {
                 initGame();
-                timer.cancel();
+                //timer.cancel();
             }
             if (!gameState.isStart()) {
                 gameState.getPlayers().remove(playerNumber);
