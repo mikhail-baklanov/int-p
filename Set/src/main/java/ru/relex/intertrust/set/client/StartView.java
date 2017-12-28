@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StartView extends Composite {
@@ -54,6 +55,21 @@ public class StartView extends Composite {
 
     @UiField
     HTML cardLeft;
+
+    @UiField
+    Button exitGame;
+
+    private OnExitGameCallback exitListener;
+
+    public StartView(OnExitGameCallback exitListener) {
+        this.exitListener = exitListener;
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    @UiHandler("exitGame")
+    public void onClick(ClickEvent e) {
+        exitListener.onExit();
+    }
 
     public void setTime(String time){
         this.time.setHTML("<div>"+time+"</div>");

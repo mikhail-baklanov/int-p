@@ -61,7 +61,7 @@ public class Set implements EntryPoint {
 
     private final LoginView loginView = new LoginView(loginCallback);
 
-    private final StartView startView = new StartView();
+    private final StartView startView = new StartView(exitGameCallback);
 
 
     public void onModuleLoad() {

@@ -228,6 +228,25 @@
             background-size: 80%;
             cursor: pointer;
         }
+        .login-block_exit {
+            width: 200px;
+            height: 50px;
+            margin: 10px auto;
+            cursor: pointer;
+            border: 1px solid #cd6060;
+            background-color: transparent;
+            color: #cd6060;
+            font-size: 20px;
+            font-family: "Open Sans";
+            font-weight: 300;
+            transition: .15s;
+            outline: none;
+        }
+
+        .login-block_exit:hover {
+            color: #934c4c;
+            background-color: rgba(205,96,96,0.1);
+        }
         @external .statistic-item;
         @external .seporator;
         @external .history-item;
@@ -246,6 +265,7 @@
         @external .overflow;
         @external .pass;
         @external .slide-button;
+        @external .login-block_exit;
     </ui:style>
     <g:HTMLPanel ui:field="start">
         <main class="{style.wrapper}">
@@ -282,6 +302,7 @@
                     </div>
                 </div>
                 <button class="{style.pass}">Пac</button>
+                <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
             </div>
         </main>
     </g:HTMLPanel>
