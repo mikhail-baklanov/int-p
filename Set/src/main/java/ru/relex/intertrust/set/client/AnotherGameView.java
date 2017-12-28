@@ -7,8 +7,14 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.GameState;
 
+import java.util.List;
+
 public class AnotherGameView extends Composite {
+
     public void setGameState(GameState gameState) {
+        setAnotherGameTime(gameState.getTime());
+        setAnotherGameCards(gameState.getDeck().size());
+        setAnotherGamePlayers(gameState.getPlayers(), gameState.getScore());
     }
 
     interface AnotherGameViewUiBinder extends UiBinder<Widget, AnotherGameView> {
@@ -28,17 +34,23 @@ public class AnotherGameView extends Composite {
     public AnotherGameView() {
         initWidget(uiBinder.createAndBindUi(this));
     }
-
-    public void setAnotherGameTime(String time) {
-        this.anotherGameTime.setInnerHTML(time);
+    public void setAnotherGameTime(Long time) {
+        String gameTimer = " 00:" + time/1000;
+        this.anotherGameTime.setInnerHTML(gameTimer);
     }
 
-    public void setAnotherGameCards(String cards) {
-        this.anotherGameCards.setInnerHTML(cards);
+    public void setAnotherGameCards(int cards) {
+        this.anotherGameCards.setInnerHTML("" + cards);
     }
 
-    public void setAnotherGamePlayers(Widget players) {
-        this.anotherGamePlayers.add(players);
+    public void setAnotherGamePlayers(List<String> players, List<Integer> score) {
+        anotherGamePlayers.clear();
+        for (int i = 0; i < players.size(); i++) {
+            HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n" +
+                    "                        <div>" + players.get(i) + "</div><div>" + score.get(i) + "</div>\n" +
+                    "                    </div>");
+            anotherGamePlayers.add(widget);
+        }
     }
 }
 
