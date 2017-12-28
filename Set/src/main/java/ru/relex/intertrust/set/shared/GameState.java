@@ -8,7 +8,9 @@ public class GameState implements Serializable {
 
     private boolean isStart = false;
 
-    private long time= -60000;
+    private static final long TIME_TO_GAME = 10000;
+
+    private long time= -TIME_TO_GAME;
     private List<Card> deck;
     private List<Card> cardsOnDesk =new ArrayList<>();
     private List<String> players = new ArrayList<>();
@@ -96,9 +98,6 @@ public class GameState implements Serializable {
 
     public void addScore(Integer scores){score.add(scores);}
 
-
-
-
     public void addPlayer(String name)
     {
         players.add(name);
@@ -113,5 +112,7 @@ public class GameState implements Serializable {
 
     public void clearNotAbleToPlay() { notAbleToPlay.clear();}
 
-
+    public void prepareTime() {
+        setTime(-GameState.TIME_TO_GAME);
+    }
 }
