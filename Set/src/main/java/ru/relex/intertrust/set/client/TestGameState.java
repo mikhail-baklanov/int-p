@@ -21,18 +21,34 @@ public class TestGameState {
 
     /**
      * Начальное состояние игры, когда в ней еще нет игроков
-     * initialGameState
      */
-    public static GameState getGameState1() {
+    public static GameState getInitialGameState() {
         IS_PLAYER_REGISTERED = false;
         return new GameState();
     }
 
     /**
-     * Состояние игры, когда текущий игрок зарегистрировался; идет ожидание следующих игроков
-     * waitingGameState
+     * Состояние игры, когда текущий игрок еще не зарегистрирован, и идет ожидание игроков
      */
-    public static GameState getGameState2() {
+    public static GameState getWaitingGameState() {
+        GameState gameState = getInitialGameState();
+        addPlayer(gameState, SAMPLE_PLAYER_NAME);
+        return gameState;
+    }
+
+    /**
+     * Состояние игры, когда текущий игрок не зарегистрирован, но игра уже идет
+     */
+    public static GameState getAnotherGameState() {
+        GameState gameState = getWaitingGameState();
+        gameState.setStart(true);
+        return gameState;
+    }
+
+    /**
+     * Состояние игры, когда текущий игрок зарегистрировался; идет ожидание следующих игроков
+     */
+    public static GameState getWaitingWithCurrentGameState() {
         GameState gameState = new GameState();
         addPlayer(gameState, CURRENT_PLAYER_NAME);
         IS_PLAYER_REGISTERED = true;
@@ -43,8 +59,8 @@ public class TestGameState {
      * Состояние игры, которая идет в данный момент, и текущий игрок в ней участвует
      * runningGameState
      */
-    public static GameState getGameState3() {
-        GameState gameState = getGameState2();
+    public static GameState getRunningGameState() {
+        GameState gameState = getWaitingWithCurrentGameState();
         gameState.setStart(true);
         return gameState;
     }
