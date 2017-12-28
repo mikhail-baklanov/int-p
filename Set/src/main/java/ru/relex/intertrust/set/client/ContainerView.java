@@ -12,10 +12,22 @@ public class ContainerView extends Composite {
     interface ContainerViewUiBinder extends UiBinder<Widget, ContainerView> {
     }
 
+    interface MyStyle extends CssResource {
+
+        @ClassName("login-block")
+        String loginBlock();
+    }
+
     private static ContainerView.ContainerViewUiBinder uiBinder = GWT.create(ContainerView.ContainerViewUiBinder.class);
 
     @UiField
     HTMLPanel containerPanel;
+
+    @UiField
+    HTMLPanel block;
+
+    @UiField
+    MyStyle style;
 
     public ContainerView () {
         initWidget(uiBinder.createAndBindUi(this));
@@ -30,11 +42,18 @@ public class ContainerView extends Composite {
                 containerPanel.getElement().getStyle().setOpacity(1);
             }
         };
-
         if (containerPanel.getWidgetCount() != 0) {
             containerPanel.getElement().getStyle().setOpacity(0);
             timer.schedule(400);
         } else
             timer.run();
+    }
+
+    public void removeStyle() {
+        block.removeStyleName(style.loginBlock());
+    }
+
+    public void addStyle() {
+        block.setStyleName(style.loginBlock());
     }
 }
