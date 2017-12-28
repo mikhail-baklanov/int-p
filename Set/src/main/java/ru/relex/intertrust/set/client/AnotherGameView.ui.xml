@@ -69,21 +69,8 @@
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="anotherGamePlayers">
-
                     <div class="{style.game-started_players_item}">
-                        <div>Михаил</div><div>11</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Виталий</div><div>10</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Олег</div><div>9</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Сергей</div><div>9</div>
-                    </div>
-                    <div class="{style.game-started_players_item}">
-                        <div>Александр</div><div>9</div>
+                        <div>Имя игрока</div><div>Баллы</div>
                     </div>
                 </g:HTMLPanel>
             </div>
