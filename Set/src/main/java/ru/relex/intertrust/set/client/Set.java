@@ -130,18 +130,16 @@ public class Set implements EntryPoint {
         Widget newView;
         if (gameState.isStart()) {
             if (gameStateTime > 0)
-                newView = anotherGameView;
+                newView = hasCurrentPlayer(gameState) ? startView : anotherGameView;
             else
                 newView = loginView;
         } else {
-            if (playerName != null && gameState.hasPlayer(playerName)) {
-                consoleLog(playerName);
+            if (hasCurrentPlayer(gameState)) {
                 preGameView.setPreGameTimer(gameStateTime);
                 preGameView.setPlayers(gameState.getPlayers());
                 newView = preGameView;
             }
             else {
-                consoleLog("null");
                 if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
                     loginView.setLoginTimer(gameStateTime);
                 else
