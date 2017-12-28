@@ -130,6 +130,7 @@ public class StartView extends Composite {
     }
 
     public void setGameState(GameState gameState) {
+        gs = gameState;
         setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
         if (!cards.containsAll(gameState.getCardsOnDesk()))
