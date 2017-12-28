@@ -18,7 +18,9 @@ import java.util.List;
 
 public class StartView extends Composite {
 
+    GameState gs = null;
     public void setGameState(GameState gameState) {
+        gs = gameState;
         setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
         setCards(gameState.getCardsOnDesk());
@@ -54,6 +56,9 @@ public class StartView extends Composite {
 
     @UiField
     HTML cardLeft;
+
+    @UiField
+    Button passButton;
 
     public void setTime(String time){
         this.time.setHTML("<div>"+time+"</div>");
@@ -94,5 +99,20 @@ public class StartView extends Composite {
             CardView cardView = new CardView(cardsOnDesk.get(i));
             cardContainer.add(cardView);
         }
+    }
+
+    @UiHandler("passButton")
+    public void onClick(ClickEvent e) {
+        ourInstance.pass(gs.getDeck().size(), new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
     }
 }
