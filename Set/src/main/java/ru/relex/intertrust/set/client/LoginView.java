@@ -88,4 +88,8 @@ public class LoginView extends Composite {
         String gameTimer = " 00:" + -time/1000;
         loginTimer.setInnerHTML(gameTimer);
     }
+
+    public void removeLoginTimer(){
+        timeBlockLogin.removeClassName("active");
+    }
 }

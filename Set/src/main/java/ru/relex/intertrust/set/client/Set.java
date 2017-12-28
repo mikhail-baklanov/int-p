@@ -91,7 +91,6 @@ public class Set implements EntryPoint {
                 consoleLog(caught.getMessage());
             }
 
-            
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
@@ -111,6 +110,8 @@ public class Set implements EntryPoint {
                     else {
                         if (gameStateTime < 0 && gameStateTime != -60000)
                             loginView.setLoginTimer(gameStateTime);
+                        else
+                            loginView.removeLoginTimer();
                         newView = loginView;
                     }
                 }
