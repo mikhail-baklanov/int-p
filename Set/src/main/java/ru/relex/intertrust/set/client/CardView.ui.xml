@@ -29,6 +29,7 @@
             box-shadow: 1px 3px 7px rgba(105,127,148,1);
         }
         @external .shape;
+        @exdernal .card;
     </ui:style>
     <g:HTMLPanel ui:field="cardContainer" styleName="{style.card}">
 

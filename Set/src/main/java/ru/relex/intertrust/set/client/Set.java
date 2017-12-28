@@ -95,7 +95,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                //gameState = nextState.get();
+                //gameState = getTestGameState();
                 processGameState(gameState);
             }
         });
@@ -103,8 +103,14 @@ public class Set implements EntryPoint {
 
     static class NextState{
         int counter = 0;
-        int tics[] = {0,10,10,10};
-        GameState states[] = {TestGameState.getGameState1(),TestGameState.getGameState2(),TestGameState.getGameState3()};
+        int tics[] = {0,10,10,10,10};
+        GameState states[] = {
+                TestGameState.getInitialGameState(),
+                TestGameState.getWaitingGameState(),
+                TestGameState.getAnotherGameState(),
+                TestGameState.getWaitingWithCurrentGameState(),
+                TestGameState.getRunningGameState()};
+        boolean isCurrentPlayerRegistered;
         int index=0;
         public GameState get() {
             GameState s;
@@ -122,6 +128,7 @@ public class Set implements EntryPoint {
                     counter--;
                 }
             }
+            isCurrentPlayerRegistered = index > 2;
             return s;
         }
     }
@@ -130,8 +137,14 @@ public class Set implements EntryPoint {
         long gameStateTime = gameState.getTime();
         Widget newView;
         if (gameState.isStart()) {
-            if (gameStateTime > 0)
-                newView = hasCurrentPlayer(gameState) ? startView : anotherGameView;
+            if (gameStateTime >= 0)
+                if (hasCurrentPlayer(gameState)) {
+                    startView.setGameState(gameState);
+                    newView = startView;
+                } else {
+                    anotherGameView.setGameState(gameState);
+                    newView =  anotherGameView;
+                }
             else
                 newView = loginView;
         } else {
@@ -161,5 +174,11 @@ public class Set implements EntryPoint {
 
     private boolean hasCurrentPlayer(GameState gameState) {
         return playerName != null && gameState.hasPlayer(playerName);
+    }
+
+    private GameState getTestGameState() {
+        if (nextState.isCurrentPlayerRegistered)
+            playerName = TestGameState.getCurrentPlayerName();
+        return nextState.get();
     }
 }

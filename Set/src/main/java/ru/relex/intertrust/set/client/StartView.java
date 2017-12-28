@@ -12,10 +12,19 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.Card;
+import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
 public class StartView extends Composite {
+
+    public void setGameState(GameState gameState) {
+        setStatistics(gameState.getPlayers(), gameState.getScore());
+        setCardLeft(gameState.getDeck().size());
+        setCards(gameState.getCardsOnDesk());
+        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
+    }
+
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
 

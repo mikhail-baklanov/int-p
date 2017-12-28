@@ -232,6 +232,20 @@
         @external .seporator;
         @external .history-item;
         @external .time-remaining;
+        @external .wrapper;
+        @external .left-bar;
+        @external .active;
+        @external .card;
+        @external .shape;
+        @external .cards-remaining;
+        @external .right-bar;
+        @external .statistic;
+        @external .seporator;
+        @external .history;
+        @external .header;
+        @external .overflow;
+        @external .pass;
+        @external .slide-button;
     </ui:style>
     <g:HTMLPanel ui:field="start">
         <main class="{style.wrapper}">
