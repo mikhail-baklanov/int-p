@@ -15,30 +15,27 @@ public class TestGameState {
     private static final String SAMPLE_PLAYER_NAME = "Someone";
 
     /**
+     * Флаг, показывающий, зарегистрирован ли текущий пользователь
+     */
+    private static boolean IS_PLAYER_REGISTERED = false;
+
+    /**
      * Начальное состояние игры, когда в ней еще нет игроков
      * initialGameState
      */
     public static GameState getGameState1() {
+        IS_PLAYER_REGISTERED = false;
         return new GameState();
     }
 
     /**
-     * Состояние игры, когда кто-то уже зарегистрировался; идет ожидание следующих игроков
+     * Состояние игры, когда текущий игрок зарегистрировался; идет ожидание следующих игроков
      * waitingGameState
      */
     public static GameState getGameState2() {
         GameState gameState = new GameState();
-        addPlayer(gameState, SAMPLE_PLAYER_NAME);
-        return gameState;
-    }
-
-    /**
-     * Состояние игры, которая идет в данный момент, но текущий игрок в ней не участвует
-     * anotherGameState
-     */
-    public static GameState getGameState3() {
-        GameState gameState = getGameState2();
-        gameState.setStart(true);
+        addPlayer(gameState, CURRENT_PLAYER_NAME);
+        IS_PLAYER_REGISTERED = true;
         return gameState;
     }
 
@@ -46,9 +43,9 @@ public class TestGameState {
      * Состояние игры, которая идет в данный момент, и текущий игрок в ней участвует
      * runningGameState
      */
-    public static GameState getGameState4() {
-        GameState gameState = getGameState3();
-        gameState.addPlayer(CURRENT_PLAYER_NAME);
+    public static GameState getGameState3() {
+        GameState gameState = getGameState2();
+        gameState.setStart(true);
         return gameState;
     }
 
@@ -62,5 +59,9 @@ public class TestGameState {
 
     public static String getCurrentPlayerName() {
         return CURRENT_PLAYER_NAME;
+    }
+
+    public static boolean isCurrentPlayerRegistered() {
+        return IS_PLAYER_REGISTERED;
     }
 }
