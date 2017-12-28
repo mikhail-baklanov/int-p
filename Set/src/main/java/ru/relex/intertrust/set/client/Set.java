@@ -103,34 +103,35 @@ public class Set implements EntryPoint {
 
     static class NextState{
         int counter = 0;
-        int tics[] = {0,1,1,1,1};
+        int ticValue = 5;
         GameState states[] = {
                 TestGameState.getInitialGameState(),
-                TestGameState.getWaitingGameState(),
+                TestGameState.getInitialGameStateWithTimer(),
                 TestGameState.getAnotherGameState(),
-                TestGameState.getWaitingWithCurrentGameState(),
+                TestGameState.getWaitingGameState(),
                 TestGameState.getRunningGameState()};
+        int length = states.length;
         boolean isCurrentPlayerRegistered;
         int index=0;
-        public GameState get() {
-            GameState s;
-            isCurrentPlayerRegistered = index >= 2;
-            if (index>=states.length) {
-                s = states[states.length-1];
+
+        GameState get() {
+            GameState gameState;
+            isCurrentPlayerRegistered = index > 1;
+            if (index >= length) {
+                gameState = states[length - 1];
             } else {
-                s = states[index];
-                consoleLog("state = " + index);
-                if (counter==0){
+                gameState = states[index];
+                if (counter == 0){
                     index++;
-                    //consoleLog("Фейковое состояние №"+index);
-                    if (index<states.length){
-                        counter=tics[index];
+                    consoleLog("Фейковое состояние №"+index);
+                    if (index < length){
+                        counter = ticValue;
                     }
                 } else {
                     counter--;
                 }
             }
-            return s;
+            return gameState;
         }
     }
 
@@ -138,16 +139,18 @@ public class Set implements EntryPoint {
         long gameStateTime = gameState.getTime();
         Widget newView;
         if (gameState.isStart()) {
-            if (gameStateTime >= 0)
+            if (gameStateTime >= 0) {
                 if (hasCurrentPlayer(gameState)) {
                     startView.setGameState(gameState);
                     newView = startView;
                 } else {
                     anotherGameView.setGameState(gameState);
-                    newView =  anotherGameView;
+                    newView = anotherGameView;
                 }
-            else
+            }
+            else {
                 newView = loginView;
+            }
         } else {
             if (hasCurrentPlayer(gameState)) {
                 preGameView.setPreGameTimer(gameStateTime);
@@ -179,8 +182,9 @@ public class Set implements EntryPoint {
 
     private GameState getTestGameState() {
         GameState gameState = nextState.get();
-        if (nextState.isCurrentPlayerRegistered)
-            playerName = TestGameState.getCurrentPlayerName();
+        playerName = nextState.isCurrentPlayerRegistered
+                ? TestGameState.getCurrentPlayerName()
+                : null;
         return gameState;
     }
 }
