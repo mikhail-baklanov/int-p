@@ -21,7 +21,10 @@ public class CardView extends Composite {
     private static String COLOR[] = {"g", "p", "r"};
     private static String SHAPE[] = {"D", "P", "S"};
 
+    private Card card;
+
     public CardView(Card card) {
+        this.card = card;
         initWidget(uiBinder.createAndBindUi(this));
         for (int i=1;i<=card.getShapeCount();i++) {
             cardContainer.add(new HTML(new SafeHtml() {
@@ -34,6 +37,10 @@ public class CardView extends Composite {
                 }
             }));
         }
+    }
+
+    public Card getCard () {
+        return card;
     }
 }
 

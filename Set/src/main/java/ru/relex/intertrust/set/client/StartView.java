@@ -2,6 +2,7 @@ package ru.relex.intertrust.set.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,9 +22,9 @@ import java.util.List;
 
 public class StartView extends Composite {
 
-    GameState gs = new GameState();
+    private GameState gs = new GameState();
 
-    private List<Card> cards = new ArrayList<>();
+    private List<Card> choosedCards = new ArrayList<>();
 
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
@@ -34,8 +35,9 @@ public class StartView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    public StartView(OnExitGameCallback exitListener) {
+    public StartView(OnExitGameCallback exitListener, OnCheckSetSuccessCallback checkSetSuccessCallback) {
         this.exitListener = exitListener;
+        this.checkListener = checkSetSuccessCallback;
         initWidget(uiBinder.createAndBindUi(this));
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
@@ -86,6 +88,7 @@ public class StartView extends Composite {
     HTMLPanel rightBar;
 
     private OnExitGameCallback exitListener;
+    private OnCheckSetSuccessCallback checkListener;
 
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
@@ -131,11 +134,19 @@ public class StartView extends Composite {
     }
 
     public void setCards(List<Card> cardsOnDesk){
+        ClickHandler click = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                addCard(clickEvent.getSource());
+            }
+        };
         boolean issetFlag = false;
         if(gs.getCardsOnDesk().size() == 0)
             for (int i = 0; i < cardsOnDesk.size(); i++) {
-                CardView cardView = new CardView(cardsOnDesk.get(i));
-                cardContainer.add(cardView);
+                CardView card = new CardView(cardsOnDesk.get(i));
+                card.sinkEvents(Event.ONCLICK);
+                card.addHandler(click, ClickEvent.getType());
+                cardContainer.add(card);
             }
         else {
             for (int i = 0; i < gs.getCardsOnDesk().size(); i++) {
@@ -157,8 +168,12 @@ public class StartView extends Composite {
                         break;
                     }
                 }
-                if (!issetFlag)
-                    cardContainer.add(new CardView(cardsOnDesk.get(i)));
+                if (!issetFlag) {
+                    CardView card = new CardView(cardsOnDesk.get(i));
+                    card.sinkEvents(Event.ONCLICK);
+                    card.addHandler(click, ClickEvent.getType());
+                    cardContainer.add(card);
+                }
                 issetFlag = false;
             }
         }
@@ -187,5 +202,15 @@ public class StartView extends Composite {
         setHistory(gameState.getCountSets());
         setTime(Utils.formatTime(gameState.getTime()));
         gs = gameState;
+    }
+
+    private void addCard (Object widget) {
+        CardView card = (CardView)widget;
+        choosedCards.add(card.getCard());
+        if(choosedCards.size() == 3) {
+            Utils.consoleLog(choosedCards.get(0), choosedCards.get(1), choosedCards.get(2));
+            checkListener.onCheckSet(choosedCards.toArray(new Card[3]));
+            choosedCards.clear();
+        }
     }
 }

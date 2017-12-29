@@ -11,4 +11,16 @@ public class Utils {
             return (timeMs/60 < 10 ? "0" + timeMs/60 : timeMs/60) + ":" + (timeMs%60 < 10 ? "0" + timeMs%60 : timeMs%60);
         }
     }
+
+    /**
+     * Функция печати сообщения в консоль браузера.
+     * @param message сообщение, которое будет напечатано
+     */
+    native static void consoleLog(String message) /*-{
+        console.log(message);
+    }-*/;
+
+    native static void consoleLog(Object... objects) /*-{
+        console.log(objects);
+    }-*/;
 }
