@@ -174,40 +174,41 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void checkSet(Card[] set) {
         GameState gameState = getGameState();
         synchronized (gameState) {
-            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
-            int oldScore = gameState.getScore().get(playerNumber);
-            int[] summ = {0, 0, 0, 0};
-            for (int i = 0; i <= 2; i++) {
-                summ[0] += set[i].getColor();
-                summ[1] += set[i].getShapeCount();
-                summ[2] += set[i].getFill();
-                summ[3] += set[i].getShape();
-            }
-            for (int i = 0; i <= 3; i++) {
-                if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
-                    gameState.getScore().set(playerNumber, oldScore - 5);
-                    return;
+            if (set[0] != set[1]) {
+                int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+                int oldScore = gameState.getScore().get(playerNumber);
+                int[] summ = {0, 0, 0, 0};
+                for (int i = 0; i <= 2; i++) {
+                    summ[0] += set[i].getColor();
+                    summ[1] += set[i].getShapeCount();
+                    summ[2] += set[i].getFill();
+                    summ[3] += set[i].getShape();
                 }
-            }
-            if (!isPassed())
-            {
-                int existSet = 0;
-                List<Card> cardsOnDesk = gameState.getCardsOnDesk();
-                for (Card c: set) {
-                    if (cardsOnDesk.contains(c))
+                for (int i = 0; i <= 3; i++) {
+                    if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
+                        gameState.getScore().set(playerNumber, oldScore - 5);
+                        return;
+                    }
+                }
+                if (!isPassed()) {
+                    int existSet = 0;
+                    List<Card> cardsOnDesk = gameState.getCardsOnDesk();
+                    for (Card c : set) {
+                        if (cardsOnDesk.contains(c))
                             existSet++;
-                }
-                if (existSet == 3) {
-                    gameState.getScore().set(playerNumber, oldScore + 3);
-                    gameState.setCountSets(gameState.getCountSets() + 1);
-                    for (Card c: set)
-                        gameState.getCardsOnDesk().remove(c);
+                    }
+                    if (existSet == 3) {
+                        gameState.getScore().set(playerNumber, oldScore + 3);
+                        gameState.setCountSets(gameState.getCountSets() + 1);
+                        for (Card c : set)
+                            gameState.getCardsOnDesk().remove(c);
 
-                    if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size()<=12) {
-                        addCards(3);
-                    } else {
-                        if (gameState.getCardsOnDesk().size() == 0)
-                            gameState.setStart(false);
+                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= 12) {
+                            addCards(3);
+                        } else {
+                            if (gameState.getCardsOnDesk().size() == 0)
+                                gameState.setStart(false);
+                        }
                     }
                 }
             }
