@@ -107,9 +107,9 @@ public class StartView extends Composite {
             this.statisticContainer.add(player);
             this.statisticContainer.add(separator);
         }
-        String s = "";
-        HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0; \"><span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
-        this.statisticContainer.add(player);
+//        String s = "";
+//        HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0; \"><span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
+//        this.statisticContainer.add(player);
     }
 
     public void setHistory(List<String> logs){
