@@ -137,7 +137,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 if (gameState.getDeck().size() == 0) {
                     gameState.setStart(false);
                 }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-                else addCards(3);
+                else if(gameState.getCardsOnDesk().size()<21)
+                    addCards(3);
             }
 
         }
