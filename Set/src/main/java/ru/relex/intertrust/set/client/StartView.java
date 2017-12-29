@@ -112,16 +112,18 @@ public class StartView extends Composite {
 //        this.statisticContainer.add(player);
     }
 
-    public void setHistory(List<String> logs){
+    public void setHistory(int findSets){
         this.historyContainer.clear();
-        for (int i = 0; i < logs.size()-1; i++) {
-            HTML player = new HTML("<div class=\"history-item\">"+logs.get(i)+"</div>");
-            this.historyContainer.add(player);
-            HTML separator = new HTML("<div class=\"seporator\"></div>");
-            this.historyContainer.add(separator);
-        }
-        HTML player = new HTML("<div class=\"history-item\">"+logs.get(logs.size()-1)+"</div>");
-        this.historyContainer.add(player);
+//        for (int i = 0; i < logs.size()-1; i++) {
+//            HTML player = new HTML("<div class=\"history-item\">"+logs.get(i)+"</div>");
+//            this.historyContainer.add(player);
+//            HTML separator = new HTML("<div class=\"seporator\"></div>");
+//            this.historyContainer.add(separator);
+//        }
+//        HTML player = new HTML("<div class=\"history-item\">"+logs.get(logs.size()-1)+"</div>");
+//        this.historyContainer.add(player);
+        HTML sets = new HTML("<div>Сетов собрано: "+findSets+"</div>");
+        this.historyContainer.add(sets);
     }
 
     public void setCardLeft(int cardLeftCount){
@@ -155,11 +157,12 @@ public class StartView extends Composite {
         gs = gameState;
         setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
+        setHistory(gameState.getCountSets());
         if (!cards.containsAll(gameState.getCardsOnDesk()))
         {
             cards = gameState.getCardsOnDesk();
             setCards(gameState.getCardsOnDesk());
         }
-        setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
+        setTime(Utils.formatTime(gameState.getTime()));
     }
 }

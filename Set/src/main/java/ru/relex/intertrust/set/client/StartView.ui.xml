@@ -253,6 +253,7 @@
             color: #934c4c;
             background-color: rgba(205,96,96,0.1);
         }
+
         @external .statistic-item;
         @external .history-item;
         @external .time-remaining;
@@ -299,7 +300,7 @@
                     </div>
                 </div>
                 <div class="{style.history}">
-                    <div class="{style.history-item} {style.header}">История</div>
+                    <div class="{style.history-item} {style.header}">Статистика</div>
                     <div class="{style.overflow}">
                         <g:FlowPanel ui:field="historyContainer">
 
