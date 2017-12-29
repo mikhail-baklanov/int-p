@@ -33,7 +33,7 @@ public class Set implements EntryPoint {
             serviceAsync.exit(new AsyncCallback<Void>() {
                 @Override
                 public void onFailure(Throwable throwable) {
-                    consoleLog(throwable.getMessage());
+                    Utils.consoleLog(throwable.getMessage());
                 }
 
                 @Override
@@ -59,9 +59,23 @@ public class Set implements EntryPoint {
         requestServer();
     };
 
+    private OnCheckSetSuccessCallback onCheckSet = cards -> {
+        serviceAsync.checkSet(cards, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+    };
+
     private final LoginView loginView = new LoginView(loginCallback);
 
-    private final StartView startView = new StartView(exitGameCallback);
+    private final StartView startView = new StartView(exitGameCallback, onCheckSet);
 
 
     public void onModuleLoad() {
@@ -77,20 +91,12 @@ public class Set implements EntryPoint {
         timer.scheduleRepeating(REQUEST_PERIOD);
     }
 
-    /**
-     * Функция печати сообщения в консоль браузера.
-     * @param message сообщение, которое будет напечатано
-     */
-    native static void consoleLog(String message) /*-{
-        console.log(message);
-    }-*/;
-
 
     private void requestServer () {
         serviceAsync.getGameState(new AsyncCallback<GameState>() {
             @Override
             public void onFailure(Throwable caught) {
-                consoleLog(caught.getMessage());
+                Utils.consoleLog(caught.getMessage());
             }
 
             // Добавление нужного экрана для текущего состояния игры
