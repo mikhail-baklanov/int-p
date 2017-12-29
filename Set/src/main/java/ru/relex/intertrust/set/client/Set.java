@@ -96,7 +96,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-              //  gameState = getTestGameState();
+                //gameState = getTestGameState();
                 processGameState(gameState);
             }
         });
@@ -126,7 +126,6 @@ public class Set implements EntryPoint {
                 gameState = states[index];
                 if (counter == 0){
                     index++;
-                    //consoleLog("Фейковое состояние №"+index);
                     if (index < length){
                         counter = ticValue;
                     }
@@ -134,6 +133,7 @@ public class Set implements EntryPoint {
                     counter--;
                 }
             }
+            consoleLog("Фейковое состояние №"+index);
             return gameState;
         }
     }
