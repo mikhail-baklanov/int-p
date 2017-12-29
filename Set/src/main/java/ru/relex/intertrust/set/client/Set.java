@@ -102,7 +102,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-              //  gameState = getTestGameState();
+                //gameState = getTestGameState();
                 processGameState(gameState);
             }
         });
@@ -111,35 +111,35 @@ public class Set implements EntryPoint {
     static class NextState{
         int counter = 0;
         int ticValue = 5;
+        GameState runningGameState = TestGameState.getRunningGameState();
         GameState states[] = {
                 TestGameState.getInitialGameState(),
                 TestGameState.getInitialGameStateWithTimer(),
                 TestGameState.getAnotherGameState(),
                 TestGameState.getWaitingGameState(),
-                TestGameState.getRunningGameState(),
-                TestGameState.getPassGameState()
+                runningGameState
         };
-        int length = states.length;
         boolean isCurrentPlayerRegistered;
-        int index=0;
+        int index = 0;
 
         GameState get() {
             GameState gameState;
             isCurrentPlayerRegistered = index > 1;
-            if (index >= length) {
-                gameState = states[length - 1];
+            if (index >= states.length) {
+                gameState = TestGameState.getPassGameState(runningGameState);
+                //gameState = states[states.length - 1];
             } else {
                 gameState = states[index];
                 if (counter == 0){
                     index++;
-                    //consoleLog("Фейковое состояние №"+index);
-                    if (index < length){
+                    if (index < states.length){
                         counter = ticValue;
                     }
                 } else {
                     counter--;
                 }
             }
+            consoleLog("Фейковое состояние №"+index);
             return gameState;
         }
     }

@@ -35,8 +35,7 @@ public class AnotherGameView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
     public void setAnotherGameTime(Long time) {
-        String gameTimer = " 00:" + time/1000;
-        this.anotherGameTime.setInnerHTML(gameTimer);
+        this.anotherGameTime.setInnerHTML(Utils.formatTime(time));
     }
 
     public void setAnotherGameCards(int cards) {
