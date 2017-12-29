@@ -126,8 +126,9 @@ public class StartView extends Composite {
 //        }
 //        HTML player = new HTML("<div class=\"history-item\">"+logs.get(logs.size()-1)+"</div>");
 //        this.historyContainer.add(player);
-        HTML sets = new HTML("<div>Сетов собрано: "+findSets+"</div>");
+        HTML sets = new HTML("<div class=\"history-item\">Сетов собрано: "+findSets+"</div>");
         this.historyContainer.add(sets);
+        this.historyContainer.add(separator);
     }
 
     public void setCardLeft(int cardLeftCount){
