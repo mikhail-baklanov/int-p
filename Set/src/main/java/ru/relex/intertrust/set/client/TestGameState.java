@@ -18,6 +18,11 @@ class TestGameState {
      */
     private static final String SAMPLE_PLAYER_NAME = "Someone";
 
+    /**
+     * Количество добавляемых карт для новой игры
+     */
+    private static int INITIAL_COUNT_OF_CARDS = 12;
+
     //region Game states
 
     /**
@@ -57,6 +62,7 @@ class TestGameState {
     static GameState getRunningGameState() {
         GameState gameState = getWaitingGameState();
         initRunningGameState(gameState);
+        addCards(gameState, INITIAL_COUNT_OF_CARDS);
         return gameState;
     }
     //endregion
@@ -91,5 +97,19 @@ class TestGameState {
         gameState.setDeck(cardsDeck);
         gameState.setStart(true);
         gameState.setTime(1);
+    }
+
+    /**
+     * Вспомогательная функция добавления карт на игровой стол
+     * @param gameState Состояние запущенной игры
+     * @param countOfCards Количество добавляемых карт
+     */
+    private static void addCards(GameState gameState, int countOfCards) {
+        List<Card> deck = gameState.getDeck();
+        Card cardInDeck = deck.get(deck.size() - 1);
+        for (int i = 0; i < countOfCards; i++) {
+            gameState.getCardsOnDesk().add(cardInDeck);
+            gameState.getDeck().remove(cardInDeck);
+        }
     }
 }
