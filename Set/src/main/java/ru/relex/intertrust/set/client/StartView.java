@@ -216,9 +216,9 @@ public class StartView extends Composite {
             if (choosedCards.size() == 3) {
                 Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
                 checkListener.onCheckSet(cards);
-                choosedCards.clear();
                 for (CardView item: choosedCards)
                     item.getElement().removeClassName("active");
+                choosedCards.clear();
             }
         } else {
             card.getElement().removeClassName("active");
