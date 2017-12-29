@@ -7,6 +7,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.shared.GameState;
 
+import static ru.relex.intertrust.set.client.Utils.consoleLog;
+
 public class Set implements EntryPoint {
 
     /**
@@ -33,7 +35,7 @@ public class Set implements EntryPoint {
             serviceAsync.exit(new AsyncCallback<Void>() {
                 @Override
                 public void onFailure(Throwable throwable) {
-                    Utils.consoleLog(throwable.getMessage());
+                    consoleLog(throwable.getMessage());
                 }
 
                 @Override
@@ -96,7 +98,7 @@ public class Set implements EntryPoint {
         serviceAsync.getGameState(new AsyncCallback<GameState>() {
             @Override
             public void onFailure(Throwable caught) {
-                Utils.consoleLog(caught.getMessage());
+                consoleLog(caught.getMessage());
             }
 
             // Добавление нужного экрана для текущего состояния игры
