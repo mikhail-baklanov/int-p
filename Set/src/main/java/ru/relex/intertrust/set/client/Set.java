@@ -63,6 +63,8 @@ public class Set implements EntryPoint {
 
     private final StartView startView = new StartView(exitGameCallback);
 
+    private final ResultView resultView = new ResultView(exitGameCallback);
+
 
     public void onModuleLoad() {
         RootPanel.get("gwt-wrapper").add(containerView);
@@ -156,9 +158,13 @@ public class Set implements EntryPoint {
             }
         } else {
             if (hasCurrentPlayer(gameState)) {
-                preGameView.setPreGameTimer(gameStateTime);
-                preGameView.setPlayers(gameState.getPlayers());
-                newView = preGameView;
+                if (gameState.getDeck().size() == 0 && gameState.getTime() > 0)
+                    newView = resultView;
+                else {
+                    preGameView.setPreGameTimer(gameStateTime);
+                    preGameView.setPlayers(gameState.getPlayers());
+                    newView = preGameView;
+                }
             }
             else {
                 if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
