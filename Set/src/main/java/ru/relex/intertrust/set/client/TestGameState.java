@@ -49,8 +49,7 @@ class TestGameState {
      */
     static GameState getAnotherGameState() {
         GameState gameState = getGameStateWithPlayer(SAMPLE_PLAYER_NAME);
-        initRunningGameState(gameState);
-        return gameState;
+        return initRunningGameState(gameState);
     }
 
     /**
@@ -65,19 +64,16 @@ class TestGameState {
      * Состояние игры, когда текущий игрок зарегистрирован, и игра уже идет
      */
     static GameState getRunningGameState() {
-        GameState gameState = getWaitingGameState();
-        initRunningGameState(gameState);
-        addCards(gameState, INITIAL_COUNT_OF_CARDS);
-        return gameState;
+        GameState gameState = initRunningGameState(getWaitingGameState());
+        return addCards(gameState, INITIAL_COUNT_OF_CARDS);
     }
 
     /**
      * Состояние запущенной игры, когда игрок сделал пас
+     * @param gameState Состояние игры, при котором игрок делает пас
      */
-    static GameState getPassGameState() {
-        GameState gameState = getRunningGameState();
-        addCards(gameState, PASS_COUNT_OF_CARDS);
-        return gameState;
+    static GameState getPassGameState(GameState gameState) {
+        return addCards(gameState, PASS_COUNT_OF_CARDS);
     }
     //endregion
 
@@ -105,25 +101,29 @@ class TestGameState {
     /**
      * Вспомогательная функция инициализации запущенной игры
      * @param gameState Состояние запущенной игры
+     * @return Инициализированное состояние игры
      */
-    private static void initRunningGameState(GameState gameState) {
+    private static GameState initRunningGameState(GameState gameState) {
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         gameState.setDeck(cardsDeck);
         gameState.setStart(true);
         gameState.setTime(1);
+        return gameState;
     }
 
     /**
      * Вспомогательная функция добавления карт на игровой стол
      * @param gameState Состояние запущенной игры
      * @param countOfCards Количество добавляемых карт
+     * @return Новое состояние игры
      */
-    private static void addCards(GameState gameState, int countOfCards) {
+    private static GameState addCards(GameState gameState, int countOfCards) {
         List<Card> deck = gameState.getDeck();
-        Card cardInDeck = deck.get(deck.size() - 1);
         for (int i = 0; i < countOfCards; i++) {
+            Card cardInDeck = deck.get(deck.size() - 1);
             gameState.getCardsOnDesk().add(cardInDeck);
             gameState.getDeck().remove(cardInDeck);
         }
+        return gameState;
     }
 }

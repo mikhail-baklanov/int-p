@@ -89,6 +89,7 @@ public class StartView extends Composite {
 
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
+        this.cardContainer.clear();
         exitListener.onExit();
     }
 
