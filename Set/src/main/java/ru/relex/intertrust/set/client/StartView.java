@@ -21,7 +21,7 @@ import java.util.List;
 
 public class StartView extends Composite {
 
-    GameState gs = null;
+    GameState gs = new GameState();
 
     private List<Card> cards = new ArrayList<>();
 
@@ -129,11 +129,38 @@ public class StartView extends Composite {
     }
 
     public void setCards(List<Card> cardsOnDesk){
-        cardContainer.clear();
-        for (int i = 0; i < cardsOnDesk.size(); i++) {
-            CardView cardView = new CardView(cardsOnDesk.get(i));
-            cardContainer.add(cardView);
+        boolean issetFlag = false;
+        if(gs.getCardsOnDesk().size() == 0)
+            for (int i = 0; i < cardsOnDesk.size(); i++) {
+                CardView cardView = new CardView(cardsOnDesk.get(i));
+                cardContainer.add(cardView);
+            }
+        else {
+            for (int i = 0; i < gs.getCardsOnDesk().size(); i++) {
+                for (int j = 0; j < cardsOnDesk.size(); j++) {
+                    if (gs.getCardsOnDesk().get(j).equals(cardsOnDesk.get(i))) {
+                        issetFlag = true;
+                        break;
+                    }
+                }
+                if (!issetFlag)
+                    cardContainer.remove(new CardView(cardsOnDesk.get(i)));
+                issetFlag = false;
+            }
+
+            for (int i = 0; i < cardsOnDesk.size(); i++) {
+                for (int j = 0; j < gs.getCardsOnDesk().size(); j++) {
+                    if (cardsOnDesk.get(i).equals(gs.getCardsOnDesk().get(j))) {
+                        issetFlag = true;
+                        break;
+                    }
+                }
+                if (!issetFlag)
+                    cardContainer.add(new CardView(cardsOnDesk.get(i)));
+                issetFlag = false;
+            }
         }
+
     }
 
     @UiHandler("passButton")
@@ -152,14 +179,10 @@ public class StartView extends Composite {
     }
 
     public void setGameState(GameState gameState) {
-        gs = gameState;
         setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
-        if (!cards.containsAll(gameState.getCardsOnDesk()))
-        {
-            cards = gameState.getCardsOnDesk();
-            setCards(gameState.getCardsOnDesk());
-        }
+        setCards(gameState.getCardsOnDesk());
         setTime(gameState.getTime()/60000+":"+(gameState.getTime()%60000)/1000);
+        gs = gameState;
     }
 }
