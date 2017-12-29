@@ -52,7 +52,6 @@ public interface SetService extends RemoteService
      */
     boolean isPassed();
 
-    boolean equalsCard(Card inHand, Card onTable);
 
 }
 

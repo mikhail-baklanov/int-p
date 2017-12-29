@@ -213,14 +213,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-    @Override
-    public boolean equalsCard (Card inHand, Card onTable) {
-        boolean isEqual=false;
-        if (inHand.getColor()==onTable.getColor() && inHand.getFill()==onTable.getFill() && inHand.getShape()==onTable.getShape() && inHand.getShapeCount()==onTable.getShapeCount())
-            isEqual=true;
-        return isEqual;
-    }
-
     /**
      * Возвращает номер, по которому можно получить инфу о игроке в листах
      * @param nickname
