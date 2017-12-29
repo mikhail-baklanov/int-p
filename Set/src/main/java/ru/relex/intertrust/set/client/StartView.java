@@ -184,6 +184,7 @@ public class StartView extends Composite {
         setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
         setCards(gameState.getCardsOnDesk());
+        setHistory(gameState.getCountSets());
         setTime(Utils.formatTime(gameState.getTime()));
         gs = gameState;
     }

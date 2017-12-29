@@ -39,8 +39,7 @@ public class Set implements EntryPoint {
                 @Override
                 public void onSuccess(Void aVoid) {
                     playerName = null;
-                    currentView = loginView;
-                    containerView.setView(currentView);
+                    requestServer();
                 }
             });
         }
