@@ -28,11 +28,6 @@ class TestGameState {
      */
     private static final int PASS_COUNT_OF_CARDS = 3;
 
-    /**
-     * Состояние запущенной игры
-     */
-    private static GameState runningGameState;
-
     //region Game states
 
     /**
@@ -54,8 +49,7 @@ class TestGameState {
      */
     static GameState getAnotherGameState() {
         GameState gameState = getGameStateWithPlayer(SAMPLE_PLAYER_NAME);
-        initRunningGameState(gameState);
-        return gameState;
+        return initRunningGameState(gameState);
     }
 
     /**
@@ -70,17 +64,16 @@ class TestGameState {
      * Состояние игры, когда текущий игрок зарегистрирован, и игра уже идет
      */
     static GameState getRunningGameState() {
-        GameState gameState = getWaitingGameState();
-        initRunningGameState(gameState);
-        runningGameState = addCards(gameState, INITIAL_COUNT_OF_CARDS);
-        return runningGameState;
+        GameState gameState = initRunningGameState(getWaitingGameState());
+        return addCards(gameState, INITIAL_COUNT_OF_CARDS);
     }
 
     /**
      * Состояние запущенной игры, когда игрок сделал пас
+     * @param gameState Состояние игры, при котором игрок делает пас
      */
-    static GameState getPassGameState() {
-        return addCards(copyGameState(runningGameState), PASS_COUNT_OF_CARDS);
+    static GameState getPassGameState(GameState gameState) {
+        return addCards(gameState, PASS_COUNT_OF_CARDS);
     }
     //endregion
 
@@ -108,29 +101,14 @@ class TestGameState {
     /**
      * Вспомогательная функция инициализации запущенной игры
      * @param gameState Состояние запущенной игры
+     * @return Инициализированное состояние игры
      */
-    private static void initRunningGameState(GameState gameState) {
+    private static GameState initRunningGameState(GameState gameState) {
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         gameState.setDeck(cardsDeck);
         gameState.setStart(true);
         gameState.setTime(1);
-    }
-
-    /**
-     * Вспомогательная функция копирования состояния игры
-     * для подстановки того же состояния игры при пасе
-     * @param gameState Состояние игры, которое требуется скопировать
-     * @return Копия состояния игры, поданного в качестве параметра
-     */
-    private static GameState copyGameState(GameState gameState) {
-        GameState result = new GameState();
-        result.setDeck(gameState.getDeck());
-        result.setStart(true);
-        result.setTime(gameState.getTime());
-        result.setPlayers(gameState.getPlayers());
-        result.setActivePlayers(gameState.getActivePlayers());
-        result.setCardsOnDesk(gameState.getCardsOnDesk());
-        return result;
+        return gameState;
     }
 
     /**
