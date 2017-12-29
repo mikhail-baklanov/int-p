@@ -31,9 +31,8 @@ public class Card implements Serializable {
     public Card() { }
 
     public boolean equals (Card inHand) {
-        boolean isEqual=false;
-        if (inHand.getColor()==color && inHand.getFill()==fill && inHand.getShape()==shape && inHand.getShapeCount()==shapeCount)
-            isEqual=true;
-        return isEqual;
+        if (inHand == null)
+            return false;
+        return (inHand.getColor()==color && inHand.getFill()==fill && inHand.getShape()==shape && inHand.getShapeCount()==shapeCount);
     }
 }

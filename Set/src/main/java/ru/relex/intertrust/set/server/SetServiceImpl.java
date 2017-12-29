@@ -192,18 +192,16 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             if (!isPassed()) {
                 int existSet = 0;
                 List<Card> cardsOnDesk = gameState.getCardsOnDesk();
-                for (int j = 0; j <= 2; j++) {
-                    for (int i = 0; i < cardsOnDesk.size(); i++) {
-                        if (equalsCard(set[j], cardsOnDesk.get(i)))
+                for (Card c: set) {
+                    if (cardsOnDesk.contains(c))
                             existSet++;
-                    }
                 }
                 if (existSet == 3) {
                     gameState.getScore().set(playerNumber, oldScore + 3);
                     gameState.setCountSets(gameState.getCountSets() + 1);
-                    for (int i = 0; i <= 3; i++) {
-                        gameState.getCardsOnDesk().remove(set[i]);
-                    }
+                    for (Card c: set)
+                        gameState.getCardsOnDesk().remove(c);
+
                     if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size()<=12) {
                         addCards(3);
                     } else {
