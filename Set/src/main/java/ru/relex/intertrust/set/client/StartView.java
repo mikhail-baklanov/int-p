@@ -98,7 +98,7 @@ public class StartView extends Composite {
 
     public void setStatistics(List<String> nickNames, List<Integer> scores){
         this.statisticContainer.clear();
-        for (int i = 0; i < nickNames.size()-1; i++) {
+        for (int i = 0; i < nickNames.size(); i++) {
             String s = "";
             if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(i)))
                 s = "background-color: red;";

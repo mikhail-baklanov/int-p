@@ -17,6 +17,9 @@ public class CardsDeck {
      */
 
     public List<Card> startCardsDeck() {
+        if (cardsDeck.size()!=0) {
+            cardsDeck=new ArrayList<>();
+        }
         for (int cardNumber=0;cardNumber<=80;cardNumber++) {
             Card card=new Card(cardNumber / 27 + 1,
                     (cardNumber % 9) / 3 + 1,

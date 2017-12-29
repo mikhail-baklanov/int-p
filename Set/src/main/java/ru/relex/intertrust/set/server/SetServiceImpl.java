@@ -190,7 +190,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             List<Card> cardsOnDesk = gameState.getCardsOnDesk();
             for (int j = 0; j <= 2; j++) {
                 for (int i = 0; i < cardsOnDesk.size(); i++) {
-                    if (set[j] == cardsOnDesk.get(i))
+                    if (equalsCard(set[j], cardsOnDesk.get(i)))
                         existSet++;
                 }
             }
@@ -208,6 +208,13 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 }
             }
         }
+    }
+
+    public boolean equalsCard (Card inHand, Card onTable) {
+        boolean isEqual=false;
+        if (inHand.getColor()==onTable.getColor() && inHand.getFill()==onTable.getFill() && inHand.getShape()==onTable.getShape() && inHand.getShapeCount()==onTable.getShapeCount())
+            isEqual=true;
+        return isEqual;
     }
 
     /**
