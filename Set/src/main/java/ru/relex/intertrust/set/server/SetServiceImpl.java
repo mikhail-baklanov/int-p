@@ -127,9 +127,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         GameState gameState=getGameState();
         synchronized (gameState) {
 
-            if (cardsInDeck == gameState.getDeck().size())//если пас пришел вовремя, то добавляем имя паснувшнего в список
-                gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            if (cardsInDeck == gameState.getDeck().size() && !isPassed()) //если пас пришел вовремя, то добавляем имя паснувшнего в список
+            {
 
+                gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            }
 
             if (gameState.getNotAbleToPlay().size() == (gameState.getPlayers().size() / 2) + 1)//если список спасовавших больше половины игроков, то
             {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
@@ -187,30 +189,33 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                     return;
                 }
             }
-            int existSet = 0;
-            List<Card> cardsOnDesk = gameState.getCardsOnDesk();
-            for (int j = 0; j <= 2; j++) {
-                for (int i = 0; i < cardsOnDesk.size(); i++) {
-                    if (equalsCard(set[j], cardsOnDesk.get(i)))
-                        existSet++;
+            if (!isPassed()) {
+                int existSet = 0;
+                List<Card> cardsOnDesk = gameState.getCardsOnDesk();
+                for (int j = 0; j <= 2; j++) {
+                    for (int i = 0; i < cardsOnDesk.size(); i++) {
+                        if (equalsCard(set[j], cardsOnDesk.get(i)))
+                            existSet++;
+                    }
                 }
-            }
-            if (existSet == 3) {
-                gameState.getScore().set(oldScore, oldScore + 3);
-                gameState.setCountSets(gameState.getCountSets() + 1);
-                for (int i = 0; i <= 3; i++) {
-                    gameState.getCardsOnDesk().remove(set[i]);
-                }
-                if (gameState.getDeck().size() > 0) {
-                    addCards(3);
-                } else {
-                    if (gameState.getCardsOnDesk().size() == 0)
-                        gameState.setStart(false);
+                if (existSet == 3) {
+                    gameState.getScore().set(oldScore, oldScore + 3);
+                    gameState.setCountSets(gameState.getCountSets() + 1);
+                    for (int i = 0; i <= 3; i++) {
+                        gameState.getCardsOnDesk().remove(set[i]);
+                    }
+                    if (gameState.getDeck().size() > 0) {
+                        addCards(3);
+                    } else {
+                        if (gameState.getCardsOnDesk().size() == 0)
+                            gameState.setStart(false);
+                    }
                 }
             }
         }
     }
 
+    @Override
     public boolean equalsCard (Card inHand, Card onTable) {
         boolean isEqual=false;
         if (inHand.getColor()==onTable.getColor() && inHand.getFill()==onTable.getFill() && inHand.getShape()==onTable.getShape() && inHand.getShapeCount()==onTable.getShapeCount())

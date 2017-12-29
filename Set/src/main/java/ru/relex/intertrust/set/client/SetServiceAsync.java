@@ -28,4 +28,6 @@ public interface SetServiceAsync
     void checkSet(Card[] set, AsyncCallback<Void> async);
 
     void isPassed(AsyncCallback<Boolean> async);
+
+    void equalsCard(Card inHand, Card onTable, AsyncCallback<Boolean> async);
 }
