@@ -21,7 +21,12 @@ class TestGameState {
     /**
      * Количество добавляемых карт для новой игры
      */
-    private static int INITIAL_COUNT_OF_CARDS = 12;
+    private static final int INITIAL_COUNT_OF_CARDS = 12;
+
+    /**
+     * Количество добавляемых карт при пасе
+     */
+    private static final int PASS_COUNT_OF_CARDS = 3;
 
     //region Game states
 
@@ -63,6 +68,15 @@ class TestGameState {
         GameState gameState = getWaitingGameState();
         initRunningGameState(gameState);
         addCards(gameState, INITIAL_COUNT_OF_CARDS);
+        return gameState;
+    }
+
+    /**
+     * Состояние запущенной игры, когда игрок сделал пас
+     */
+    static GameState getPassGameState() {
+        GameState gameState = getRunningGameState();
+        addCards(gameState, PASS_COUNT_OF_CARDS);
         return gameState;
     }
     //endregion

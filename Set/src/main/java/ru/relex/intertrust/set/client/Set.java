@@ -96,7 +96,7 @@ public class Set implements EntryPoint {
             // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
-                //gameState = getTestGameState();
+                gameState = getTestGameState();
                 processGameState(gameState);
             }
         });
@@ -110,7 +110,9 @@ public class Set implements EntryPoint {
                 TestGameState.getInitialGameStateWithTimer(),
                 TestGameState.getAnotherGameState(),
                 TestGameState.getWaitingGameState(),
-                TestGameState.getRunningGameState()};
+                TestGameState.getRunningGameState(),
+                TestGameState.getPassGameState()
+        };
         int length = states.length;
         boolean isCurrentPlayerRegistered;
         int index=0;
