@@ -150,16 +150,13 @@ public class StartView extends Composite {
                 cardContainer.add(card);
             }
         else {
-            for (int i = 0; i < gs.getCardsOnDesk().size(); i++) {
-                for (int j = 0; j < cardsOnDesk.size(); j++) {
-                    if (gs.getCardsOnDesk().get(j).equals(cardsOnDesk.get(i))) {
-                        issetFlag = true;
+            for (Card c1: gs.getCardsOnDesk()) {
+                for (Card c2: cardsOnDesk) {
+                    if (c1.equals(c2)) {
+                        cardContainer.remove(new CardView(c1));
                         break;
                     }
                 }
-                if (!issetFlag)
-                    cardContainer.remove(new CardView(cardsOnDesk.get(i)));
-                issetFlag = false;
             }
 
             for (int i = 0; i < cardsOnDesk.size(); i++) {

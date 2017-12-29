@@ -30,9 +30,12 @@ public class Card implements Serializable {
 
     public Card() { }
 
-    public boolean equals (Card inHand) {
-        if (inHand == null)
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
             return false;
+        Card inHand = (Card)obj;
         return (inHand.getColor()==color && inHand.getFill()==fill && inHand.getShape()==shape && inHand.getShapeCount()==shapeCount);
     }
+
 }

@@ -184,12 +184,13 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 summ[3] += set[i].getShape();
             }
             for (int i = 0; i <= 3; i++) {
-                if (summ[i] == 3 || summ[i] == 6 || summ[i] == 9) {
+                if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
                     gameState.getScore().set(playerNumber, oldScore - 5);
                     return;
                 }
             }
-            if (!isPassed()) {
+            if (!isPassed())
+            {
                 int existSet = 0;
                 List<Card> cardsOnDesk = gameState.getCardsOnDesk();
                 for (Card c: set) {
