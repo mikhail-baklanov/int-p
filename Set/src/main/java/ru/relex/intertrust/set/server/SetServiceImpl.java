@@ -204,7 +204,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                     for (int i = 0; i <= 3; i++) {
                         gameState.getCardsOnDesk().remove(set[i]);
                     }
-                    if (gameState.getDeck().size() > 0) {
+                    if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size()<=12) {
                         addCards(3);
                     } else {
                         if (gameState.getCardsOnDesk().size() == 0)
