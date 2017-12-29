@@ -24,7 +24,7 @@ public class StartView extends Composite {
 
     private GameState gs = new GameState();
 
-    private List<Card> choosedCards = new ArrayList<>();
+    private List<CardView> choosedCards = new ArrayList<>();
 
     interface StartViewUiBinder extends UiBinder<Widget, StartView>{
     }
@@ -138,10 +138,9 @@ public class StartView extends Composite {
         ClickHandler click = new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
-                addCard(clickEvent.getSource());
+                chooseCard(clickEvent.getSource());
             }
         };
-        boolean issetFlag = false;
         if(gs.getCardsOnDesk().size() == 0)
             for (int i = 0; i < cardsOnDesk.size(); i++) {
                 CardView card = new CardView(cardsOnDesk.get(i));
@@ -150,13 +149,20 @@ public class StartView extends Composite {
                 cardContainer.add(card);
             }
         else {
-            for (Card c1: gs.getCardsOnDesk()) {
-                for (Card c2: cardsOnDesk) {
-                    if (c1.equals(c2)) {
-                        cardContainer.remove(new CardView(c1));
+            boolean issetFlag = false;
+            for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
+                for (int j = 0; j < cardsOnDesk.size(); j++) {
+                    CardView cardOnTable = (CardView) cardContainer.getWidget(i);
+                    if (cardOnTable.getCard().equals(cardsOnDesk.get(j))) {
+                        issetFlag = true;
                         break;
                     }
                 }
+                if (!issetFlag) {
+                    cardContainer.remove(cardContainer.getWidget(i));
+                    choosedCards.remove(cardContainer.getWidget(i));
+                }
+                issetFlag = false;
             }
 
             for (int i = 0; i < cardsOnDesk.size(); i++) {
@@ -202,13 +208,21 @@ public class StartView extends Composite {
         gs = gameState;
     }
 
-    private void addCard (Object widget) {
-        CardView card = (CardView)widget;
-        choosedCards.add(card.getCard());
-        if(choosedCards.size() == 3) {
-            Utils.consoleLog(choosedCards.get(0), choosedCards.get(1), choosedCards.get(2));
-            checkListener.onCheckSet(choosedCards.toArray(new Card[3]));
-            choosedCards.clear();
+    private void chooseCard (Object widget) {
+        CardView card = (CardView) widget;
+        if (!choosedCards.contains(card)) {
+            card.getElement().addClassName("active");
+            choosedCards.add(card);
+            if (choosedCards.size() == 3) {
+                Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
+                checkListener.onCheckSet(cards);
+                choosedCards.clear();
+                for (CardView item: choosedCards)
+                    item.getElement().removeClassName("active");
+            }
+        } else {
+            card.getElement().removeClassName("active");
+            choosedCards.remove(card);
         }
     }
 }

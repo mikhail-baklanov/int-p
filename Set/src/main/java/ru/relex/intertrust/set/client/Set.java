@@ -70,7 +70,7 @@ public class Set implements EntryPoint {
 
             @Override
             public void onSuccess(Void aVoid) {
-
+                requestServer();
             }
         });
     };

@@ -16,6 +16,14 @@
             transition: .2s;
         }
 
+        .card.active {
+            box-shadow: 1px 3px 7px rgba(72, 134, 234, 0.5);
+        }
+
+        .card.active:hover {
+            box-shadow: 1px 3px 7px rgba(72, 134, 234, 1);
+        }
+
         .card .shape {
             width: 90%;
             height: 25%;
@@ -30,6 +38,7 @@
         }
         @external .shape;
         @external .card;
+        @external .active;
     </ui:style>
     <g:HTMLPanel ui:field="cardContainer" styleName="{style.card}">
 
