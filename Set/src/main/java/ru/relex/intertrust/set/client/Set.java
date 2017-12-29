@@ -86,6 +86,7 @@ public class Set implements EntryPoint {
         console.log(message);
     }-*/;
 
+
     private void requestServer () {
         serviceAsync.getGameState(new AsyncCallback<GameState>() {
             @Override
