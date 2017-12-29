@@ -166,13 +166,13 @@ public class Set implements EntryPoint {
             }
         } else {
             if (hasCurrentPlayer(gameState)) {
-                if (gameState.getDeck().size() == 0 && gameState.getTime() > 0)
-                    newView = resultView;
-                else {
+//                if (gameState.getDeck().size() == 0 && gameState.getTime() > 0)
+//                    newView = resultView;
+//                else {
                     preGameView.setPreGameTimer(gameStateTime);
                     preGameView.setPlayers(gameState.getPlayers());
                     newView = preGameView;
-                }
+//                }
             }
             else {
                 if (gameStateTime < 0 && gameState.getActivePlayers() != 0)
