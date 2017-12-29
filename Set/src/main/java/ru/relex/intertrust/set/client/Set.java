@@ -124,7 +124,7 @@ public class Set implements EntryPoint {
                 gameState = states[index];
                 if (counter == 0){
                     index++;
-                    consoleLog("Фейковое состояние №"+index);
+                    //consoleLog("Фейковое состояние №"+index);
                     if (index < length){
                         counter = ticValue;
                     }
