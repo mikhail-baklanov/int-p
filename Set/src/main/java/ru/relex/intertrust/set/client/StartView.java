@@ -161,13 +161,7 @@ public class StartView extends Composite {
                 }
                 if (!issetFlag) {
                     cardContainer.remove(cardContainer.getWidget(i));
-                    for(CardView item: choosedCards) {
-                        if (item.getCard().equals(((CardView) cardContainer.getWidget(i)).getCard())) {
-                            Window.alert("Совпадают");
-                            choosedCards.remove(cardContainer.getWidget(i));
-                            break;
-                        }
-                    }
+                    choosedCards.remove(cardContainer.getWidget(i));
                 }
                 issetFlag = false;
             }
