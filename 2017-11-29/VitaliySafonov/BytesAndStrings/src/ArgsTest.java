@@ -5,9 +5,9 @@ import java.io.IOException;
 public class ArgsTest
 {
     /**
-     * считает количество строк в filename
-     * @param filename
-     * @return
+     * считает количество строк в файле filename
+     * @param название файла
+     * @return количество строк
      */
     public static int linesCounter(String filename)
     {
@@ -19,7 +19,9 @@ public class ArgsTest
         }
         catch (IOException ex)
         {System.out.println(ex.getMessage());}
+
         return counter;
+
     }
 
     public static void main(String[] args )

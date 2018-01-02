@@ -2,9 +2,9 @@ public class BytesTest
 {
     /**
      * *
-     * переводит number в 3 сс
+     * переводит число number в 3 сс
      * @param number
-     * @return
+     * @return возвращает
      */
     public static int from10to3(int number)
 
@@ -31,7 +31,7 @@ public class BytesTest
 
     public static void main(String[] args)
     {
-        for(int i=80;i>-1;i--)
-            System.out.print(from10to3(i)+" ");
+        for(int i=0;i<=80;i++)
+            System.out.print(i+"="+from10to3(i)+" ");
     }
 }
