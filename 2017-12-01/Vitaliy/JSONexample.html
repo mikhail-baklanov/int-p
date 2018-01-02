@@ -4,17 +4,17 @@
 <body>
   <script>
     'use strict';
-    var event = {
+    var varBeforeJSON = {
       title: "Конференция",
       date: "сегодня"
     };
     
-    alert(event);
-    var str = JSON.stringify(event);
-    alert( str); // {"title":"Конференция","date":"сегодня"}
+    alert(varBeforeJSON);
+    var varInJSON = JSON.stringify(varBeforeJSON);
+    alert( varInJSON); // {"title":"Конференция","date":"сегодня"}
     // Обратное преобразование.
-    event = JSON.parse(str);
-    alert(str==event);
+    varBeforeJSON = JSON.parse(varInJSON);
+    alert(varBeforeJSON==varInJSON);
 
   </script>
 </body>
