@@ -1,17 +1,42 @@
-package ru.relex.intertrust.suppressions;
+package ru.relex.intertrust.suppression;
 
-public class Main
-{
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    static
+}
+        Registrator.register(new Vitaliy());
+        Registrator.register(new VitaliysListPrinter());
+    }
+
     public static void main(String[] args)
-    {
-        FindingFilesWithoutRegExp a = new FindingFilesWithoutRegExp();
+        {
+        List<Result> listResults = new ArrayList<>();
 
+        for(SuppressionChecker item: Registrator.getCheckers()){
 
+            Result result = new Result();
+            result.setDeveloperName(item.getDeveloperName());
 
-//общий	 вызов и проверка работаспособности+отображение статистики
-        for(Controller item : Registrator.getControllers())
-            item.start(args[0],args[1],Registrator.getCheckers());
-            //item.start("checkstyle-suppressions.xml","files.txt",Registrator.getCheckers());
+            long parseTime = System.currentTimeMillis();
+            List<String> parsePaths = item.parseSuppression(args[0]);
+            result.setParseTime(System.currentTimeMillis() - parseTime);
 
+            long dirTime = System.currentTimeMillis();
+            List<String> dirPaths = item.dir(args[1]);
+            result.setDirTime(System.currentTimeMillis() - dirTime);
+
+            long findTime = System.currentTimeMillis();
+            List<String> findPaths = item.findDeletedFiles(parsePaths, dirPaths);
+            result.setFindTime(System.currentTimeMillis() - findTime);
+            result.setFileList(findPaths);
+            listResults.add(result);
+            
+        }
+
+        for(ListPrinter item: Registrator.getPrinters())
+            item.visualize(listResults);
     }
 }

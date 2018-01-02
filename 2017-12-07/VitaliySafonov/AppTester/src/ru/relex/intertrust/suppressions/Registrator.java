@@ -1,25 +1,59 @@
-package ru.relex.intertrust.suppressions;
+package ru.relex.intertrust.suppression;
+
+import ru.relex.intertrust.suppression.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Registrator
-{
+/**
+ * Утилитный класс для хранения всех реализаций интерфейсов SuppressionChecker и Controller
+ */
+public class Registrator {
 
+    /**
+     * Приватный пустой конструктор необходим для утилитного класса
+     */
+    private Registrator() { }
+
+    /**
+     * Список всех реализаций интерфейса SuppressionChecker
+     */
     private static List<SuppressionChecker> checkers = new ArrayList<>();
-    private static List<Controller> controllers = new ArrayList<>();
 
-    private Registrator() {};
-    public static void register(SuppressionChecker obj)
-    {
-        checkers.add(obj);
-    }
+    /**
+     * Список всех реализаций интерфейса Controller
+     */
+    private static List<ListPrinter> printer = new ArrayList<>();
 
-    public static List<SuppressionChecker> getCheckers()
-    {
+    /**
+     * Функция, возвращающая список реализаций интерфейса SuppressionChecker для чтения
+     * @return Список реализаций интерфейса
+     */
+    public static List<SuppressionChecker> getCheckers() {
         return checkers;
     }
-    public static List<Controller> getControllers() { return controllers; }
-    public static void register(Controller controller) { controllers.add(controller); }
 
+    /**
+     * Функция, возвращающая список реализаций интерфейса Controller для чтения
+     * @return Список реализаций интерфейса
+     */
+    public static List<ListPrinter> getPrinters() {
+        return printer;
+    }
+
+    /**
+     * Функция регистрации конкретной реализации интерфейса SuppressionChecker
+     * @param checker Реализация интерфейса, которую требуется зарегистрировать
+     */
+    public static void register(SuppressionChecker checker) {
+        checkers.add(checker);
+    }
+
+    /**
+     * Функция регистрации конкретной реализации интерфейса Controller
+     * @param list Реализация интерфейса, которую требуется зарегистрировать
+     */
+    public static void register(ListPrinter list) {
+        printer.add(list);
+    }
 }
