@@ -2,7 +2,6 @@ package ru.relex.practice.symbolscounter;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -11,14 +10,12 @@ import java.io.InputStreamReader;
  */
 public class SymbolsCounter {
     /**
-     * Считает символы в файле, используя указанную кодировку.
-     * @param path
+     * Метод считает символы в файле, используя указанную кодировку, и выводит количество символов.
+     * @param path путь к файлу
      */
     public void symbolsCount(String path) {
         int count = 0;
-        try {
-            File myFile = new File(path);
-            InputStreamReader is = new InputStreamReader(new FileInputStream(myFile), "Cp866");
+        try(InputStreamReader is = new InputStreamReader(new FileInputStream(new File(path)), "Cp866")) {
 
             while(is.read() != -1){
                     count ++;
@@ -26,9 +23,7 @@ public class SymbolsCounter {
 
             System.out.println("В файле " + path + "  " + count + " символов");
 
-            is.close();
-
-        } catch(IOException ex){
+        } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
     }

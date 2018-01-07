@@ -11,27 +11,20 @@ import java.io.LineNumberReader;
  */
 public class LinesCounter {
     /**
-     * Считает строки в файле
-     * @param path
+     * Метод выводит количество строк в файле.
+     * @param path путь к файлу
      */
     public void linesCount(String path) {
         int count=0;
-        try
-        {
-            File myFile = new File(path);
-            FileReader fileReader = new FileReader(myFile);
-            LineNumberReader lineNumberReader = new LineNumberReader(fileReader);
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(path)))) {
 
-            while (lineNumberReader.readLine() != null){
+            while (bufferedReader.readLine() != null){
                 count++;
             }
 
             System.out.println("В файле " + path + "  " + count + " строк");
 
-            if(fileReader!=null)
-                fileReader.close();
-            lineNumberReader.close();
-        } catch(IOException ex){
+        } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
     }

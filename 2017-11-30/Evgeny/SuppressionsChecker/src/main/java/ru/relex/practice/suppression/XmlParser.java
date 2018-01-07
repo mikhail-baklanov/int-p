@@ -1,52 +1,58 @@
 package ru.relex.practice.suppression;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.util.ArrayList;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Класс, в котором получаем список регулярных выражений из xml файла.
+ * Класс, который получает список выражений из xml файла.
  * @author Евгений Воронин
  */
 public class XmlParser {
+
+    private static final String SEPARATOR = "[\\\\/]";
+    private static final String JAVA_EXTENSION = ".java";
+
     /**
-     * Получаем спискок регулярных выражений из указанного файла.
-     * @param suppressionFile
-     * @return suppresList
+     * Метод получает спискок выражений из указанного xml файла.
+     * @param suppressionFile путь к xml файлу
+     * @return suppressList список выражений из файла
      */
     public static List<String> suppressionParser(String suppressionFile) {
 
-        List<String> suppresList = new ArrayList<String>();
+        final List<String> suppressList = new LinkedList<String>();
 
         try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(suppressionFile);
 
-            doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("suppress");
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    suppresList.add(eElement.getAttribute("files"));
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            DefaultHandler handler = new DefaultHandler() {
+
+                public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
+                    if (qName.equals("suppress")) {
+                        for (int i = 0; i < attributes.getLength(); i++) {
+                            if ("files".equals(attributes.getQName(i))) {
+                                if (attributes.getValue(i).endsWith(JAVA_EXTENSION)) {
+                                    suppressList.add(attributes.getValue(i).replace(SEPARATOR, File.separator));
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+            };
+
+            saxParser.parse(suppressionFile, handler);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return suppresList;
+        return suppressList;
     }
 }

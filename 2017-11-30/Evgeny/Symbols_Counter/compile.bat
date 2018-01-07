@@ -1,1 +1,1 @@
-"C:\Program Files\Java\jdk1.8.0_131\bin\javac.exe" -d bin -sourcepath src src/root/Main.java
+"C:\Program Files\Java\jdk1.8.0_131\bin\javac.exe" -d bin -sourcepath src src\ru\relex\practice\symbolscounter\Main.java

@@ -1,136 +1,133 @@
 package ru.relex.intertrust.suppression.evgeny;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import ru.relex.intertrust.suppression.Registrator;
+import org.xml.sax.helpers.DefaultHandler;
 import ru.relex.intertrust.suppression.interfaces.SuppressionChecker;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Класс вызывает методы по парсингу xml файла, чтению путей из текстового файла или директории,
+ * нахождению ненайденных выражений в путях проекта и вывода имени разработчика.
  * @author Евгений Воронин
  */
 public class FindDeletedClasses implements SuppressionChecker {
 
+    private static final String SEPARATOR = "[\\\\/]";
+    private static final String JAVA_EXTENSION = ".java";
+
     /**
-     * Получаем спискок регулярных выражений из указанного файла.
-     * @param fullFileName Полное имя к файлу suppressions.xml
-     * @return suppressionLists
+     * Метод получает спискок выражений из указанного xml файла.
+     * @param fullFileName полный путь к файлу suppressions.xml
+     * @return suppressionLists список выражений из файла
      */
     public List<String> parseSuppression(String fullFileName) {
-        List<String> suppressionList = new LinkedList<String>();
+        final List<String> suppressList = new ArrayList<>();
 
         try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fullFileName);
 
-            doc.getDocumentElement().normalize();
-            NodeList nList = doc.getElementsByTagName("suppress");
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node nNode = nList.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    if (eElement.getAttribute("files").matches(".*?(java)$")) {
-                        suppressionList.add(eElement.getAttribute("files"));
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            DefaultHandler handler = new DefaultHandler() {
+                public void startElement(String uri, String localName,String qName, Attributes attributes) throws SAXException {
+                    if (qName.equals("suppress")) {
+                        for (int i = 0; i < attributes.getLength(); i++) {
+                            if ("files".equals(attributes.getQName(i))) {
+                                if (attributes.getValue(i).endsWith(JAVA_EXTENSION)) {
+                                    suppressList.add(attributes.getValue(i).replace(SEPARATOR, File.separator));
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
+            };
+
+            saxParser.parse(fullFileName, handler);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return suppressionList;
+        return suppressList;
     }
 
     /**
-     * Если в метод передан путь до txt файла, то происходит запись строк в список, если передан путь до директории,
-     * то рекурсивно проходим по всем файлам указанной директории. Если находим файл .java, то его путь добавляем в список.
-     * @param path файл, в котором находятся пути к существующим java файлам
-     * @return classes
+     * Если передан путь к текстовому файлу, то метод считавыет его и записывает все строки в список. Если передан
+     * путь к директории, то метод рекурсивно проходит по всем файлам указанной директории.
+     * Если находит класс, то его путь добавляется в список.
+     * @param path путь до файла или директории
+     * @return classes список путей, найденных классов
      */
     public List<String> dir(String path) {
         File directory = new File(path);
-        List<String> classes = new LinkedList<String>();
+        List<String> classes = new ArrayList<>();
 
-        if (path.endsWith(".txt")) {
-            String line;
+        if (directory.isFile()) {
             try {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-                while ((line = bufferedReader.readLine()) != null){
-                    if (!line.matches(".*?target.*?")){
-                        classes.add(line);
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+                classes = Files.readAllLines(Paths.get(path), StandardCharsets.UTF_8);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
         } else {
             try {
                 File[] files = directory.listFiles();
                 for (int i = 0; i < files.length; i++) {
                     String fileName = files[i].getName();
-                    String className = null;
+                    String classPath = null;
 
-                    if (fileName.endsWith(".java")) {
-                        if (!files[i].getAbsolutePath().matches(".*?target.*?")){
-                            className = files[i].getAbsolutePath();
+                    if (fileName.endsWith(JAVA_EXTENSION)) {
+                        classPath = files[i].getAbsolutePath();
+                        classes.add(classPath);
+                    } else {
+                        File subdir = new File(directory, fileName);
+                        if (subdir.isDirectory()) {
+                            classes.addAll(dir(subdir.getAbsolutePath()));
                         }
-                    }
-
-                    if (className != null) {
-                        classes.add(className);
-                    }
-
-                    File subdir = new File(directory, fileName);
-                    if (subdir.isDirectory()) {
-                        classes.addAll(dir(subdir.getAbsolutePath()));
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
         return classes;
     }
 
     /**
-     * В методе сравниваем пути с регулярными выражениями: соответствующие удаляются, остальные считаются ненайденными.
-     * @param suppressedFileNames
-     * @param dir
-     * @return suppressedFileNames
+     * Метод сравнивает пути проекта с выражениями из xml файла: если путь наден, то поднимается флаг,
+     * если флаг не поднят, то соответствующее выражение из xml файла считается не найденным и добавляется в список.
+     * @param suppressedFileNames список выражений из suppressions.xml
+     * @param dir список путей проекта
+     * @return deleted список ненайденных в проекте выражений из suppressions.xml
      */
     public List<String> findDeletedFiles(List<String> suppressedFileNames, List<String> dir) {
-        for (Iterator<String> classPathIt = dir.iterator(); classPathIt.hasNext();) {
-            String classPath = classPathIt.next();
-            for (Iterator<String> regExpIt = suppressedFileNames.iterator(); regExpIt.hasNext();) {
-                String regExp = regExpIt.next();
-                if (classPath.matches(".*?"+regExp)) {
-                    classPathIt.remove();
-                    regExpIt.remove();
+        List<String> deleted = new ArrayList<>();
+        for (String suppress : suppressedFileNames) {
+            boolean exist = false;
+            for (String classPath : dir) {
+                if (classPath.endsWith(suppress)) {
+                    exist = true;
                     break;
                 }
             }
+            if (!exist) {
+                deleted.add(suppress);
+            }
         }
-        return suppressedFileNames;
+        return deleted;
     }
 
+    /**
+     * Метод возвращает имя и фамилию разработчика.
+     * @return Евгений Воронин
+     */
     public String getDeveloperName() {
         return "Евгений Воронин";
     }
