@@ -1,5 +1,8 @@
 import java.nio.charset.StandardCharsets;
 
+/**
+ * @author Ерофеев Александр
+ */
 public class Main {
 
     /**

@@ -2,6 +2,9 @@ package ru.relex.intertrust.suppression;
 
 import java.util.List;
 
+/**
+ * @author Ерофеев Александр
+ */
 public class Main {
     public static void main(String[] args) {
         Alexander program = new Alexander();
