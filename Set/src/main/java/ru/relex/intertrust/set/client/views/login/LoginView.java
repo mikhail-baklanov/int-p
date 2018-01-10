@@ -24,23 +24,38 @@ public class LoginView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    @UiField
-    Button submitLogin;
-
+    /**
+     * Всплывающее окно с ошибкой.
+     */
     @UiField
     SpanElement errorLogin;
 
+    /**
+     * Поле для ввода логина.
+     */
     @UiField
     TextBox nicknameLogin;
 
+    /**
+     * Время до начала игры.
+     */
     @UiField
     SpanElement loginTimer;
 
+    /**
+     * Окно с таймером до начала игры.
+     */
     @UiField
     DivElement timeBlockLogin;
 
     /**
-     * Обработчик события регистрации пользователя
+     * Форма для отправки никнейма.
+     */
+    @UiField
+    FormPanel submitLoginForm;
+
+    /**
+     * Обработчик события регистрации пользователя.
      */
     private OnLoginSuccessCallback loginListener;
 
@@ -49,48 +64,62 @@ public class LoginView extends Composite {
         nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
 
-        KeyDownHandler returnKeyHandler = new KeyDownHandler() {
-
+        submitLoginForm.addSubmitHandler(new FormPanel.SubmitHandler() {
+            /**
+             * Метод, который при удачной регистрации пользователя вызывает callback.
+             * @param event событие
+             */
             @Override
-            public void onKeyDown(KeyDownEvent event) {
-                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    submitLogin.click();
-                }
-            }
-        };
+            public void onSubmit(FormPanel.SubmitEvent event) {
+                String name = nicknameLogin.getValue();
+                ourInstance.login(name, new AsyncCallback<Boolean>() {
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Window.alert(throwable.getMessage());
+                    }
 
-        nicknameLogin.addKeyDownHandler(returnKeyHandler);
-    }
-
-    @UiHandler("submitLogin")
-    public void onClick(ClickEvent e) {
-        String name = nicknameLogin.getValue();
-        ourInstance.login(name, new AsyncCallback<Boolean>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                Window.alert(throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(Boolean success) {
-                if (success)
-                    loginListener.onLogin(name);
-                else
-                    errorLogin.addClassName("active");
+                    @Override
+                    public void onSuccess(Boolean success) {
+                        if (success)
+                            loginListener.onLogin(name);
+                        else
+                            errorLogin.addClassName("active");
+                    }
+                });
             }
         });
     }
 
+    /**
+     * Метод, который вызывает submit формы submitLoginForm.
+     * @param e случайное событие click
+     */
+    @UiHandler("submitLogin")
+    public void login(ClickEvent e) {
+        submitLoginForm.submit();
+    }
+
+    /**
+     * Метод, который удаляет CSS класс active у окна с ошибкой.
+     * @param e случайное событие click
+     */
     @UiHandler("nicknameLogin")
-    public void doClick(ClickEvent e) {
+    public void removeError(ClickEvent e) {
         errorLogin.removeClassName("active");
     }
 
+    /**
+     * Метод, который добавляет CSS класс active окну с таймером до начала игры и задает ему время.
+     * @param time время до начала игры
+     */
     public void setLoginTimer(long time){
         timeBlockLogin.addClassName("active");
         loginTimer.setInnerHTML(Utils.formatTime(time));
     }
 
+    /**
+     * Метод, который удаляет CSS класс active у окна с таймером до начала игры.
+     */
     public void removeLoginTimer(){
         timeBlockLogin.removeClassName("active");
     }
