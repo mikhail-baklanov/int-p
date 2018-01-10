@@ -255,12 +255,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         public void run()
         {
             GameState gameState = getGameState();
-            if (gameState.getActivePlayers()==0) {
-                gameState.prepareTime();
-            }
-            if(gameState.getTime()==0) startGame();
-            gameState.setTime(gameState.getTime()+500);
+            synchronized (gameState) {
+                if (gameState.getActivePlayers() == 0) {
+                    gameState.prepareTime();
+                }
+                if (gameState.getTime() == 0) startGame();
+                gameState.setTime(gameState.getTime() + 500);
 
+            }
         }
     }
 
