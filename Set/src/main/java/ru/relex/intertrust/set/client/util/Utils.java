@@ -1,6 +1,4 @@
-package ru.relex.intertrust.set.client;
-
-import ru.relex.intertrust.set.shared.GameState;
+package ru.relex.intertrust.set.client.util;
 
 public class Utils {
     public static String formatTime(long timeMs) {
@@ -16,11 +14,11 @@ public class Utils {
      * Функция печати сообщения в консоль браузера.
      * @param message сообщение, которое будет напечатано
      */
-    native static void consoleLog(String message) /*-{
+    public native static void consoleLog(String message) /*-{
         console.log(message);
     }-*/;
 
-    native static void consoleLog(Object... objects) /*-{
+    public native static void consoleLog(Object... objects) /*-{
         console.log(objects);
     }-*/;
 }

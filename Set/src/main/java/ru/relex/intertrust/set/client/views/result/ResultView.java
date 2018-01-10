@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.views.result;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.SpanElement;
@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
@@ -21,10 +23,10 @@ public class ResultView extends Composite {
         setResultGamePlayers(gameState.getPlayers(), gameState.getScore());
     }
 
-    interface ResultViewUiBinder extends UiBinder<Widget, ru.relex.intertrust.set.client.ResultView> {
+    interface ResultViewUiBinder extends UiBinder<Widget, ResultView> {
     }
 
-    private static ru.relex.intertrust.set.client.ResultView.ResultViewUiBinder uiBinder = GWT.create(ru.relex.intertrust.set.client.ResultView.ResultViewUiBinder.class);
+    private static ResultView.ResultViewUiBinder uiBinder = GWT.create(ResultView.ResultViewUiBinder.class);
 
     @UiField
     SpanElement resultGameTime;

@@ -5,9 +5,20 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
+import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.OnLoginSuccessCallback;
+import ru.relex.intertrust.set.client.service.SetService;
+import ru.relex.intertrust.set.client.service.SetServiceAsync;
+import ru.relex.intertrust.set.client.views.anothergame.AnotherGameView;
+import ru.relex.intertrust.set.client.views.container.ContainerView;
+import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
+import ru.relex.intertrust.set.client.views.login.LoginView;
+import ru.relex.intertrust.set.client.views.pregame.PreGameView;
+import ru.relex.intertrust.set.client.views.result.ResultView;
 import ru.relex.intertrust.set.shared.GameState;
 
-import static ru.relex.intertrust.set.client.Utils.consoleLog;
+import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
 
 public class Set implements EntryPoint {
 
@@ -77,7 +88,7 @@ public class Set implements EntryPoint {
 
     private final LoginView loginView = new LoginView(loginCallback);
 
-    private final StartView startView = new StartView(exitGameCallback, onCheckSet);
+    private final GameFieldView startView = new GameFieldView(exitGameCallback, onCheckSet);
 
     private final ResultView resultView = new ResultView(exitGameCallback);
 

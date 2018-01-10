@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.views.login;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -10,7 +10,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.shared.GameState;
+import ru.relex.intertrust.set.client.callback.OnLoginSuccessCallback;
+import ru.relex.intertrust.set.client.service.SetService;
+import ru.relex.intertrust.set.client.service.SetServiceAsync;
+import ru.relex.intertrust.set.client.util.Utils;
 
 public class LoginView extends Composite {
 

@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.service;
 
 
 import com.google.gwt.user.client.rpc.RemoteService;

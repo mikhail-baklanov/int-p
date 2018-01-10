@@ -1,10 +1,11 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.views.anothergame;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;

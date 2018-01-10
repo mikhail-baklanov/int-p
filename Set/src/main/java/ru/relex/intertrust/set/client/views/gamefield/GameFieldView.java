@@ -1,32 +1,34 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.views.gamefield;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
+import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.service.SetService;
+import ru.relex.intertrust.set.client.service.SetServiceAsync;
+import ru.relex.intertrust.set.client.util.Utils;
+import ru.relex.intertrust.set.client.views.card.CardView;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartView extends Composite {
+public class GameFieldView extends Composite {
 
     private GameState gs = new GameState();
 
     private List<CardView> choosedCards = new ArrayList<>();
 
-    interface StartViewUiBinder extends UiBinder<Widget, StartView>{
+    interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
     }
 
     private static HTML separator = new HTML("<div class=\"separator\"></div>");
@@ -35,7 +37,7 @@ public class StartView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    public StartView(OnExitGameCallback exitListener, OnCheckSetSuccessCallback checkSetSuccessCallback) {
+    public GameFieldView(OnExitGameCallback exitListener, OnCheckSetSuccessCallback checkSetSuccessCallback) {
         this.exitListener = exitListener;
         this.checkListener = checkSetSuccessCallback;
         initWidget(uiBinder.createAndBindUi(this));

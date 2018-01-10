@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.views.container;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
 
 public class ContainerView extends Composite {
 
@@ -34,7 +35,7 @@ public class ContainerView extends Composite {
     }
 
     public void setView (Widget widget) {
-        if(widget instanceof StartView)
+        if(widget instanceof GameFieldView)
             block.removeStyleName(style.loginBlock());
         else
             block.setStyleName(style.loginBlock());

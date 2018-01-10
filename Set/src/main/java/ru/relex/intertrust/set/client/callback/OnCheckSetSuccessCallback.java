@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client;
+package ru.relex.intertrust.set.client.callback;
 
 import ru.relex.intertrust.set.shared.Card;
 
