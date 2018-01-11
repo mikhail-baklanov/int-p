@@ -14,7 +14,7 @@ public class GameState implements Serializable {
     private boolean isStart = false;
 
 
-    private long time= -TIME_TO_GAME;//серверное время
+    private long time = -TIME_TO_GAME;//серверное время
     private List<Card> deck;//колода
     private List<Card> cardsOnDesk =new ArrayList<>();//карты на столе
     private List<String> players = new ArrayList<>();//список игроков в игре
