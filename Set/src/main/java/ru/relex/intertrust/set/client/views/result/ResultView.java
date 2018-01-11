@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,18 +31,27 @@ public class ResultView extends Composite {
 
     private static ResultView.ResultViewUiBinder uiBinder = GWT.create(ResultView.ResultViewUiBinder.class);
 
+    /**
+     * Время игры
+     */
     @UiField
     SpanElement resultGameTime;
 
+    /**
+     * Количество собранных сетов
+     */
     @UiField
     SpanElement resultSets;
 
+    /**
+     * Контейнер с результатами игроков
+     */
     @UiField
     HTMLPanel resultGamePlayers;
 
-    @UiField
-    Button exitGame;
-
+    /**
+     * Слушатель нажатия на кнопку выхода из просмотра результатов
+     */
     private OnExitGameCallback exitListener;
 
     public ResultView(OnExitGameCallback exitListener) {
@@ -51,20 +59,37 @@ public class ResultView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Метод, обеспечивающий выход из просмотра результатов
+     * @param e событие нажатия мыши
+     */
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
         exitListener.onExit();
     }
 
-    public void setResultGameTime(Long time) {
+    /**
+     * Устанавливает время игры
+     * @param time время игры в миллисекундах
+     */
+    private void setResultGameTime(Long time) {
         this.resultGameTime.setInnerHTML(Utils.formatTime(time));
     }
 
-    public void setResultSets(int sets) {
-        this.resultSets.setInnerHTML("" + sets);
+    /**
+     * Устанавливает количество собранных сетов
+     * @param numberOfSets количество сетов
+     */
+    private void setResultSets(int numberOfSets) {
+        this.resultSets.setInnerHTML("" + numberOfSets);
     }
 
-    public void setResultGamePlayers(List<String> players, List<Integer> score) {
+    /**
+     * Устанавливает результаты
+     * @param players список игроков
+     * @param score список результатов для каждого из игроков
+     */
+    private void setResultGamePlayers(List<String> players, List<Integer> score) {
         resultGamePlayers.clear();
         for (int i = 0; i < players.size(); i++) {
             HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n<div>" +
