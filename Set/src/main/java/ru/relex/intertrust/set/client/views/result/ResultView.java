@@ -10,7 +10,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
@@ -58,6 +58,7 @@ public class ResultView extends Composite {
     /**
      * Слушатель нажатия на кнопку выхода из просмотра результатов
      */
+    private ExitGameUIHandler exitListener;
     @UiField
     DivElement gameResults;
 
@@ -74,8 +75,7 @@ public class ResultView extends Composite {
     DivElement gamePoints;
 
     private OnExitGameCallback exitListener;
-
-    public ResultView(OnExitGameCallback exitListener) {
+    public ResultView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -86,7 +86,7 @@ public class ResultView extends Composite {
      */
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
-        exitListener.onExit();
+        exitListener.exit();
     }
 
     public  void setGameResultsConstants() {
@@ -98,8 +98,7 @@ public class ResultView extends Composite {
         this.exitGame.setHTML(gameConstants.exitGame());
     }
 
-    public void setResultGameTime(Long time) {
-        this.resultGameTime.setInnerHTML(Utils.formatTime(time));
+    public void setResultGameTime(Long time) {        this.resultGameTime.setInnerHTML(Utils.formatTime(time));
     }
 
     /**

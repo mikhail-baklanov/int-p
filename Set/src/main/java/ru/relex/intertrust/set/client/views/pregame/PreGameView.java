@@ -10,7 +10,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.util.Utils;
 
@@ -36,7 +36,7 @@ public class PreGameView extends Composite {
     @UiField
     HTMLPanel playersContainer;
 
-    @UiField
+    private OnExitGameCallback exitListener;    @UiField
     SpanElement beforeGame;
 
     @UiField
@@ -45,13 +45,12 @@ public class PreGameView extends Composite {
     @UiField
     DivElement namePlayer;
     private OnExitGameCallback exitListener;
-
     /**
      * Список игроков, ожидающих начало игры
      */
     private List<String> players = new ArrayList<>();
 
-    public PreGameView(OnExitGameCallback exitListener) {
+    public PreGameView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
         beforeGame.setInnerHTML(gameConstants.beforeGame());
@@ -66,7 +65,7 @@ public class PreGameView extends Composite {
      */
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
-        exitListener.onExit();
+        exitListener.exit();
     }
 
     /**
@@ -76,7 +75,6 @@ public class PreGameView extends Composite {
     public void setPreGameTimer(long time){
         preGameTimer.setInnerHTML(Utils.formatTime(time));
     }
-
 
     /**
      * Устанавливает список игроков, ожидающих начало игры
@@ -93,5 +91,4 @@ public class PreGameView extends Composite {
             }
         }
     }
-
 }
