@@ -5,7 +5,7 @@
     <ui:style src="GameField.css">
         @external .statistic-item .history-item .time-remaining .wrapper .left-bar .active .card .shape
         .cards-remaining .right-bar .statistic .separator .history .header .overflow .pass .slide-button
-        .login-block_exit .left-bar_container;
+        .game-field_exit .left-bar_container;
     </ui:style>
 
     <g:HTMLPanel ui:field="start">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <g:Button ui:field="passButton" styleName="{style.pass}"></g:Button>
-                <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
+                <g:Button ui:field="exitGame" styleName="{style.game-field_exit}"></g:Button>
             </g:HTMLPanel>
         </main>
     </g:HTMLPanel>
