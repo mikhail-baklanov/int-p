@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,7 +37,8 @@ public class PreGameView extends Composite {
     @UiField
     HTMLPanel playersContainer;
 
-    private OnExitGameCallback exitListener;    @UiField
+
+    @UiField
     SpanElement beforeGame;
 
     @UiField
@@ -44,7 +46,10 @@ public class PreGameView extends Composite {
 
     @UiField
     DivElement namePlayer;
-    private OnExitGameCallback exitListener;
+
+    @UiField
+    Button exitGame;
+    private ExitGameUIHandler exitListener;
     /**
      * Список игроков, ожидающих начало игры
      */

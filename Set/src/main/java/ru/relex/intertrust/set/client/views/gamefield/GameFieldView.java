@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.callback.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.service.SetService;
@@ -109,8 +110,8 @@ public class GameFieldView extends Composite {
     @UiField
     SpanElement gamePoints;
 
-    private OnExitGameCallback exitListener;
-    private OnCheckSetSuccessCallback checkListener;
+    private ExitGameUIHandler exitListener;
+    private GameFieldViewUIHandler checkListener;
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
         this.cardContainer.clear();
