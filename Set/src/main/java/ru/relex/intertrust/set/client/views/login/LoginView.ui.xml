@@ -167,16 +167,16 @@
         @external .login-block_game-start;
     </ui:style>
     <g:HTMLPanel ui:field="login" styleName="{style.login-block_new-player}">
-        <div class="{style.login-block_hello}">Добро пожаловать!</div>
+        <div ui:field="welcome" class="{style.login-block_hello}"></div>
         <g:FormPanel ui:field="submitLoginForm">
             <g:HTMLPanel styleName="{style.nickname-wrapper}">
                 <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}"/>
-                <span ui:field="errorLogin" class="{style.nickname-wrapper_error}">Неверное имя или такой игрок уже существует</span>
+                <span ui:field="errorLogin" class="{style.nickname-wrapper_error}"></span>
                 <span class="{style.bar}"></span>
                 <label>Имя</label>
-                <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}">Продолжить</g:Button>
+                <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}"></g:Button>
             </g:HTMLPanel>
         </g:FormPanel>
-        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}">Игра начнется через: <span ui:field="loginTimer"></span></div>
+        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}"><span ui:field="loginTimer"></span></div>
     </g:HTMLPanel>
 </ui:UiBinder>

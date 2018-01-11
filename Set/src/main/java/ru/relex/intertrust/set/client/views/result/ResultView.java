@@ -1,6 +1,7 @@
 package ru.relex.intertrust.set.client.views.result;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,17 +12,22 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
 public class ResultView extends Composite {
+
+    private GameConstants gameConstants = GWT.create(GameConstants.class);
+
     /**
      * Установка нового состояния игры
      * @param gameState новое состояние игры
      */
     public void setGameState(GameState gameState) {
+        setGameResultsConstants();
         setResultGameTime(gameState.getTime());
         setResultSets(gameState.getCountSets());
         setResultGamePlayers(gameState.getPlayers(), gameState.getScore());
@@ -44,6 +50,21 @@ public class ResultView extends Composite {
     @UiField
     Button exitGame;
 
+    @UiField
+    DivElement gameResults;
+
+    @UiField
+    SpanElement gameTime;
+
+    @UiField
+    SpanElement setsCollected;
+
+    @UiField
+    DivElement playerName;
+
+    @UiField
+    DivElement gamePoints;
+
     private OnExitGameCallback exitListener;
 
     public ResultView(OnExitGameCallback exitListener) {
@@ -54,6 +75,15 @@ public class ResultView extends Composite {
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
         exitListener.onExit();
+    }
+
+    public  void setGameResultsConstants() {
+        this.gameResults.setInnerHTML(gameConstants.gameResults());
+        this.gameTime.setInnerHTML(gameConstants.gameTime());
+        this.setsCollected.setInnerHTML(gameConstants.setsCollected());
+        this.playerName.setInnerHTML(gameConstants.playerName());
+        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
+        this.exitGame.setHTML(gameConstants.exitGame());
     }
 
     public void setResultGameTime(Long time) {

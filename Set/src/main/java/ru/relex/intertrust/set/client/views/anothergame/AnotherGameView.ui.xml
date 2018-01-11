@@ -60,17 +60,17 @@
     </ui:style>
     <g:HTMLPanel>
         <div class="{style.login-block_game-started}">
-            <div class="{style.login-block_hello}">Игра уже началась.</div>
+            <div ui:field="alreadyGame" class="{style.login-block_hello}"></div>
             <div class="{style.game-started_item}">
-                <span>С начала игры прошло:</span><span ui:field="anotherGameTime"></span>
+                <span ui:field="gameTime"></span><span ui:field="anotherGameTime"></span>
             </div>
             <div class="{style.game-started_item}">
-                <span>Карт в колоде осталось:</span><span ui:field="anotherGameCards"></span>
+                <span ui:field="cardsLeft"></span><span ui:field="anotherGameCards"></span>
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="anotherGamePlayers">
                     <div class="{style.game-started_players_item}">
-                        <div>Имя игрока</div><div>Баллы</div>
+                        <div ui:field="playerName"></div><div ui:field="gamePoints"></div>
                     </div>
                 </g:HTMLPanel>
             </div>

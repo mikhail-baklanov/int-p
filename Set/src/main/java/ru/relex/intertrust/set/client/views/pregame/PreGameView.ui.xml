@@ -78,13 +78,14 @@
         @external .login-block_exit;
     </ui:style>
     <g:HTMLPanel ui:field="preGame" styleName="{style.login-block_waiting-game}">
-            <div class="{style.login-block_hello}">До начала игры:
+            <div class="{style.login-block_hello}">
+                <span ui:field="beforeGame"></span>
                 <span ui:field="preGameTimer"></span>
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="playersContainer">
                     <div class="{style.game-started_players_item}">
-                        <div>Номер</div><div>Имя игрока</div>
+                        <div ui:field="number"></div><div ui:field="namePlayer"></div>
                     </div>
                     <!--<div class="{style.game-started_players_item}">-->
                         <!--<div>1</div><div>Михаил</div>-->
@@ -103,6 +104,6 @@
                     <!--</div>-->
                 </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
+            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
     </g:HTMLPanel>
 </ui:UiBinder>

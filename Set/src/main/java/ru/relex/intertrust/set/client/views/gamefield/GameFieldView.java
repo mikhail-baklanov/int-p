@@ -2,13 +2,13 @@ package ru.relex.intertrust.set.client.views.gamefield;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
@@ -45,6 +45,12 @@ public class GameFieldView extends Composite {
         this.exitListener = exitListener;
         this.checkListener = checkSetSuccessCallback;
         initWidget(uiBinder.createAndBindUi(this));
+        statistic.setInnerHTML(gameConstants.statistic());
+        exitGame.setHTML(gameConstants.exitGame());
+        players.setInnerHTML(gameConstants.players());
+        gamePoints.setInnerHTML(gameConstants.gamePoints());
+        passButton.setHTML(gameConstants.pass());
+
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
             @Override
@@ -93,6 +99,15 @@ public class GameFieldView extends Composite {
     @UiField
     HTMLPanel rightBar;
 
+    @UiField
+    DivElement statistic;
+
+    @UiField
+    SpanElement players;
+
+    @UiField
+    SpanElement gamePoints;
+
     private OnExitGameCallback exitListener;
     private OnCheckSetSuccessCallback checkListener;
 
@@ -139,7 +154,7 @@ public class GameFieldView extends Composite {
     }
 
     public void setCardLeft(int cardLeftCount){
-        this.cardLeft.setInnerHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
+        this.cardLeft.setInnerHTML("<div>"+gameConstants.cardsInDeck()+": "+cardLeftCount+"</div>");
     }
 
     public void setCards(List<Card> cardsOnDesk){

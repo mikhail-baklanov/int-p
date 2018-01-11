@@ -1,21 +1,25 @@
 package ru.relex.intertrust.set.client.views.anothergame;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
+import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
 public class AnotherGameView extends Composite {
+    private GameConstants gameConstants = GWT.create(GameConstants.class);
     /**
      * Установка нового состояния игры
      * @param gameState новое состояние игры
      */
     public void setGameState(GameState gameState) {
+        setAnotherGameConstants();
         setAnotherGameTime(gameState.getTime());
         setAnotherGameCards(gameState.getDeck().size());
         setAnotherGamePlayers(gameState.getPlayers(), gameState.getScore());
@@ -35,6 +39,28 @@ public class AnotherGameView extends Composite {
     @UiField
     HTMLPanel anotherGamePlayers;
 
+    @UiField
+    DivElement alreadyGame;
+
+    @UiField
+    SpanElement gameTime;
+
+    @UiField
+    SpanElement cardsLeft;
+
+    @UiField
+    DivElement playerName;
+
+    @UiField
+    DivElement gamePoints;
+
+    public void setAnotherGameConstants() {
+        this.alreadyGame.setInnerHTML(gameConstants.alreadyGame());
+        this.gameTime.setInnerHTML(gameConstants.gameTime());
+        this.cardsLeft.setInnerHTML(gameConstants.cardsLeft());
+        this.playerName.setInnerHTML(gameConstants.playerName());
+        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
+    }
     public AnotherGameView() {
         initWidget(uiBinder.createAndBindUi(this));
     }

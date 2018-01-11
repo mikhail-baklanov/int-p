@@ -82,21 +82,21 @@
     </ui:style>
     <g:HTMLPanel>
         <div class="{style.login-block_game-started}">
-            <div class="{style.login-block_hello}">Результаты.</div>
+            <div ui:field="gameResults" class="{style.login-block_hello}"></div>
             <div class="{style.game-started_item}">
-                <span>Время игры:</span><span ui:field="resultGameTime"></span>
+                <span ui:field="gameTime"></span><span ui:field="resultGameTime"></span>
             </div>
             <div class="{style.game-started_item}">
-                <span>Сетов собрано:</span><span ui:field="resultSets"></span>
+                <span ui:field="setsCollected"></span><span ui:field="resultSets"></span>
             </div>
             <div class="{style.game-started_players_items}">
                 <g:HTMLPanel ui:field="resultGamePlayers">
                     <div class="{style.game-started_players_item}">
-                        <div>Имя игрока</div><div>Баллы</div>
+                        <div ui:field="playerName"></div><div ui:field="gamePoints"></div>
                     </div>
                 </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти</g:Button>
+            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>

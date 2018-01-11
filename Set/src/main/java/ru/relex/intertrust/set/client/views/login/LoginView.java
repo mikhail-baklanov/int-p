@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.callback.OnLoginSuccessCallback;
+import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
@@ -19,6 +20,7 @@ public class LoginView extends Composite {
 
     interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
     }
+    private GameConstants gameConstants = GWT.create(GameConstants.class);
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
 
@@ -54,6 +56,11 @@ public class LoginView extends Composite {
     @UiField
     FormPanel submitLoginForm;
 
+    @UiField
+    DivElement welcome;
+
+    @UiField
+    Button submitLogin;
     /**
      * Обработчик события регистрации пользователя.
      */
@@ -61,6 +68,10 @@ public class LoginView extends Composite {
 
     public LoginView(OnLoginSuccessCallback loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
+        timeBlockLogin.setInnerHTML(gameConstants.timeBlock());
+        errorLogin.setInnerHTML(gameConstants.errorLogin());
+        welcome.setInnerHTML(gameConstants.welcome());
+        submitLogin.setHTML(gameConstants.continueGame());
         nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
 

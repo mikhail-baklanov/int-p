@@ -290,8 +290,8 @@
             <g:HTMLPanel ui:field="rightBar" styleName="{style.right-bar}">
                 <div class="{style.statistic}">
                     <div class="{style.statistic-item} {style.header}">
-                        <span>Игроки</span>
-                        <span>Очки</span>
+                        <span ui:field="players"></span>
+                        <span ui:field="gamePoints"></span>
                     </div>
                     <div class="{style.overflow}">
                         <g:FlowPanel ui:field="statisticContainer">
@@ -300,15 +300,15 @@
                     </div>
                 </div>
                 <div class="{style.history}">
-                    <div class="{style.history-item} {style.header}">Статистика</div>
+                    <div ui:field="statistic" class="{style.history-item} {style.header}"></div>
                     <div class="{style.overflow}">
                         <g:FlowPanel ui:field="historyContainer">
 
                         </g:FlowPanel>
                     </div>
                 </div>
-                <g:Button ui:field="passButton" styleName="{style.pass}">Пас</g:Button>
-                <g:Button ui:field="exitGame" styleName="{style.login-block_exit}">Выйти из игры</g:Button>
+                <g:Button ui:field="passButton" styleName="{style.pass}"></g:Button>
+                <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
             </g:HTMLPanel>
         </main>
     </g:HTMLPanel>
