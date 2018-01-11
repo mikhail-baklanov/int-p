@@ -10,6 +10,9 @@ public class Set implements EntryPoint {
 
     private final ContainerView containerView = new ContainerView();
 
+    /**
+     *Точка входа проекта
+     */
     public void onModuleLoad() {
 
         RootPanel.get("gwt-wrapper").add(containerView);

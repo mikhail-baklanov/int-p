@@ -4,9 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
-import ru.relex.intertrust.set.client.callback.GameFieldViewUIHandler;
-import ru.relex.intertrust.set.client.callback.LoginViewUIHandler;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.views.anothergame.AnotherGameView;
@@ -41,8 +41,11 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
      * Текущий экран
      */
     private Widget currentView;
-
+    /**
+     * 	Создание экземпляра класса взаимодействия с сервисом
+     */
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
+
 
     @Override
     public void exit() {
@@ -80,7 +83,9 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         timer.scheduleRepeating(REQUEST_PERIOD);
     }
 
-
+    /**
+     * Запрос состояния игры с сервера
+     */
     private void requestServer () {
         serviceAsync.getGameState(new AsyncCallback<GameState>() {
             @Override
@@ -88,7 +93,6 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
                 consoleLog(throwable.getMessage());
             }
 
-            // Добавление нужного экрана для текущего состояния игры
             @Override
             public void onSuccess(GameState gameState) {
                 processGameState(gameState);
@@ -97,7 +101,13 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
 
-
+    /**
+     * Начальный выбор view и настройка отображающейся на ней информации.
+     * Если игроков нет, то отображается loginView
+     * Если игроки есть, то список игроков и время до начала игры
+     *
+     * @param gameState информация о состоянии игры
+     */
     private void processGameState(GameState gameState) {
         long gameStateTime = gameState.getTime();
         Widget newView;
@@ -134,6 +144,12 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         }
     }
 
+    /**
+     * Проверяется можно ли использовать данное имя игроку
+     * @param gameState информация о состоянии игры
+     * @return true,если можно использовать имя
+     *         false,если имя null или уже есть на сервере
+     */
     private boolean hasCurrentPlayer(GameState gameState) {
         return playerName != null && gameState.hasPlayer(playerName);
     }
