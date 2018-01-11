@@ -14,19 +14,27 @@ public class ContainerView extends Composite {
     }
 
     interface MyStyle extends CssResource {
-
         @ClassName("login-block")
         String loginBlock();
     }
 
     private static ContainerView.ContainerViewUiBinder uiBinder = GWT.create(ContainerView.ContainerViewUiBinder.class);
 
+    /**
+     *  Контейнер для добавления виджетов.
+     */
     @UiField
     HTMLPanel containerPanel;
 
+    /**
+     *  Главный блок со всем контентом.
+     */
     @UiField
     HTMLPanel block;
 
+    /**
+     *  Необходимые для использования стили.
+     */
     @UiField
     MyStyle style;
 
@@ -34,32 +42,29 @@ public class ContainerView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     *  Метод, который удаляет старый виджет из контейнера и добавляет новый.
+     *  @param widget новый виджет
+     */
     public void setView (Widget widget) {
-        if(widget instanceof GameFieldView)
-            block.removeStyleName(style.loginBlock());
-        else
-            block.setStyleName(style.loginBlock());
-
         Timer timer = new Timer() {
             @Override
             public void run() {
                 containerPanel.clear();
                 containerPanel.add(widget);
-                containerPanel.getElement().getStyle().setOpacity(1);
+                
+                if(widget instanceof GameFieldView)
+                    block.removeStyleName(style.loginBlock());
+                else
+                    block.setStyleName(style.loginBlock());
+
+                containerPanel.getElement().removeClassName("not-active");
             }
         };
         if (containerPanel.getWidgetCount() != 0) {
-            containerPanel.getElement().getStyle().setOpacity(0);
+            containerPanel.getElement().addClassName("not-active");
             timer.schedule(400);
         } else
             timer.run();
-    }
-
-    public void removeStyle() {
-        block.removeStyleName(style.loginBlock());
-    }
-
-    public void addStyle() {
-        block.setStyleName(style.loginBlock());
     }
 }
