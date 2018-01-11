@@ -1,82 +1,12 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <ui:style>
-        .login-block_waiting-game {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
 
-        .login-block_hello {
-            width: 100%;
-            text-align: center;
-            font-family: "Open Sans";
-            color: #6a6a6a;
-            font-weight: 300;
-            margin-top: 20px;
-            cursor: default;
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .login-block_exit {
-            width: 200px;
-            height: 50px;
-            margin: 10px auto;
-            cursor: pointer;
-            border: 1px solid #cd6060;
-            background-color: transparent;
-            color: #cd6060;
-            font-size: 20px;
-            font-family: "Open Sans";
-            font-weight: 300;
-            transition: .15s;
-            outline: none;
-        }
-
-        .login-block_exit:hover {
-            color: #934c4c;
-            background-color: rgba(205,96,96,0.1);
-        }
-        .game-started_players_items {
-            display: flex;
-            overflow-y: scroll;
-            flex-direction: column;
-            width: 90%;
-            height: 140px;
-            margin: 10px auto 0 auto;
-            background-color: rgba(255,255,255,0.5);
-        }
-
-        .game-started_players_items::-webkit-scrollbar
-        {
-            width: 8px;
-            background-color: rgba(255,255,255,0.5);
-        }
-
-        .game-started_players_items::-webkit-scrollbar-thumb
-        {
-            background-color: rgba(105,127,148,0.8);
-        }
-
-        .game-started_players_item {
-            display: flex;
-            width: 100%;
-            height: 30px;
-        }
-
-        .game-started_players_item div{
-            width: 50%;
-            text-align: center;
-            height: 30px;
-        }
-        @external .game-started_players_items;
-        @external .game-started_players_item;
-        @external .login-block_waiting-game;
-        @external .login-block_hello;
-        @external .login-block_exit;
+    <ui:style src="PreGame.css">
+        @external .game-started_players_items .game-started_players_item .login-block_waiting-game
+        .login-block_hello .login-block_exit;
     </ui:style>
+
     <g:HTMLPanel ui:field="preGame" styleName="{style.login-block_waiting-game}">
             <div class="{style.login-block_hello}">
                 <span ui:field="beforeGame"></span>
@@ -87,21 +17,6 @@
                     <div class="{style.game-started_players_item}">
                         <div ui:field="number"></div><div ui:field="namePlayer"></div>
                     </div>
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>1</div><div>Михаил</div>-->
-                    <!--</div>-->
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>2</div><div>Виталий</div>-->
-                    <!--</div>-->
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>3</div><div>Олег</div>-->
-                    <!--</div>-->
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>4</div><div>Сергей</div>-->
-                    <!--</div>-->
-                    <!--<div class="{style.game-started_players_item}">-->
-                        <!--<div>5</div><div>Александр</div>-->
-                    <!--</div>-->
                 </g:HTMLPanel>
             </div>
             <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>

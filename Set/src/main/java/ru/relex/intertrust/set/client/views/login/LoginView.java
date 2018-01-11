@@ -16,6 +16,8 @@ import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
 
+import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
+
 public class LoginView extends Composite {
 
     interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
@@ -86,7 +88,7 @@ public class LoginView extends Composite {
                 ourInstance.login(name, new AsyncCallback<Boolean>() {
                     @Override
                     public void onFailure(Throwable throwable) {
-                        Window.alert(throwable.getMessage());
+                        consoleLog(throwable.getMessage());
                     }
 
                     @Override

@@ -1,0 +1,20 @@
+.login-block {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 0 3px 7px rgba(105,127,148,0.5);
+}
+.login-block > div {
+    opacity: 1;
+    transition: .4s;
+}
+
+.login-block > div.not-active {
+    opacity: 0;
+}
