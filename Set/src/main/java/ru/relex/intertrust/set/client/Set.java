@@ -75,7 +75,7 @@ public class Set implements EntryPoint {
         serviceAsync.checkSet(cards, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
-
+                consoleLog(throwable.getMessage());
             }
 
             @Override
@@ -109,8 +109,8 @@ public class Set implements EntryPoint {
     private void requestServer () {
         serviceAsync.getGameState(new AsyncCallback<GameState>() {
             @Override
-            public void onFailure(Throwable caught) {
-                consoleLog(caught.getMessage());
+            public void onFailure(Throwable throwable) {
+                consoleLog(throwable.getMessage());
             }
 
             // Добавление нужного экрана для текущего состояния игры

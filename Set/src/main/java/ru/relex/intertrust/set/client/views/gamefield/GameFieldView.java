@@ -24,6 +24,8 @@ import ru.relex.intertrust.set.shared.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
+
 public class GameFieldView extends Composite {
 
     private GameState gs = new GameState();
@@ -197,7 +199,7 @@ public class GameFieldView extends Composite {
         ourInstance.pass(gs.getDeck().size(), new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
-
+                consoleLog(throwable.getMessage());
             }
 
             @Override
