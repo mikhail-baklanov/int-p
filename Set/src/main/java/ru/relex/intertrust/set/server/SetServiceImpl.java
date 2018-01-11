@@ -27,6 +27,19 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     private static final int FINE = 5; //штраф
     private static final int REWARD = 3; //награда
 
+    @Override
+    /**
+     * @return возвращает описание состояния игры
+     */
+    public GameState getGameState()
+    {
+        GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
+        synchronized (gameState)
+        {
+            return gameState;
+        }
+    }
+
     /**
      * Первоначальная инициализация
      * Выполняется при первом запуске сервера
@@ -101,15 +114,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void exit() {
         GameState gameState = getGameState();
         synchronized (gameState) {
-            int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+            gameState.removePlayer((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
             getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
-            gameState.setActivePlayers(gameState.getActivePlayers() - 1);
             if (gameState.getActivePlayers() == 0) {
                 initGame();
-            }
-            if (!gameState.isStart()) {
-                gameState.getPlayers().remove(playerNumber);
-                gameState.getScore().remove(playerNumber);
             }
         }
     }
@@ -118,7 +126,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      * Метод, реализующий ПАС:
      * добавление игрока в список спасовавших игроков
      * получение списка карт в колоде клиента для проверки состояния игрока
-     * осуществление проверки признаков конца игры
      * @param cardsInDeck кол-во карт в колоде
      */
     @Override
@@ -126,41 +133,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
         GameState gameState=getGameState();
         synchronized (gameState) {
-
-            //добавление в список спасовавших
-            //добавление карт
-            //завершение игры
+            String user = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
             if (cardsInDeck == gameState.getDeck().size() && !isPassed()) //если пас пришел вовремя, то добавляем имя паснувшнего в список
             {
-                gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
+                gameState.AddNotAbleToPlay(user);
             }
-
-            if (gameState.getNotAbleToPlay().size() == (gameState.getPlayers().size() / 2) + 1)//если список спасовавших больше половины игроков, то
-            {                                                                        //добавляем 3карты на стол и обнуляем список пасовавших
-                gameState.clearNotAbleToPlay();
-                if (gameState.getDeck().size() == 0) {
-                    gameState.setStart(false);
-                }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-                else if(gameState.getCardsOnDesk().size()<MAX_NUMBER_OF_CARDS)
-                    addCards(3);
-            }
-
+            gameState.pass(user);
         }
     }
-
-    @Override
-    /**
-     * @return возвращает описание состояния игры
-     */
-    public GameState getGameState()
-    {
-        GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
-        synchronized (gameState)
-        {
-            return gameState;
-        }
-    }
-
 
     /**
      *
@@ -218,7 +198,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-    //уберется в gameState
+    //TODO это уберется в gameState
     /**
      * Возвращает номер, по которому можно получить информацию об игроке в листах
      * @param nickname имя игрока

@@ -25,6 +25,10 @@ public class GameState implements Serializable {
     private static final long TIME_TO_GAME = 10000;
     private static final long PERIOD_MS = 500;
 
+    private static final int MAX_NUMBER_OF_CARDS = 21;
+    private static final int FINE = 5; //штраф
+    private static final int REWARD = 3; //награда
+
     public int getActivePlayers() {
         return activePlayers;
     }
@@ -108,7 +112,9 @@ public class GameState implements Serializable {
 
     public List<String> getNotAbleToPlay() {return notAbleToPlay;}
 
-    public void AddNotAbleToPlay(String name) {notAbleToPlay.add(name);}
+    public void AddNotAbleToPlay(String name) {
+        notAbleToPlay.add(name);
+    }
 
     public void setAbleToPlay(List<String> notAbleToPlay) {this.notAbleToPlay=notAbleToPlay;}
 
@@ -192,5 +198,21 @@ public class GameState implements Serializable {
         addCards(initialCardsNumber);
     }
 
-
+    /**
+     * Метод, осуществляющий пас:
+     * проверка количества спасовавших
+     * добавление карт на стол или завершение игры, если карт в колоде нет
+     * @param nickname имя игрока
+     */
+    public void pass(String nickname){
+        if (getNotAbleToPlay().size() == (getPlayers().size() / 2) + 1)
+        {
+            clearNotAbleToPlay();
+            if (getDeck().size() == 0) {
+                setStart(false);
+            }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
+            else if(getCardsOnDesk().size() < MAX_NUMBER_OF_CARDS)
+                addCards(3);
+        }
+    }
 }
