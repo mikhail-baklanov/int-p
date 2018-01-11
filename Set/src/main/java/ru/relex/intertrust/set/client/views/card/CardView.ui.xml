@@ -1,45 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <ui:style>
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 11%;
-            max-width: 160px;
-            height: 28%;
-            background-color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            margin: 1% 1%;
-            box-shadow: 1px 3px 7px rgba(105,127,148,0.5);
-            transition: .2s;
-        }
 
-        .card.active {
-            box-shadow: 1px 3px 7px rgba(72, 134, 234, 0.5);
-        }
-
-        .card.active:hover {
-            box-shadow: 1px 3px 7px rgba(72, 134, 234, 1);
-        }
-
-        .card .shape {
-            width: 90%;
-            height: 25%;
-            background-size: 100%;
-            background-position: center;
-            margin: 2px auto;
-        }
-
-        .card:hover{
-            background-color: rgba(255,255,255,0.8);
-            box-shadow: 1px 3px 7px rgba(105,127,148,1);
-        }
-        @external .shape;
-        @external .card;
-        @external .active;
+    <ui:style src="Card.css">
+        @external .shape .card .active;
     </ui:style>
+
     <g:HTMLPanel ui:field="cardContainer" styleName="{style.card}">
 
     </g:HTMLPanel>
