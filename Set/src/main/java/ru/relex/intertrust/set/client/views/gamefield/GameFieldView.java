@@ -8,10 +8,12 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
 import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
@@ -25,6 +27,8 @@ import java.util.List;
 public class GameFieldView extends Composite {
 
     private GameState gs = new GameState();
+
+    private GameConstants gameConstants = GWT.create(GameConstants.class);
 
     private List<CardView> choosedCards = new ArrayList<>();
 
@@ -118,6 +122,7 @@ public class GameFieldView extends Composite {
 //        this.statisticContainer.add(player);
     }
 
+
     public void setHistory(int findSets){
         this.historyContainer.clear();
 //        for (int i = 0; i < logs.size()-1; i++) {
@@ -128,7 +133,7 @@ public class GameFieldView extends Composite {
 //        }
 //        HTML player = new HTML("<div class=\"history-item\">"+logs.get(logs.size()-1)+"</div>");
 //        this.historyContainer.add(player);
-        HTML sets = new HTML("<div class=\"history-item\">Сетов собрано: "+findSets+"</div>");
+        HTML sets = new HTML("<div class=\"history-item\">"+gameConstants.setsCollected()+": "+findSets+"</div>");
         this.historyContainer.add(sets);
         this.historyContainer.add(separator);
     }
