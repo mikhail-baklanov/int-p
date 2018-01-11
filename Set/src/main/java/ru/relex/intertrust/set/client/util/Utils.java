@@ -1,8 +1,5 @@
 package ru.relex.intertrust.set.client.util;
 
-import com.google.gwt.core.client.GWT;
-import ru.relex.intertrust.set.client.constants.GameConstants;
-
 public class Utils {
 
     public static String formatTime(long timeMs) {

@@ -2,17 +2,17 @@ package ru.relex.intertrust.set.client.views.gamefield;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
+import ru.relex.intertrust.set.client.callback.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
@@ -43,10 +43,15 @@ public class GameFieldView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    public GameFieldView(OnExitGameCallback exitListener, OnCheckSetSuccessCallback checkSetSuccessCallback) {
-        this.exitListener = exitListener;
-        this.checkListener = checkSetSuccessCallback;
+    public GameFieldView(GameFieldViewUIHandler uiHandler) {
+        this.uiHandler = uiHandler;
         initWidget(uiBinder.createAndBindUi(this));
+        statistic.setInnerHTML(gameConstants.statistic());
+        exitGame.setHTML(gameConstants.exitGame());
+        players.setInnerHTML(gameConstants.players());
+        gamePoints.setInnerHTML(gameConstants.gamePoints());
+        passButton.setHTML(gameConstants.pass());
+
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
             @Override
@@ -95,13 +100,22 @@ public class GameFieldView extends Composite {
     @UiField
     HTMLPanel rightBar;
 
-    private OnExitGameCallback exitListener;
-    private OnCheckSetSuccessCallback checkListener;
+    private GameFieldViewUIHandler uiHandler;
+    @UiField
+    DivElement statistic;
 
+    @UiField
+    SpanElement players;
+
+    @UiField
+    SpanElement gamePoints;
+
+    private ExitGameUIHandler exitListener;
+    private GameFieldViewUIHandler checkListener;
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
         this.cardContainer.clear();
-        exitListener.onExit();
+        uiHandler.exit();
     }
 
     public void setTime(String time){
@@ -141,57 +155,54 @@ public class GameFieldView extends Composite {
     }
 
     public void setCardLeft(int cardLeftCount){
-        this.cardLeft.setInnerHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
+        this.cardLeft.setInnerHTML("<div>"+gameConstants.cardsInDeck()+": "+cardLeftCount+"</div>");
     }
 
-    public void setCards(List<Card> cardsOnDesk){
+    public void setCards(List<Card> newCardsOnDesk){
         ClickHandler click = new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 chooseCard(clickEvent.getSource());
             }
         };
-        if(gs.getCardsOnDesk().size() == 0)
-            for (int i = 0; i < cardsOnDesk.size(); i++) {
-                CardView card = new CardView(cardsOnDesk.get(i));
+
+        boolean isActual;
+        for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
+            isActual = false;
+            CardView cardOnDesk = (CardView) cardContainer.getWidget(i);
+            for (Card newCard: newCardsOnDesk) {
+                if (cardOnDesk.getCard().equals(newCard)) {
+                    isActual = true;
+                    break;
+                }
+            }
+            if (!isActual) {
+                removeFromDesk(cardOnDesk);
+            }
+        }
+
+        for (Card newCard: newCardsOnDesk) {
+            isActual = false;
+            for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
+                CardView cardOnDesk = (CardView) cardContainer.getWidget(i);
+                if (newCard.equals(cardOnDesk.getCard())) {
+                    isActual = true;
+                    break;
+                }
+            }
+            if (!isActual) {
+                CardView card = new CardView(newCard);
                 card.sinkEvents(Event.ONCLICK);
                 card.addHandler(click, ClickEvent.getType());
                 cardContainer.add(card);
             }
-        else {
-            boolean issetFlag = false;
-            for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
-                for (int j = 0; j < cardsOnDesk.size(); j++) {
-                    CardView cardOnTable = (CardView) cardContainer.getWidget(i);
-                    if (cardOnTable.getCard().equals(cardsOnDesk.get(j))) {
-                        issetFlag = true;
-                        break;
-                    }
-                }
-                if (!issetFlag) {
-                    cardContainer.remove(cardContainer.getWidget(i));
-                    choosedCards.remove(cardContainer.getWidget(i));
-                }
-                issetFlag = false;
-            }
-
-            for (int i = 0; i < cardsOnDesk.size(); i++) {
-                for (int j = 0; j < gs.getCardsOnDesk().size(); j++) {
-                    if (cardsOnDesk.get(i).equals(gs.getCardsOnDesk().get(j))) {
-                        issetFlag = true;
-                        break;
-                    }
-                }
-                if (!issetFlag) {
-                    CardView card = new CardView(cardsOnDesk.get(i));
-                    card.sinkEvents(Event.ONCLICK);
-                    card.addHandler(click, ClickEvent.getType());
-                    cardContainer.add(card);
-                }
-                issetFlag = false;
-            }
         }
 
+    }
+
+    private void removeFromDesk(CardView cardOnDesk) {
+        cardContainer.remove(cardOnDesk);
+        choosedCards.remove(cardOnDesk);
     }
 
     @UiHandler("passButton")
@@ -225,7 +236,7 @@ public class GameFieldView extends Composite {
             choosedCards.add(card);
             if (choosedCards.size() == 3) {
                 Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
-                checkListener.onCheckSet(cards);
+                uiHandler.checkSet(cards);
                 for (CardView item: choosedCards)
                     item.getElement().removeClassName("active");
                 choosedCards.clear();

@@ -4,3 +4,13 @@ body {
     font-family: "Open Sans";
 }
 
+.nickname-wrapper input:focus ~ label, input:valid ~ label {
+    left: 20px;
+    font-size: 14px;
+    color: #697f94;
+}
+
+.nickname-wrapper input:focus ~ .bar:before,
+.nickname-wrapper input:focus ~ .bar:after {
+    width: 50%;
+}
