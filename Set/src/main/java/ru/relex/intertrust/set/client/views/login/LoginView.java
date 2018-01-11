@@ -7,10 +7,9 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.callback.OnLoginSuccessCallback;
+import ru.relex.intertrust.set.client.callback.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
@@ -23,8 +22,6 @@ public class LoginView extends Composite {
     }
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
-
-    private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
     /**
      * Всплывающее окно с ошибкой.
@@ -59,9 +56,10 @@ public class LoginView extends Composite {
     /**
      * Обработчик события регистрации пользователя.
      */
-    private OnLoginSuccessCallback loginListener;
+    //try
+    private LoginViewUIHandler loginListener;
 
-    public LoginView(OnLoginSuccessCallback loginListener) {
+    public LoginView(LoginViewUIHandler loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
         nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
@@ -72,25 +70,18 @@ public class LoginView extends Composite {
              * @param event событие
              */
             @Override
-            public void onSubmit(FormPanel.SubmitEvent event) {
+            public void onSubmit(FormPanel.SubmitEvent event) //??
+            {
                 String name = nicknameLogin.getValue();
-                ourInstance.login(name, new AsyncCallback<Boolean>() {
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        consoleLog(throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onSuccess(Boolean success) {
-                        if (success)
-                            loginListener.onLogin(name);
-                        else
-                            errorLogin.addClassName("active");
-                    }
-                });
+                loginListener.login(name);
             }
         });
     }
+
+    public void showLoginError() {
+        errorLogin.addClassName("active");
+    }
+    //try
 
     /**
      * Метод, который вызывает submit формы submitLoginForm.

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
@@ -44,16 +44,16 @@ public class ResultView extends Composite {
     @UiField
     Button exitGame;
 
-    private OnExitGameCallback exitListener;
+    private ExitGameUIHandler exitListener;
 
-    public ResultView(OnExitGameCallback exitListener) {
+    public ResultView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
-        exitListener.onExit();
+        exitListener.exit();
     }
 
     public void setResultGameTime(Long time) {

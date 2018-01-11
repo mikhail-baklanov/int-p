@@ -8,11 +8,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.callback.OnCheckSetSuccessCallback;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
@@ -43,9 +41,8 @@ public class GameFieldView extends Composite {
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
-    public GameFieldView(OnExitGameCallback exitListener, OnCheckSetSuccessCallback checkSetSuccessCallback) {
-        this.exitListener = exitListener;
-        this.checkListener = checkSetSuccessCallback;
+    public GameFieldView(GameFieldViewUIHandler uiHandler) {
+        this.uiHandler = uiHandler;
         initWidget(uiBinder.createAndBindUi(this));
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
@@ -95,13 +92,12 @@ public class GameFieldView extends Composite {
     @UiField
     HTMLPanel rightBar;
 
-    private OnExitGameCallback exitListener;
-    private OnCheckSetSuccessCallback checkListener;
+    private GameFieldViewUIHandler uiHandler;
 
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
         this.cardContainer.clear();
-        exitListener.onExit();
+        uiHandler.exit();
     }
 
     public void setTime(String time){
@@ -225,7 +221,7 @@ public class GameFieldView extends Composite {
             choosedCards.add(card);
             if (choosedCards.size() == 3) {
                 Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
-                checkListener.onCheckSet(cards);
+                uiHandler.checkSet(cards);
                 for (CardView item: choosedCards)
                     item.getElement().removeClassName("active");
                 choosedCards.clear();

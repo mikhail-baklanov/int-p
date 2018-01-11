@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.callback.OnExitGameCallback;
+import ru.relex.intertrust.set.client.callback.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.util.Utils;
 
 import java.util.ArrayList;
@@ -32,18 +32,18 @@ public class PreGameView extends Composite {
     @UiField
     HTMLPanel playersContainer;
 
-    private OnExitGameCallback exitListener;
+    private ExitGameUIHandler exitListener;
 
     private List<String> players = new ArrayList<>();
 
-    public PreGameView(OnExitGameCallback exitListener) {
+    public PreGameView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
-        exitListener.onExit();
+        exitListener.exit();
     }
 
     /**
@@ -53,7 +53,6 @@ public class PreGameView extends Composite {
     public void setPreGameTimer(long time){
         preGameTimer.setInnerHTML(Utils.formatTime(time));
     }
-
 
     public void setPlayers (List<String> players) {
         if (!this.players.containsAll(players) || !players.containsAll(this.players)) {
@@ -66,5 +65,4 @@ public class PreGameView extends Composite {
             }
         }
     }
-
 }
