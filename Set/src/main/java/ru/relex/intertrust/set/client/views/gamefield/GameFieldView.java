@@ -140,54 +140,51 @@ public class GameFieldView extends Composite {
         this.cardLeft.setInnerHTML("<div>Карт в колоде: "+cardLeftCount+"</div>");
     }
 
-    public void setCards(List<Card> cardsOnDesk){
+    public void setCards(List<Card> newCardsOnDesk){
         ClickHandler click = new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 chooseCard(clickEvent.getSource());
             }
         };
-        if(gs.getCardsOnDesk().size() == 0)
-            for (int i = 0; i < cardsOnDesk.size(); i++) {
-                CardView card = new CardView(cardsOnDesk.get(i));
+
+        boolean isActual;
+        for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
+            isActual = false;
+            CardView cardOnDesk = (CardView) cardContainer.getWidget(i);
+            for (Card newCard: newCardsOnDesk) {
+                if (cardOnDesk.getCard().equals(newCard)) {
+                    isActual = true;
+                    break;
+                }
+            }
+            if (!isActual) {
+                removeFromDesk(cardOnDesk);
+            }
+        }
+
+        for (Card newCard: newCardsOnDesk) {
+            isActual = false;
+            for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
+                CardView cardOnDesk = (CardView) cardContainer.getWidget(i);
+                if (newCard.equals(cardOnDesk.getCard())) {
+                    isActual = true;
+                    break;
+                }
+            }
+            if (!isActual) {
+                CardView card = new CardView(newCard);
                 card.sinkEvents(Event.ONCLICK);
                 card.addHandler(click, ClickEvent.getType());
                 cardContainer.add(card);
             }
-        else {
-            boolean issetFlag = false;
-            for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
-                for (int j = 0; j < cardsOnDesk.size(); j++) {
-                    CardView cardOnTable = (CardView) cardContainer.getWidget(i);
-                    if (cardOnTable.getCard().equals(cardsOnDesk.get(j))) {
-                        issetFlag = true;
-                        break;
-                    }
-                }
-                if (!issetFlag) {
-                    cardContainer.remove(cardContainer.getWidget(i));
-                    choosedCards.remove(cardContainer.getWidget(i));
-                }
-                issetFlag = false;
-            }
-
-            for (int i = 0; i < cardsOnDesk.size(); i++) {
-                for (int j = 0; j < gs.getCardsOnDesk().size(); j++) {
-                    if (cardsOnDesk.get(i).equals(gs.getCardsOnDesk().get(j))) {
-                        issetFlag = true;
-                        break;
-                    }
-                }
-                if (!issetFlag) {
-                    CardView card = new CardView(cardsOnDesk.get(i));
-                    card.sinkEvents(Event.ONCLICK);
-                    card.addHandler(click, ClickEvent.getType());
-                    cardContainer.add(card);
-                }
-                issetFlag = false;
-            }
         }
 
+    }
+
+    private void removeFromDesk(CardView cardOnDesk) {
+        cardContainer.remove(cardOnDesk);
+        choosedCards.remove(cardOnDesk);
     }
 
     @UiHandler("passButton")
