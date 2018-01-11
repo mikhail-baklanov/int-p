@@ -18,13 +18,17 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     private Timer timer = new Timer();
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
-
+    private static final long PERIOD_MS = 500;
+    private static final int INITIAL_NUMBER_OF_CARDS = 12;
+    private static final int MAX_NUMBER_OF_CARDS = 21;
+    private static final int FINE = 5; //штраф
+    private static final int REWARD = 3; //награда
 
     @Override
     public void init() throws ServletException {
         super.init();
         initGame();
-        timer.schedule(t, 0, 500);
+        timer.schedule(t, 0, PERIOD_MS);
     }
 
     /**
@@ -88,7 +92,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         gameState.setStart(true);
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         gameState.setDeck(cardsDeck);
-        addCards(12);
+        addCards(INITIAL_NUMBER_OF_CARDS);
     }
 
     /**
@@ -139,7 +143,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 if (gameState.getDeck().size() == 0) {
                     gameState.setStart(false);
                 }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-                else if(gameState.getCardsOnDesk().size()<21)
+                else if(gameState.getCardsOnDesk().size()<MAX_NUMBER_OF_CARDS)
                     addCards(3);
             }
 
@@ -186,7 +190,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 }
                 for (int i = 0; i <= 3; i++) {
                     if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
-                        gameState.getScore().set(playerNumber, oldScore - 5);
+                        gameState.getScore().set(playerNumber, oldScore - FINE);
                         return;
                     }
                 }
@@ -198,12 +202,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                             existSet++;
                     }
                     if (existSet == 3) {
-                        gameState.getScore().set(playerNumber, oldScore + 3);
+                        gameState.getScore().set(playerNumber, oldScore + REWARD);
                         gameState.setCountSets(gameState.getCountSets() + 1);
                         for (Card c : set)
                             gameState.getCardsOnDesk().remove(c);
 
-                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= 12) {
+                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= INITIAL_NUMBER_OF_CARDS) {
                             addCards(3);
                         } else {
                             if (gameState.getCardsOnDesk().size() == 0)
@@ -260,7 +264,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                     gameState.prepareTime();
                 }
                 if (gameState.getTime() == 0) startGame();
-                gameState.setTime(gameState.getTime() + 500);
+                gameState.setTime(gameState.getTime() + PERIOD_MS);
 
             }
         }
