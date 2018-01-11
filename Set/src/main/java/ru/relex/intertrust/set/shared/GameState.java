@@ -6,13 +6,7 @@ import java.util.List;
 
 public class GameState implements Serializable {
 
-    /*
-    флаг начала и конца игры
-    true-игра идет
-    false-игра закончилась(не началась)
-     */
-    private boolean isStart = false;
-
+    private boolean isStart = false; //флаг, показывающий, идет ли игра (true - игра идет, false - игра не начата)
 
     private long time = -TIME_TO_GAME;//серверное время
     private List<Card> deck;//колода
@@ -29,8 +23,7 @@ public class GameState implements Serializable {
     private List<String> notAbleToPlay = new ArrayList<>();
 
     private static final long TIME_TO_GAME = 10000;
-
-    
+    private static final long PERIOD_MS = 500;
 
     public int getActivePlayers() {
         return activePlayers;
@@ -124,4 +117,80 @@ public class GameState implements Serializable {
     public void prepareTime() {
         setTime(-GameState.TIME_TO_GAME);
     }
+
+    //убранные методы
+    /**
+     * Метод, который обновляет игровое время:
+     * увеличивает время на PERIOD_MS миллисекунд при наличии хотя бы одного зарегистрировавшегося игрока
+     * при отсутствии игрока время всегда равно -TIME_TO_GAME
+     */
+    public void updateOrPrepareGameTime(){
+        if (getActivePlayers() == 0) {
+            prepareTime();
+        }
+        setTime(getTime() + PERIOD_MS);
+    }
+
+    /**
+     * Возвращает номер, по которому можно получить информацию об игроке в листах
+     * @param nickname имя игрока
+     * @return номер игрока
+     */
+    public int getPlayerNumber(String nickname){
+        int i=0;
+        while(nickname != getPlayers().get(i))
+            i++;
+        return i;
+    }
+
+    /**
+     * Добавление нескольких карт на стол,
+     * удаляет добавленные карты из колоды
+     * @param amountOfCards количество добавляемых карт
+     */
+    public void addCards(int amountOfCards){
+        for (int i = 0; i < amountOfCards; i++) {
+            Card CardInDeck = getDeck().get(getDeck().size()-1);
+            getCardsOnDesk().add(CardInDeck);
+            getDeck().remove(CardInDeck);
+        }
+    }
+
+    /**
+     * Метод, добавляющий нового игрока в gameState
+     * если игроков не было, инициализируется таймер
+     * @param nickname имя игрока
+     */
+    public void createNewPlayer(String nickname){
+        if (getActivePlayers()==0) { prepareTime(); }
+        addPlayer(nickname);
+        setActivePlayers(getActivePlayers()+1);
+    }
+
+    //поправить
+    public void removePlayer(String nickname){
+        int playerNumber = getPlayerNumber(nickname);
+        setActivePlayers(getActivePlayers() - 1);
+        if (!isStart()) {
+            getPlayers().remove(playerNumber);
+            getScore().remove(playerNumber);
+        }
+    }
+
+    /**
+     * Метод, инициализирующий начало игрового процесса
+     * меняет флаг isStart на true, т.е. показывает, что игра уже идет
+     * генерирует колоду карт (cardsDeck)
+     * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
+     * удаляет из колоды cardsDeck карты из cardsOnDesk
+     * @param initialCardsNumber начальное кол-во карт на поле
+     */
+    public void startGame(int initialCardsNumber){
+        setStart(true);
+        List<Card> cardsDeck = new CardsDeck().startCardsDeck();
+        setDeck(cardsDeck);
+        addCards(initialCardsNumber);
+    }
+
+
 }

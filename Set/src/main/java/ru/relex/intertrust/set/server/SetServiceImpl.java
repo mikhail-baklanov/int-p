@@ -64,52 +64,31 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         boolean success;
 
         synchronized (gameState) {
-
-
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                if (gameState.getActivePlayers()==0)
-                {
-                    gameState.prepareTime();
-                }
-                gameState.addPlayer(name);
-                gameState.setActivePlayers(gameState.getActivePlayers()+1);
+                gameState.createNewPlayer(name);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
-
             }
         }
-
         return success;
     }
 
     /**
      * Добавление нескольких карт на стол
-     * удаляет добавленные карты из колоды
      * @param amountOfCards количество добавляемых карт
      */
     public void addCards (int amountOfCards) {
         GameState gameState = getGameState();
-        for (int i=0;i<amountOfCards;i++) {
-            Card CardInDeck=gameState.getDeck().get(gameState.getDeck().size()-1);
-            gameState.getCardsOnDesk().add(CardInDeck);
-            gameState.getDeck().remove(CardInDeck);
-        }
+        gameState.addCards(amountOfCards);
     }
 
     /**
-     * Метод, инициализирующий начало игрового процесса
-     * меняет флаг isStart на true, т.е. показывает, что игра уже идет
-     * генерирует колоду карт (cardsDeck)
-     * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
-     * удаляет из колоды cardsDeck карты из cardsOnDesk
+     * Метод, вызывающий инициализацию игрового процесса
      */
     public void startGame() {
         GameState gameState = getGameState();
-        gameState.setStart(true);
-        List<Card> cardsDeck = new CardsDeck().startCardsDeck();
-        gameState.setDeck(cardsDeck);
-        addCards(INITIAL_NUMBER_OF_CARDS);
+        gameState.startGame(INITIAL_NUMBER_OF_CARDS);
     }
 
     /**
@@ -148,9 +127,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         GameState gameState=getGameState();
         synchronized (gameState) {
 
+            //добавление в список спасовавших
+            //добавление карт
+            //завершение игры
             if (cardsInDeck == gameState.getDeck().size() && !isPassed()) //если пас пришел вовремя, то добавляем имя паснувшнего в список
             {
-
                 gameState.AddNotAbleToPlay((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
             }
 
@@ -169,7 +150,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     /**
-     * Геттер
      * @return возвращает описание состояния игры
      */
     public GameState getGameState()
@@ -238,17 +218,15 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
+    //уберется в gameState
     /**
      * Возвращает номер, по которому можно получить информацию об игроке в листах
      * @param nickname имя игрока
      * @return номер игрока
      */
     public int getPlayerNumber(String nickname) {
-        GameState gameState=getGameState();
-        int i=0;
-        while(nickname!=gameState.getPlayers().get(i))
-            i++;
-        return i;
+        GameState gameState = getGameState();
+        return gameState.getPlayerNumber(nickname);
     }
 
     /**
@@ -260,34 +238,25 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         for(String str : getGameState().getNotAbleToPlay())
             if(str.equals((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME)))return true;
         return false;
-
     }
 
     /**
-     * Просто таймер тактирующий нашу переменную time каждые 0,5секунды
-     * если через 60секунд после начала есть активные игроки, то игра начинается
-     * как только все игроки вышли таймер прекращает работать
-     * => в Game State time лежит время прошедшее со времени 1го логина
-     * время в мс
-     * таймер идет всегда, но при отсутствии игрока постоянно держит переменную time=-60000
+     * Класс, переодически обновляющий игровое время каждые PERIOD_MS миллисекунд,
+     * если время равняется 0 миллисекунд и есть игроки, начинает игру
      */
     private class StartTimer extends TimerTask
     {
-
+        /**
+         * Метод, осуществляющий обновление времени
+         */
         @Override
         public void run()
         {
             GameState gameState = getGameState();
             synchronized (gameState) {
-                if (gameState.getActivePlayers() == 0) {
-                    gameState.prepareTime();
-                }
+                gameState.updateOrPrepareGameTime();
                 if (gameState.getTime() == 0) startGame();
-                gameState.setTime(gameState.getTime() + PERIOD_MS);
-
             }
         }
     }
-
-
 }
