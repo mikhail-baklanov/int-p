@@ -11,7 +11,10 @@ import ru.relex.intertrust.set.shared.GameState;
 import java.util.List;
 
 public class AnotherGameView extends Composite {
-
+    /**
+     * Установка нового состояния игры
+     * @param gameState новое состояние игры
+     */
     public void setGameState(GameState gameState) {
         setAnotherGameTime(gameState.getTime());
         setAnotherGameCards(gameState.getDeck().size());
@@ -46,9 +49,8 @@ public class AnotherGameView extends Composite {
     public void setAnotherGamePlayers(List<String> players, List<Integer> score) {
         anotherGamePlayers.clear();
         for (int i = 0; i < players.size(); i++) {
-            HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n" +
-                    "                        <div>" + players.get(i) + "</div><div>" + score.get(i) + "</div>\n" +
-                    "                    </div>");
+            HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n<div>" +
+                    players.get(i) + "</div><div>" + score.get(i) + "</div>\n</div>");
             anotherGamePlayers.add(widget);
         }
     }

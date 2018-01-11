@@ -6,6 +6,8 @@ import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
+import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
+
 class TestGameState {
 
     /**
@@ -124,6 +126,63 @@ class TestGameState {
             gameState.getCardsOnDesk().add(cardInDeck);
             gameState.getDeck().remove(cardInDeck);
         }
+        return gameState;
+    }
+
+    private NextState nextState = new NextState();
+    /**
+     * Экспериментальный класс для работы с состояниями игры
+     */
+    static class NextState{
+        int counter = 0;
+        int ticValue = 5;
+        GameState runningGameState = TestGameState.getRunningGameState();
+        GameState states[] = {
+                TestGameState.getInitialGameState(),
+                TestGameState.getInitialGameStateWithTimer(),
+                TestGameState.getAnotherGameState(),
+                TestGameState.getWaitingGameState(),
+                runningGameState
+        };
+        boolean isCurrentPlayerRegistered;
+        int index = 0;
+
+        /**
+         * Функция получения состояния игры
+         * @return текущее состояние игры
+         */
+        GameState get() {
+            GameState gameState;
+            isCurrentPlayerRegistered = index > 1;
+            if (index >= states.length) {
+                gameState = TestGameState.getPassGameState(runningGameState);
+                //gameState = states[states.length - 1];
+            } else {
+                gameState = states[index];
+                if (counter == 0){
+                    index++;
+                    if (index < states.length){
+                        counter = ticValue;
+                    }
+                } else {
+                    counter--;
+                }
+            }
+            consoleLog("Фейковое состояние №"+index);
+            return gameState;
+        }
+    }
+
+    private String playerName;
+    /**
+     * Экспериментальная функция по получению состояния игры
+     * @return текущее состояние игры
+     */
+    private GameState getTestGameState() {
+        GameState gameState = nextState.get();
+        playerName = nextState.isCurrentPlayerRegistered
+                ? TestGameState.getCurrentPlayerName()
+                : null;
         return gameState;
     }
 }

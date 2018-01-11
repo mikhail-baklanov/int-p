@@ -12,28 +12,49 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ *
+ */
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     private TimerTask t = new StartTimer();
     private Timer timer = new Timer();
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
+    private static final long PERIOD_MS = 500;
+    private static final int INITIAL_NUMBER_OF_CARDS = 12;
+    private static final int MAX_NUMBER_OF_CARDS = 21;
+    private static final int FINE = 5; //штраф
+    private static final int REWARD = 3; //награда
 
-
+    /**
+     * Первоначальная инициализация
+     * @throws ServletException
+     */
     @Override
     public void init() throws ServletException {
         super.init();
         initGame();
-        timer.schedule(t, 0, 500);
+        timer.schedule(t, 0, PERIOD_MS);
     }
 
     /**
-     * инициализирует новую игру
+     * инициализация новой игры
      */
     public void initGame() {
         getServletContext().setAttribute(GAME_STATE, new GameState());
     }
 
+    /**
+     * Регистрация игрока в игре:
+     * имя игрока проверяется на уникальность,
+     * проверяется уникальность сессии и состояние игры
+     * регистрация игрока и постановка его в режим ожидания игры
+     * либо сообщение о некорректности веденного имени
+     * либо переход на экран ожидания конца текущей игры, если игра уже началась в момент регистрации
+     * @param name имя игрока
+     * @return
+     */
     @Override
     public boolean login(String name) {
 
@@ -64,7 +85,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     /**
      * добавляет amountOfCards карт на стол
-     * удаляя их из колоды
+     * удаляет добавленные карты из колоды
      * @param amountOfCards
      */
     public void addCards (int amountOfCards) {
@@ -77,7 +98,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Метод, который необходимо вызвать при начале игры
+     * Метод, инициализирующий начало игры
      * меняет флаг isStart на true, т.е. показывает, что игра уже идет
      * генерирует колоду карт (cardsDeck)
      * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
@@ -88,14 +109,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         gameState.setStart(true);
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         gameState.setDeck(cardsDeck);
-        addCards(12);
+        addCards(INITIAL_NUMBER_OF_CARDS);
     }
 
     /**
      * Выход из игры
      * удаляется игрок
      * удаляются очки
-     * создается новая игра
+     * если иргоков в текущей игре нет, создается новая игра
      */
     @Override
     public void exit() {
@@ -115,10 +136,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * добавялет в список спасовавших игроков
-     * принимает список карт в колоде клиента
-     * для проверки состояния игрока
-     *
+     * Метод, реализующий ПАС:
+     * добавление игрока в список спасовавших игроков
+     * получение списка карт в колоде клиента для проверки состояния игрока
+     * осуществление проверки признаков конца игры
      * @param cardsInDeck
      */
     @Override
@@ -139,7 +160,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 if (gameState.getDeck().size() == 0) {
                     gameState.setStart(false);
                 }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-                else if(gameState.getCardsOnDesk().size()<21)
+                else if(gameState.getCardsOnDesk().size()<MAX_NUMBER_OF_CARDS)
                     addCards(3);
             }
 
@@ -148,6 +169,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     /**
+     *
      * @return возвращает описание состояния игры
      */
     public GameState getGameState()
@@ -186,7 +208,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 }
                 for (int i = 0; i <= 3; i++) {
                     if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
-                        gameState.getScore().set(playerNumber, oldScore - 5);
+                        gameState.getScore().set(playerNumber, oldScore - FINE);
                         return;
                     }
                 }
@@ -198,12 +220,12 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                             existSet++;
                     }
                     if (existSet == 3) {
-                        gameState.getScore().set(playerNumber, oldScore + 3);
+                        gameState.getScore().set(playerNumber, oldScore + REWARD);
                         gameState.setCountSets(gameState.getCountSets() + 1);
                         for (Card c : set)
                             gameState.getCardsOnDesk().remove(c);
 
-                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= 12) {
+                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= INITIAL_NUMBER_OF_CARDS) {
                             addCards(3);
                         } else {
                             if (gameState.getCardsOnDesk().size() == 0)
@@ -216,9 +238,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Возвращает номер, по которому можно получить инфу о игроке в листах
-     * @param nickname
-     * @return
+     * Возвращает номер, по которому можно получить информацию об игроке в листах
+     * @param nickname имя игрока
+     * @return номер игрока
      */
     public int getPlayerNumber(String nickname) {
         GameState gameState=getGameState();
@@ -229,9 +251,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Если игрок в списке спасовавших true
-     * если нет false
-     * Для проверки перед каждым действием со столом
+     * Проверка списка спасовавших игроков
+     * Если игрок в списке спасовавших true, иначе false,
+     * проверка выполняется перед каждым действием со столом
      */
     public boolean isPassed() {
         for(String str : getGameState().getNotAbleToPlay())
@@ -260,7 +282,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                     gameState.prepareTime();
                 }
                 if (gameState.getTime() == 0) startGame();
-                gameState.setTime(gameState.getTime() + 500);
+                gameState.setTime(gameState.getTime() + PERIOD_MS);
 
             }
         }

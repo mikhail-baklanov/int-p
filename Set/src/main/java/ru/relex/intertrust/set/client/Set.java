@@ -31,7 +31,6 @@ public class Set implements EntryPoint {
     private final AnotherGameView anotherGameView = new AnotherGameView();
 
     private String playerName;
-    private NextState nextState = new NextState();
 
     /**
      * Текущий экран
@@ -123,41 +122,7 @@ public class Set implements EntryPoint {
         });
     }
 
-    static class NextState{
-        int counter = 0;
-        int ticValue = 5;
-        GameState runningGameState = TestGameState.getRunningGameState();
-        GameState states[] = {
-                TestGameState.getInitialGameState(),
-                TestGameState.getInitialGameStateWithTimer(),
-                TestGameState.getAnotherGameState(),
-                TestGameState.getWaitingGameState(),
-                runningGameState
-        };
-        boolean isCurrentPlayerRegistered;
-        int index = 0;
 
-        GameState get() {
-            GameState gameState;
-            isCurrentPlayerRegistered = index > 1;
-            if (index >= states.length) {
-                gameState = TestGameState.getPassGameState(runningGameState);
-                //gameState = states[states.length - 1];
-            } else {
-                gameState = states[index];
-                if (counter == 0){
-                    index++;
-                    if (index < states.length){
-                        counter = ticValue;
-                    }
-                } else {
-                    counter--;
-                }
-            }
-            consoleLog("Фейковое состояние №"+index);
-            return gameState;
-        }
-    }
 
     private void processGameState(GameState gameState) {
         long gameStateTime = gameState.getTime();
@@ -201,13 +166,5 @@ public class Set implements EntryPoint {
 
     private boolean hasCurrentPlayer(GameState gameState) {
         return playerName != null && gameState.hasPlayer(playerName);
-    }
-
-    private GameState getTestGameState() {
-        GameState gameState = nextState.get();
-        playerName = nextState.isCurrentPlayerRegistered
-                ? TestGameState.getCurrentPlayerName()
-                : null;
-        return gameState;
     }
 }
