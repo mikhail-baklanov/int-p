@@ -60,9 +60,8 @@ public class PreGameView extends Composite {
             this.players = players;
             playersContainer.clear();
             for (int i = 0; i < players.size(); i++) {
-                HTMLPanel widget = new HTMLPanel(" <div class=\"game-started_players_item\">\n" +
-                        "                        <div>" + (i + 1) + "</div><div>" + players.get(i) + "</div>\n" +
-                        "                    </div>");
+                HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n<div>" +
+                        (i + 1) + "</div><div>" + players.get(i) + "</div>\n</div>");
                 playersContainer.add(widget);
             }
         }

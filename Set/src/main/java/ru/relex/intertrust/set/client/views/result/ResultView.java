@@ -17,6 +17,10 @@ import ru.relex.intertrust.set.shared.GameState;
 import java.util.List;
 
 public class ResultView extends Composite {
+    /**
+     * Установка нового состояния игры
+     * @param gameState новое состояние игры
+     */
     public void setGameState(GameState gameState) {
         setResultGameTime(gameState.getTime());
         setResultSets(gameState.getCountSets());
@@ -63,9 +67,8 @@ public class ResultView extends Composite {
     public void setResultGamePlayers(List<String> players, List<Integer> score) {
         resultGamePlayers.clear();
         for (int i = 0; i < players.size(); i++) {
-            HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n" +
-                    "                        <div>" + players.get(i) + "</div><div>" + score.get(i) + "</div>\n" +
-                    "                    </div>");
+            HTMLPanel widget = new HTMLPanel("<div class=\"game-started_players_item\">\n<div>" +
+                    players.get(i) + "</div><div>" + score.get(i) + "</div>\n</div>");
             resultGamePlayers.add(widget);
         }
     }
