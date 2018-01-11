@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,17 +22,26 @@ public class PreGameView extends Composite {
 
     private static PreGameViewUiBinder uiBinder = GWT.create(PreGameViewUiBinder.class);
 
-    @UiField
-    Button exitGame;
-
+    /**
+     * Время, оставшееся до начала игры
+     */
     @UiField
     SpanElement preGameTimer;
 
+    /**
+     * Контейнер для игроков, ожидающих начала игры
+     */
     @UiField
     HTMLPanel playersContainer;
 
+    /**
+     * Слушатель нажатия на кнопку выхода из ожидания начала игры
+     */
     private OnExitGameCallback exitListener;
 
+    /**
+     * Список игроков, ожидающих начало игры
+     */
     private List<String> players = new ArrayList<>();
 
     public PreGameView(OnExitGameCallback exitListener) {
@@ -41,6 +49,10 @@ public class PreGameView extends Composite {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
+    /**
+     * Метод, обеспечивающий выход из ожидания начала игры
+     * @param e событие нажатия мыши
+     */
     @UiHandler("exitGame")
     public void onClick(ClickEvent e) {
         exitListener.onExit();
@@ -48,13 +60,17 @@ public class PreGameView extends Composite {
 
     /**
      * Вывод информации об оставшемся времени до начала игры
-     * @param time время до начала игры, представленное в виде строки
+     * @param time время до начала игры в миллисекундах
      */
     public void setPreGameTimer(long time){
         preGameTimer.setInnerHTML(Utils.formatTime(time));
     }
 
 
+    /**
+     * Устанавливает список игроков, ожидающих начало игры
+     * @param players список игроков
+     */
     public void setPlayers (List<String> players) {
         if (!this.players.containsAll(players) || !players.containsAll(this.players)) {
             this.players = players;

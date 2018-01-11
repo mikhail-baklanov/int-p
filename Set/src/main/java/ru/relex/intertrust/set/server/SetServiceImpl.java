@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- *
+ * Класс, содержащий серверную логику игры Set
  */
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
@@ -29,6 +29,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     /**
      * Первоначальная инициализация
+     * Выполняется при первом запуске сервера
      * @throws ServletException
      */
     @Override
@@ -39,7 +40,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * инициализация новой игры
+     * Инициализация игры
      */
     public void initGame() {
         getServletContext().setAttribute(GAME_STATE, new GameState());
@@ -49,11 +50,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      * Регистрация игрока в игре:
      * имя игрока проверяется на уникальность,
      * проверяется уникальность сессии и состояние игры
-     * регистрация игрока и постановка его в режим ожидания игры
-     * либо сообщение о некорректности веденного имени
-     * либо переход на экран ожидания конца текущей игры, если игра уже началась в момент регистрации
+     * регистрация игрока и постановка его в режим ожидания игры,
+     * если введенные данные корректны, игрок уже не зарегистрирован и игра еще не идет
      * @param name имя игрока
-     * @return
+     * @return true, если регистрация прошла успешно
      */
     @Override
     public boolean login(String name) {
@@ -84,9 +84,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * добавляет amountOfCards карт на стол
+     * Добавление нескольких карт на стол
      * удаляет добавленные карты из колоды
-     * @param amountOfCards
+     * @param amountOfCards количество добавляемых карт
      */
     public void addCards (int amountOfCards) {
         GameState gameState = getGameState();
@@ -98,7 +98,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Метод, инициализирующий начало игры
+     * Метод, инициализирующий начало игрового процесса
      * меняет флаг isStart на true, т.е. показывает, что игра уже идет
      * генерирует колоду карт (cardsDeck)
      * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
@@ -113,10 +113,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Выход из игры
-     * удаляется игрок
-     * удаляются очки
-     * если иргоков в текущей игре нет, создается новая игра
+     * Выход из игры:
+     * удаление игрока из списка игроков.
+     * Осуществление проверки признаков конца игры:
+     * если игроков нет, создается новая игра
      */
     @Override
     public void exit() {
@@ -140,7 +140,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      * добавление игрока в список спасовавших игроков
      * получение списка карт в колоде клиента для проверки состояния игрока
      * осуществление проверки признаков конца игры
-     * @param cardsInDeck
+     * @param cardsInDeck кол-во карт в колоде
      */
     @Override
     public void pass(int cardsInDeck) {
@@ -169,7 +169,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     /**
-     *
+     * Геттер
      * @return возвращает описание состояния игры
      */
     public GameState getGameState()
@@ -183,13 +183,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
 
     /**
-     * @param set принимает 3 карты от клиента
+     *
      * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
      *            если нет, - у клиента вычитаются очки
      *            если являются, - идет проверка на то, есть ли в текущей игре на столе данные карты
      *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде
      *                  если остались - на стол добавляются 3 новые карты, и из колоды они соответственно удаляются
      *                  если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
+     * @param set принимает 3 карты от клиента
      * @return gameState после прохождения метода
      */
     @Override
@@ -251,9 +252,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Проверка списка спасовавших игроков
-     * Если игрок в списке спасовавших true, иначе false,
+     * Поиск игрока в списке спасовавших игроков
      * проверка выполняется перед каждым действием со столом
+     * @return true, если игрок пасовал
      */
     public boolean isPassed() {
         for(String str : getGameState().getNotAbleToPlay())
