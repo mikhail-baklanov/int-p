@@ -28,9 +28,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     private static final int REWARD = 3; //награда
 
     @Override
-    /**
-     * @return возвращает описание состояния игры
-     */
     public GameState getGameState()
     {
         GameState gameState = (GameState) getServletContext().getAttribute(GAME_STATE);
@@ -59,15 +56,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         getServletContext().setAttribute(GAME_STATE, new GameState());
     }
 
-    /**
-     * Регистрация игрока в игре:
-     * имя игрока проверяется на уникальность,
-     * проверяется уникальность сессии и состояние игры
-     * регистрация игрока и постановка его в режим ожидания игры,
-     * если введенные данные корректны, игрок уже не зарегистрирован и игра еще не идет
-     * @param name имя игрока
-     * @return true, если регистрация прошла успешно
-     */
     @Override
     public boolean login(String name) {
 
@@ -104,12 +92,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         gameState.startGame(INITIAL_NUMBER_OF_CARDS);
     }
 
-    /**
-     * Выход из игры:
-     * удаление игрока из списка игроков.
-     * Осуществление проверки признаков конца игры:
-     * если игроков нет, создается новая игра
-     */
     @Override
     public void exit() {
         GameState gameState = getGameState();
@@ -122,12 +104,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-    /**
-     * Метод, реализующий ПАС:
-     * добавление игрока в список спасовавших игроков
-     * получение списка карт в колоде клиента для проверки состояния игрока
-     * @param cardsInDeck кол-во карт в колоде
-     */
     @Override
     public void pass(int cardsInDeck) {
         //TODO fix pass
@@ -139,11 +115,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-    /**
-     * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
-     * @param set принимает 3 карты от клиента
-     * @return gameState после прохождения метода
-     */
     @Override
     public void checkSet(Card[] set) {
         GameState gameState = getGameState();
@@ -153,11 +124,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
-    /**
-     * Поиск игрока в списке спасовавших игроков
-     * проверка выполняется перед каждым действием со столом
-     * @return true, если игрок пасовал
-     */
     public boolean isPassed() {
         GameState gameState = getGameState();
         return gameState.isPassed((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
