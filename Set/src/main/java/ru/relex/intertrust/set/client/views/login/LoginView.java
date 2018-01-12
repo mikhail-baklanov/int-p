@@ -60,6 +60,10 @@ public class LoginView extends Composite {
 
     @UiField
     Button submitLogin;
+
+    @UiField
+    SpanElement timeToPlay;
+
     /**
      * Обработчик события регистрации пользователя.
      */
@@ -68,7 +72,7 @@ public class LoginView extends Composite {
 
     public LoginView(LoginViewUIHandler loginListener) {
         initWidget(uiBinder.createAndBindUi(this));
-        timeBlockLogin.setInnerHTML(gameConstants.timeBlock());
+        timeToPlay.setInnerHTML(gameConstants.timeBlock());
         errorLogin.setInnerHTML(gameConstants.errorLogin());
         welcome.setInnerHTML(gameConstants.welcome());
         submitLogin.setHTML(gameConstants.continueGame());

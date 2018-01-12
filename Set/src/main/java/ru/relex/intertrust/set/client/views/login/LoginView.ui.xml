@@ -18,6 +18,6 @@
                 <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}"></g:Button>
             </g:HTMLPanel>
         </g:FormPanel>
-        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}"><span ui:field="loginTimer"></span></div>
+        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}"><span ui:field="timeToPlay"></span><span ui:field="loginTimer"></span></div>
     </g:HTMLPanel>
 </ui:UiBinder>
