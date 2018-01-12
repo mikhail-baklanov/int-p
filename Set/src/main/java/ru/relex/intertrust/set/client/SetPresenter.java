@@ -160,15 +160,18 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
-                loginView.showLoginError();
             }
 
             @Override
             public void onSuccess(Boolean result) {
-                playerName = name;
-                currentView = preGameView;
-                containerView.setView(currentView);
-                requestServer();
+                if(!result)
+                    loginView.showLoginError();
+                else {
+                    playerName = name;
+                    currentView = preGameView;
+                    containerView.setView(currentView);
+                    requestServer();
+                }
             }
         });
     }
