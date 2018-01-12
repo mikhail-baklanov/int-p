@@ -10,14 +10,12 @@
     margin: 1% 1%;
     box-shadow: 1px 3px 7px rgba(105,127,148,0.5);
     transition: .2s;
+    border: 2px solid transparent;
+    box-sizing: border-box;
 }
 
 .card.active {
-    box-shadow: 1px 3px 7px rgba(72, 134, 234, 0.5);
-}
-
-.card.active:hover {
-    box-shadow: 1px 3px 7px rgba(72, 134, 234, 1);
+    border: 2px solid rgba(72, 134, 234, 0.7);
 }
 
 .card .shape {

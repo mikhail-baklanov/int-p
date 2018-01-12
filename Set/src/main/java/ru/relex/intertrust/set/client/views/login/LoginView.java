@@ -7,12 +7,9 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.callback.LoginViewUIHandler;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
-import ru.relex.intertrust.set.client.service.SetService;
-import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
 
 import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
@@ -81,7 +78,7 @@ public class LoginView extends Composite {
 
         submitLoginForm.addSubmitHandler(new FormPanel.SubmitHandler() {
             /**
-             * Метод, который при удачной регистрации пользователя вызывает callback.
+             * Метод, который при удачной регистрации пользователя вызывает UIHandlerInterfaces.
              * @param event событие
              */
             @Override
