@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -19,6 +20,7 @@ import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.card.CardView;
+import ru.relex.intertrust.set.client.views.container.ContainerView;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
@@ -29,29 +31,127 @@ import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
 
 public class GameFieldView extends Composite {
 
-    private GameState gs = new GameState();
-
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
-
-    private List<CardView> choosedCards = new ArrayList<>();
-
     interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
     }
 
-    private static HTML separator = new HTML("<div class=\"separator\"></div>");
+    interface GameFieldStyles extends CssResource {
+        @ClassName("separator")
+        String separator();
+
+        @ClassName("statistic-item")
+        String statisticItem();
+
+        @ClassName("passed")
+        String passed();
+    }
+
+    private GameConstants gameConstants = GWT.create(GameConstants.class);
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
 
     private static SetServiceAsync ourInstance = GWT.create(SetService.class);
 
+    /**
+     *  Контейнер для виджетов карт.
+     */
+    @UiField
+    HTMLPanel cardContainer;
+
+    /**
+     *  Контейнер для отображения собранных сетов.
+     */
+    @UiField
+    FlowPanel historyContainer;
+
+    /**
+     *  Контейнер для статистики игроков.
+     */
+    @UiField
+    FlowPanel statisticContainer;
+
+    /**
+     *  Прошедшее время с начала игры.
+     */
+    @UiField
+    DivElement time;
+
+    /**
+     *  Левый блок игрового поля.
+     */
+    @UiField
+    HTMLPanel leftBar;
+
+    /**
+     *  Правый блок игрового поля.
+     */
+    @UiField
+    HTMLPanel rightBar;
+
+    /**
+     *  Оставшиеся карты.
+     */
+    @UiField
+    SpanElement cardLeft;
+
+    /**
+     *  Кнопка для скрытия правого бара.
+     */
+    @UiField
+    SimplePanel slideButton;
+
+    /**
+     *  Кнопка для пасса.
+     */
+    @UiField
+    Button passButton;
+
+    /**
+     *  Кнопка для выхода из игры.
+     */
+    @UiField
+    Button exitGame;
+
+    /**
+     *  Контейнеры для констант.
+     */
+    @UiField
+    DivElement statistic;
+
+    @UiField
+    SpanElement players;
+
+    @UiField
+    SpanElement gamePoints;
+
+    @UiField
+    SpanElement cardLeftSpan;
+
+    /**
+     *  Необходимые для использования стили.
+     */
+    @UiField
+    static GameFieldStyles style;
+
+    /**
+     *  Текущее состояние игры.
+     */
+    private GameState currentGameState = new GameState();
+
+    /**
+     *  Массив выбранных игроком карт.
+     */
+    private List<CardView> choosedCards = new ArrayList<>();
+
+    /**
+     *  Обработчик GameFieldView.
+     */
+    private GameFieldViewUIHandler uiHandler;
+
     public GameFieldView(GameFieldViewUIHandler uiHandler) {
         this.uiHandler = uiHandler;
+
         initWidget(uiBinder.createAndBindUi(this));
-        statistic.setInnerHTML(gameConstants.statistic());
-        exitGame.setHTML(gameConstants.exitGame());
-        players.setInnerHTML(gameConstants.players());
-        gamePoints.setInnerHTML(gameConstants.gamePoints());
-        passButton.setHTML(gameConstants.pass());
+        setGameFieldConstants();
 
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
@@ -68,98 +168,109 @@ public class GameFieldView extends Composite {
         }, ClickEvent.getType());
     }
 
-    @UiField
-    HTMLPanel start;
-
-    @UiField
-    HTMLPanel cardContainer;
-
-    @UiField
-    FlowPanel historyContainer;
-
-    @UiField
-    FlowPanel statisticContainer;
-
-    @UiField
-    DivElement time;
-
-    @UiField
-    HTMLPanel leftBar;
-
-    @UiField
-    DivElement cardLeft;
-
-    @UiField
-    SimplePanel slideButton;
-
-    @UiField
-    Button passButton;
-
-    @UiField
-    Button exitGame;
-
-    @UiField
-    HTMLPanel rightBar;
-
-    private GameFieldViewUIHandler uiHandler;
-    @UiField
-    DivElement statistic;
-
-    @UiField
-    SpanElement players;
-
-    @UiField
-    SpanElement gamePoints;
-
-    private ExitGameUIHandler exitListener;
-    private GameFieldViewUIHandler checkListener;
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
         this.cardContainer.clear();
         uiHandler.exit();
     }
 
-    public void setTime(String time){
-        this.time.setInnerHTML("<div>"+time+"</div>");
+    @UiHandler("passButton")
+    public void doClick(ClickEvent e) {
+        ourInstance.pass(currentGameState.getDeck().size(), new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                consoleLog(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
     }
 
-    public void setStatistics(List<String> nickNames, List<Integer> scores){
-        this.statisticContainer.clear();
-        for (int i = 0; i < nickNames.size(); i++) {
-            String s = "";
-            if (gs.getNotAbleToPlay()!=null && gs.getNotAbleToPlay().contains(nickNames.get(i)))
-                s = "background-color: red;";
-            //todo Один или несколько стилей игнорируются компилятором - (конкретно не отображаются палочки между ником и его результатом)
-            HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0;"+s+"\"><span>"+nickNames.get(i)+"</span><span>"+scores.get(i)+"</span>\n</div>");
-            this.statisticContainer.add(player);
-            this.statisticContainer.add(separator);
+    /**
+     *  Метод, который заполняет View статичным текстом.
+     */
+    private void setGameFieldConstants() {
+        this.statistic.setInnerHTML(gameConstants.statistic());
+        this.exitGame.setHTML(gameConstants.exitGame());
+        this.players.setInnerHTML(gameConstants.players());
+        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
+        this.passButton.setHTML(gameConstants.pass());
+        this.cardLeftSpan.setInnerHTML(gameConstants.cardsInDeck() + ": ");
+    }
+
+    /**
+     *  Метод, который актуализирует прошедшее с начала игры время.
+     *  @param time время
+     */
+    private void setTime(String time){
+        this.time.setInnerHTML(time);
+    }
+
+    /**
+     *  Метод, который актуализирует количество оставшихся карт.
+     *  @param cardLeftCount количество оставшихся карт
+     */
+    private void setCardLeft(int cardLeftCount){
+        if(cardLeft.getInnerHTML().equals("") || Integer.parseInt(cardLeft.getInnerHTML()) != cardLeftCount)
+        this.cardLeft.setInnerHTML("" + cardLeftCount);
+    }
+
+    /**
+     *  Метод, который актуализирует статистику игроков.
+     *  @param nickNames имена игроков
+     *  @param scores баллы игроков
+     */
+    private void setStatistics(List<String> nickNames, List<Integer> scores){
+        HTML separator = new HTML("");
+        separator.setStyleName(style.separator());
+
+        if(statisticContainer.getWidgetCount() == 0) {
+            for (int i = 0; i < nickNames.size(); i++) {
+                HTML player = new HTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
+                player.setStyleName(style.statisticItem());
+                this.statisticContainer.add(player);
+                this.statisticContainer.add(separator);
+            }
+        } else {
+            List<Integer> oldScores = currentGameState.getScore();
+            for(int i = 0; i < oldScores.size(); i++) {
+                if (!statisticContainer.getWidget(i).getElement().getInnerHTML().equals("") && oldScores.get(i) != scores.get(i)) {
+                    HTML player = (HTML) statisticContainer.getWidget(i);
+                    player.setHTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
+                }
+                if (currentGameState.getNotAbleToPlay() != null && currentGameState.getNotAbleToPlay().contains(nickNames.get(i))) {
+                    HTML player = (HTML) statisticContainer.getWidget(i);
+                    player.addStyleName(style.passed());
+                } else {
+                    HTML player = (HTML) statisticContainer.getWidget(i);
+                    player.removeStyleName(style.passed());
+                }
+            }
         }
-//        String s = "";
-//        HTML player = new HTML("<div class=\"statistic-item\" style=\"margin: 10px 0; \"><span>"+nickNames.get(nickNames.size()-1)+"</span><span>"+scores.get(scores.size()-1)+"</span>\n</div>");
-//        this.statisticContainer.add(player);
     }
 
-
-    public void setHistory(int findSets){
+    /**
+     *  Метод, который актуализирует количество найденных сетов.
+     *  @param findSets количество найденных сетов
+     */
+    private void setHistory(int findSets){
+        HTML separator = new HTML("");
+        separator.setStyleName(style.separator());
+        //TODO Переделать обновление информации
         this.historyContainer.clear();
-//        for (int i = 0; i < logs.size()-1; i++) {
-//            HTML player = new HTML("<div class=\"history-item\">"+logs.get(i)+"</div>");
-//            this.historyContainer.add(player);
-//            HTML separator = new HTML("<div class=\"seporator\"></div>");
-//            this.historyContainer.add(separator);
-//        }
-//        HTML player = new HTML("<div class=\"history-item\">"+logs.get(logs.size()-1)+"</div>");
-//        this.historyContainer.add(player);
         HTML sets = new HTML("<div class=\"history-item\">"+gameConstants.setsCollected()+": "+findSets+"</div>");
         this.historyContainer.add(sets);
         this.historyContainer.add(separator);
     }
 
-    public void setCardLeft(int cardLeftCount){
-        this.cardLeft.setInnerHTML("<div>"+gameConstants.cardsInDeck()+": "+cardLeftCount+"</div>");
-    }
-
-    public void setCards(List<Card> newCardsOnDesk){
+    /**
+            *  Метод, который актуализирует карты на столе.
+     *  @param newCardsOnDesk актуальные карты на столе
+     */
+    private void setCards(List<Card> newCardsOnDesk){
         ClickHandler click = new ClickHandler() {
             @Override
             public void onClick(ClickEvent clickEvent) {
@@ -193,7 +304,7 @@ public class GameFieldView extends Composite {
             }
             if (!isActual) {
                 CardView card = new CardView(newCard);
-
+                //TODO Вынести добавление карты в отдельный метод
                 Timer timer = new Timer() {
                     @Override
                     public void run() {
@@ -209,6 +320,10 @@ public class GameFieldView extends Composite {
 
     }
 
+    /**
+     *  Метод, который удаляет View карты со стола.
+     *  @param cardOnDesk актуальные карты на столе
+     */
     private void removeFromDesk(CardView cardOnDesk) {
         Timer timer = new Timer() {
             @Override
@@ -221,30 +336,24 @@ public class GameFieldView extends Composite {
         choosedCards.remove(cardOnDesk);
     }
 
-    @UiHandler("passButton")
-    public void doClick(ClickEvent e) {
-        ourInstance.pass(gs.getDeck().size(), new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                consoleLog(throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
-    }
-
+    /**
+     *  Метод, актуализирует всю информацию.
+     *  @param gameState серверное состояние игры
+     */
     public void setGameState(GameState gameState) {
-        setStatistics(gameState.getPlayers(), gameState.getScore());
         setCardLeft(gameState.getDeck().size());
         setCards(gameState.getCardsOnDesk());
         setHistory(gameState.getCountSets());
+        setStatistics(gameState.getPlayers(), gameState.getScore());
         setTime(Utils.formatTime(gameState.getTime()));
-        gs = gameState;
+        currentGameState = gameState;
     }
 
+    /**
+     *  Метод, который добавляет карту в массив выбранных карт,
+     *  при выборе трёх карт вызывает обработчик для проверки сета и очищает массив.
+     *  @param widget карта
+     */
     private void chooseCard (Object widget) {
         CardView card = (CardView) widget;
         if (!choosedCards.contains(card)) {
