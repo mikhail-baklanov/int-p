@@ -130,26 +130,17 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      */
     @Override
     public void pass(int cardsInDeck) {
-
+        //TODO fix pass
         GameState gameState=getGameState();
         synchronized (gameState) {
             String user = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
-            if (cardsInDeck == gameState.getDeck().size() && !isPassed()) //если пас пришел вовремя, то добавляем имя паснувшнего в список
-            {
-                gameState.AddNotAbleToPlay(user);
-            }
+            gameState.AddNotAbleToPlay(user, cardsInDeck);
             gameState.pass(user);
         }
     }
 
     /**
-     *
      * метод checkSet проверяет, являются ли полученные в параметре set карты сетом
-     *            если нет, - у клиента вычитаются очки
-     *            если являются, - идет проверка на то, есть ли в текущей игре на столе данные карты
-     *              если есть, - клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде
-     *                  если остались - на стол добавляются 3 новые карты, и из колоды они соответственно удаляются
-     *                  если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
      * @param set принимает 3 карты от клиента
      * @return gameState после прохождения метода
      */
@@ -157,56 +148,9 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void checkSet(Card[] set) {
         GameState gameState = getGameState();
         synchronized (gameState) {
-            if (set[0] != set[1]) {
-                int playerNumber = getPlayerNumber((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
-                int oldScore = gameState.getScore().get(playerNumber);
-                int[] summ = {0, 0, 0, 0};
-                for (int i = 0; i <= 2; i++) {
-                    summ[0] += set[i].getColor();
-                    summ[1] += set[i].getShapeCount();
-                    summ[2] += set[i].getFill();
-                    summ[3] += set[i].getShape();
-                }
-                for (int i = 0; i <= 3; i++) {
-                    if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
-                        gameState.getScore().set(playerNumber, oldScore - FINE);
-                        return;
-                    }
-                }
-                if (!isPassed()) {
-                    int existSet = 0;
-                    List<Card> cardsOnDesk = gameState.getCardsOnDesk();
-                    for (Card c : set) {
-                        if (cardsOnDesk.contains(c))
-                            existSet++;
-                    }
-                    if (existSet == 3) {
-                        gameState.getScore().set(playerNumber, oldScore + REWARD);
-                        gameState.setCountSets(gameState.getCountSets() + 1);
-                        for (Card c : set)
-                            gameState.getCardsOnDesk().remove(c);
-
-                        if (gameState.getDeck().size() > 0 && gameState.getCardsOnDesk().size() <= INITIAL_NUMBER_OF_CARDS) {
-                            addCards(3);
-                        } else {
-                            if (gameState.getCardsOnDesk().size() == 0)
-                                gameState.setStart(false);
-                        }
-                    }
-                }
-            }
+            String player = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
+            gameState.checkSet(set, player);
         }
-    }
-
-    //TODO это уберется в gameState
-    /**
-     * Возвращает номер, по которому можно получить информацию об игроке в листах
-     * @param nickname имя игрока
-     * @return номер игрока
-     */
-    public int getPlayerNumber(String nickname) {
-        GameState gameState = getGameState();
-        return gameState.getPlayerNumber(nickname);
     }
 
     /**
@@ -215,9 +159,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
      * @return true, если игрок пасовал
      */
     public boolean isPassed() {
-        for(String str : getGameState().getNotAbleToPlay())
-            if(str.equals((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME)))return true;
-        return false;
+        GameState gameState = getGameState();
+        return gameState.isPassed((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
     }
 
     /**
