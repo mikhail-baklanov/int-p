@@ -176,4 +176,8 @@ public interface GameConstants extends com.google.gwt.i18n.client.Constants {
   @DefaultStringValue("Добро пожаловать!")
   @Key("welcome")
   String welcome();
+
+  @DefaultStringValue("Имя")
+  @Key("nickname")
+  String nickname();
 }

@@ -2,6 +2,7 @@ package ru.relex.intertrust.set.client.views.login;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.LabelElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -61,6 +62,9 @@ public class LoginView extends Composite {
     @UiField
     SpanElement timeToPlay;
 
+    @UiField
+    LabelElement name;
+
     /**
      * Обработчик события регистрации пользователя.
      */
@@ -73,6 +77,7 @@ public class LoginView extends Composite {
         errorLogin.setInnerHTML(gameConstants.errorLogin());
         welcome.setInnerHTML(gameConstants.welcome());
         submitLogin.setHTML(gameConstants.continueGame());
+        name.setInnerHTML(gameConstants.nickname());
         nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
 

@@ -14,7 +14,7 @@
                 <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}"/>
                 <span ui:field="errorLogin" class="{style.nickname-wrapper_error}"></span>
                 <span class="{style.bar}"></span>
-                <label>Имя</label>
+                <label ui:field="name"></label>
                 <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}"></g:Button>
             </g:HTMLPanel>
         </g:FormPanel>
