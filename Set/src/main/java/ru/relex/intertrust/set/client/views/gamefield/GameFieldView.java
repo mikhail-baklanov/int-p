@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
@@ -192,16 +193,31 @@ public class GameFieldView extends Composite {
             }
             if (!isActual) {
                 CardView card = new CardView(newCard);
+
+                Timer timer = new Timer() {
+                    @Override
+                    public void run() {
+                        card.getElement().addClassName("visible");
+                    }
+                };
                 card.sinkEvents(Event.ONCLICK);
                 card.addHandler(click, ClickEvent.getType());
                 cardContainer.add(card);
+                timer.schedule(300);
             }
         }
 
     }
 
     private void removeFromDesk(CardView cardOnDesk) {
-        cardContainer.remove(cardOnDesk);
+        Timer timer = new Timer() {
+            @Override
+            public void run() {
+                cardContainer.remove(cardOnDesk);
+            }
+        };
+        cardOnDesk.getElement().addClassName("not-active");
+        timer.schedule(300);
         choosedCards.remove(cardOnDesk);
     }
 

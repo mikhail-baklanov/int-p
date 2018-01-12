@@ -3,7 +3,7 @@
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
     <ui:style src="Card.css">
-        @external .shape .card .active;
+        @external .shape .card .active .not-active, visible;
     </ui:style>
 
     <g:HTMLPanel ui:field="cardContainer" styleName="{style.card}">
