@@ -61,7 +61,7 @@ public class GameFieldView extends Composite {
      *  Контейнер для отображения собранных сетов.
      */
     @UiField
-    FlowPanel historyContainer;
+    SpanElement countOfSets;
 
     /**
      *  Контейнер для статистики игроков.
@@ -125,6 +125,9 @@ public class GameFieldView extends Composite {
 
     @UiField
     SpanElement cardLeftSpan;
+
+    @UiField
+    SpanElement countOfSetsLabel;
 
     /**
      *  Необходимые для использования стили.
@@ -199,6 +202,7 @@ public class GameFieldView extends Composite {
         this.gamePoints.setInnerHTML(gameConstants.gamePoints());
         this.passButton.setHTML(gameConstants.pass());
         this.cardLeftSpan.setInnerHTML(gameConstants.cardsInDeck() + ": ");
+        this.countOfSetsLabel.setInnerHTML(gameConstants.setsCollected());
     }
 
     /**
@@ -214,7 +218,7 @@ public class GameFieldView extends Composite {
      *  @param cardLeftCount количество оставшихся карт
      */
     private void setCardLeft(int cardLeftCount){
-        if(cardLeft.getInnerHTML().equals("") || Integer.parseInt(cardLeft.getInnerHTML()) != cardLeftCount)
+        if (cardLeft.getInnerHTML().equals("") || Integer.parseInt(cardLeft.getInnerHTML()) != cardLeftCount)
         this.cardLeft.setInnerHTML("" + cardLeftCount);
     }
 
@@ -237,7 +241,7 @@ public class GameFieldView extends Composite {
         } else {
             List<Integer> oldScores = currentGameState.getScore();
             List<HTML> players = new ArrayList<>();
-            for(int i = 0; i < statisticContainer.getWidgetCount(); i += 2)
+            for (int i = 0; i < statisticContainer.getWidgetCount(); i += 2)
                 players.add((HTML) statisticContainer.getWidget(i));
 
             for(int i = 0; i < players.size(); i++) {
@@ -260,27 +264,15 @@ public class GameFieldView extends Composite {
      *  @param findSets количество найденных сетов
      */
     private void setHistory(int findSets){
-        HTML separator = new HTML("");
-        separator.setStyleName(style.separator());
-        //TODO Переделать обновление информации
-        this.historyContainer.clear();
-        HTML sets = new HTML("<div class=\"history-item\">"+gameConstants.setsCollected()+": "+findSets+"</div>");
-        this.historyContainer.add(sets);
-        this.historyContainer.add(separator);
+            if (!countOfSets.getInnerHTML().equals("" + findSets))
+                countOfSets.setInnerHTML("" + findSets);
     }
 
     /**
-            *  Метод, который актуализирует карты на столе.
+     *  Метод, который актуализирует карты на столе.
      *  @param newCardsOnDesk актуальные карты на столе
      */
     private void setCards(List<Card> newCardsOnDesk){
-        ClickHandler click = new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent clickEvent) {
-                chooseCard(clickEvent.getSource());
-            }
-        };
-
         boolean isActual;
         for (int i = 0; i < cardContainer.getWidgetCount(); i++) {
             isActual = false;
@@ -291,9 +283,8 @@ public class GameFieldView extends Composite {
                     break;
                 }
             }
-            if (!isActual) {
+            if (!isActual)
                 removeFromDesk(cardOnDesk);
-            }
         }
 
         for (Card newCard: newCardsOnDesk) {
@@ -305,27 +296,15 @@ public class GameFieldView extends Composite {
                     break;
                 }
             }
-            if (!isActual) {
-                CardView card = new CardView(newCard);
-                //TODO Вынести добавление карты в отдельный метод
-                Timer timer = new Timer() {
-                    @Override
-                    public void run() {
-                        card.getElement().addClassName("visible");
-                    }
-                };
-                card.sinkEvents(Event.ONCLICK);
-                card.addHandler(click, ClickEvent.getType());
-                cardContainer.add(card);
-                timer.schedule(300);
-            }
+            if (!isActual)
+                addOnDesk(new CardView(newCard));
         }
 
     }
 
     /**
-     *  Метод, который удаляет View карты со стола.
-     *  @param cardOnDesk актуальные карты на столе
+     *  Метод, который удаляет View карту со стола.
+     *  @param cardOnDesk карта
      */
     private void removeFromDesk(CardView cardOnDesk) {
         Timer timer = new Timer() {
@@ -337,6 +316,29 @@ public class GameFieldView extends Composite {
         cardOnDesk.getElement().addClassName("not-active");
         timer.schedule(300);
         choosedCards.remove(cardOnDesk);
+    }
+
+    /**
+     *  Метод, который добавляет View карту на стол.
+     *  @param card карта
+     */
+    private void addOnDesk(CardView card) {
+        ClickHandler click = new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                chooseCard(clickEvent.getSource());
+            }
+        };
+        Timer timer = new Timer() {
+            @Override
+            public void run() {
+                card.getElement().addClassName("visible");
+            }
+        };
+        card.sinkEvents(Event.ONCLICK);
+        card.addHandler(click, ClickEvent.getType());
+        cardContainer.add(card);
+        timer.schedule(300);
     }
 
     /**

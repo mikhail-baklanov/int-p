@@ -36,11 +36,11 @@
                 </div>
                 <div class="{style.history}">
                     <div ui:field="statistic" class="{style.history-item} {style.header}"></div>
-                    <div class="{style.overflow}">
-                        <g:FlowPanel ui:field="historyContainer">
-
-                        </g:FlowPanel>
+                    <div class="{style.history-item}">
+                        <span ui:field="countOfSetsLabel"></span>
+                        <span ui:field="countOfSets"></span>
                     </div>
+                    <div class="{style.separator}"></div>
                 </div>
                 <g:Button ui:field="passButton" styleName="{style.pass}"></g:Button>
                 <g:Button ui:field="exitGame" styleName="{style.game-field_exit}"></g:Button>
