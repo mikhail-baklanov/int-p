@@ -49,8 +49,6 @@ public class GameFieldView extends Composite {
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
 
-    private static SetServiceAsync ourInstance = GWT.create(SetService.class);
-
     /**
      *  Контейнер для виджетов карт.
      */
@@ -160,6 +158,7 @@ public class GameFieldView extends Composite {
         slideButton.addHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                //TODO Поменять overflow у правой панели.
                 if (!leftBar.getElement().hasClassName("active")) {
                     leftBar.getElement().addClassName("active");
                     rightBar.getElement().addClassName("active");
@@ -179,17 +178,7 @@ public class GameFieldView extends Composite {
 
     @UiHandler("passButton")
     public void doClick(ClickEvent e) {
-        ourInstance.pass(currentGameState.getDeck().size(), new AsyncCallback<Void>() {
-            @Override
-            public void onFailure(Throwable throwable) {
-                consoleLog(throwable.getMessage());
-            }
-
-            @Override
-            public void onSuccess(Void aVoid) {
-
-            }
-        });
+        uiHandler.pass(currentGameState.getDeck().size());
     }
 
     /**

@@ -10,4 +10,14 @@ public interface GameFieldViewUIHandler extends ExitGameUIHandler {
      * см. описание в SetService
      */
     void checkSet(Card[] cards);
+
+    /**
+     * Интерфейс для безопасного
+     * клиентского вызов метода pass из сервиса
+     * имплементируется классом SetPresenter
+     * см. описание в SetService
+     *
+     * @param count количество карт в колоде клиента
+     */
+    void pass(int count);
 }

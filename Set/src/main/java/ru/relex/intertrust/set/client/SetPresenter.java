@@ -190,4 +190,17 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             }
         });
     }
+
+    @Override
+    public void pass(int count) {
+        serviceAsync.pass(count, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                consoleLog(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Void aVoid) { requestServer(); }
+        });
+    }
 }

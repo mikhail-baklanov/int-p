@@ -125,18 +125,18 @@
 
 .right-bar .statistic-item {
     display: flex;
-    margin: 10px 0;
+    padding: 10px 0;
     min-height: 25px;
     transition: background-color .4s;
 }
 
 .right-bar .statistic-item.passed {
-    background-color: rgba(244, 86, 66, 0.7);
+    background-color: rgba(244, 86, 66, 0.3);
 }
 
 .right-bar .statistic-item.header {
     min-height: 35px;
-    margin: 0;
+    padding: 0;
 }
 
 .right-bar .statistic-item.header span:first-child {
