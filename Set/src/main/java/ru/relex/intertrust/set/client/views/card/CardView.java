@@ -26,15 +26,13 @@ public class CardView extends Composite {
         this.card = card;
         initWidget(uiBinder.createAndBindUi(this));
         for (int i=1;i<=card.getShapeCount();i++) {
-            cardContainer.add(new HTML(new SafeHtml() {
-                @Override
-                public String asString() {
-                    return "<div class=\"shape\" style=\"background-image: url('images/icons/1"+
-                            FILL[card.getFill()-1]+
-                            COLOR[card.getColor()-1]+
-                            SHAPE[card.getShape()-1]+".svg');\"></div>";
-                }
-            }));
+            HTML shape = new HTML("");
+            shape.getElement().setClassName("shape");
+            shape.getElement().getStyle().setBackgroundImage("url('images/icons/1"+
+                    FILL[card.getFill()-1]+
+                    COLOR[card.getColor()-1]+
+                    SHAPE[card.getShape()-1]+".svg')");
+            cardContainer.add(shape);
         }
     }
 
