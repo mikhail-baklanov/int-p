@@ -224,22 +224,25 @@ public class GameFieldView extends Composite {
      *  @param scores баллы игроков
      */
     private void setStatistics(List<String> nickNames, List<Integer> scores){
-        HTML separator = new HTML("");
-        separator.setStyleName(style.separator());
-
         if(statisticContainer.getWidgetCount() == 0) {
             for (int i = 0; i < nickNames.size(); i++) {
                 HTML player = new HTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
                 player.setStyleName(style.statisticItem());
                 this.statisticContainer.add(player);
+
+                HTML separator = new HTML("");
+                separator.setStyleName(style.separator());
                 this.statisticContainer.add(separator);
             }
         } else {
             List<Integer> oldScores = currentGameState.getScore();
-            for(int i = 0; i < oldScores.size(); i++) {
-                if (!statisticContainer.getWidget(i).getElement().getInnerHTML().equals("") && oldScores.get(i) != scores.get(i)) {
-                    HTML player = (HTML) statisticContainer.getWidget(i);
-                    player.setHTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
+            List<HTML> players = new ArrayList<>();
+            for(int i = 0; i < statisticContainer.getWidgetCount(); i += 2)
+                players.add((HTML) statisticContainer.getWidget(i));
+
+            for(int i = 0; i < players.size(); i++) {
+                if (oldScores.get(i) != scores.get(i)) {
+                    players.get(i).setHTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
                 }
                 if (currentGameState.getNotAbleToPlay() != null && currentGameState.getNotAbleToPlay().contains(nickNames.get(i))) {
                     HTML player = (HTML) statisticContainer.getWidget(i);
