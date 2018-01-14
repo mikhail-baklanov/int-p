@@ -3,3 +3,9 @@ body {
     background-size: cover;
     font-family: "Open Sans";
 }
+
+@font-face {
+    font-family: "Open Sans"; /* Гарнитура шрифта */
+    src: url(fonts/OpenSans-Light.eot); /* Для IE5-8 */
+    src: local("Open Sans"), url(fonts/OpenSans-Light.ttf); /* Для остальных браузеров */
+}
