@@ -34,17 +34,6 @@ public class GameFieldView extends Composite {
     interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
     }
 
-    interface GameFieldStyles extends CssResource {
-        @ClassName("separator")
-        String separator();
-
-        @ClassName("statistic-item")
-        String statisticItem();
-
-        @ClassName("passed")
-        String passed();
-    }
-
     private GameConstants gameConstants = GWT.create(GameConstants.class);
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
@@ -130,8 +119,7 @@ public class GameFieldView extends Composite {
     /**
      *  Необходимые для использования стили.
      */
-    @UiField
-    static GameFieldStyles style;
+    private static GameFieldResources.GameFieldStyles style = GameFieldResources.INSTANCE.style();
 
     /**
      *  Текущее состояние игры.
@@ -150,6 +138,7 @@ public class GameFieldView extends Composite {
 
     public GameFieldView(GameFieldViewUIHandler uiHandler) {
         this.uiHandler = uiHandler;
+        GameFieldResources.INSTANCE.style().ensureInjected();
 
         initWidget(uiBinder.createAndBindUi(this));
         setGameFieldConstants();

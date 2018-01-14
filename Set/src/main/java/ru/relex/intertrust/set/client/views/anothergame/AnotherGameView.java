@@ -70,6 +70,7 @@ public class AnotherGameView extends Composite {
         this.gamePoints.setInnerHTML(gameConstants.gamePoints());
     }
     public AnotherGameView() {
+        AnotherGameResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
     }
 

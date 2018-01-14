@@ -57,6 +57,7 @@ public class PreGameView extends Composite {
 
     public PreGameView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
+        PreGameResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
         beforeGame.setInnerHTML(gameConstants.beforeGame());
         number.setInnerHTML(gameConstants.number());

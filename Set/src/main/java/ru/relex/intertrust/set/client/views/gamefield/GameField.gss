@@ -1,3 +1,7 @@
+@external statistic-item history-item time-remaining wrapper left-bar active card shape
+        cards-remaining right-bar statistic separator history header overflow pass slide-button
+        game-field_exit left-bar_container, passed;
+
 .wrapper {
     position: absolute;
     left: 50%;

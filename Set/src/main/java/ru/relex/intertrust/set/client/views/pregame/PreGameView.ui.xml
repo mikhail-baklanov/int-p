@@ -2,23 +2,20 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-    <ui:style src="PreGame.css">
-        @external .game-started_players_items .game-started_players_item .login-block_waiting-game
-        .login-block_hello .login-block_exit;
-    </ui:style>
+    <ui:with field="resources" type="ru.relex.intertrust.set.client.views.pregame.PreGameResources"></ui:with>
 
-    <g:HTMLPanel ui:field="preGame" styleName="{style.login-block_waiting-game}">
-            <div class="{style.login-block_hello}">
+    <g:HTMLPanel ui:field="preGame" styleName="{resources.style.loginBlock_waitingGame}">
+            <div class="{resources.style.loginBlock_hello}">
                 <span ui:field="beforeGame"></span>
                 <span ui:field="preGameTimer"></span>
             </div>
-            <div class="{style.game-started_players_items}">
+            <div class="{resources.style.gameStarted_players_items}">
                 <g:HTMLPanel ui:field="playersContainer">
-                    <div class="{style.game-started_players_item}">
+                    <div class="{resources.style.gameStarted_players_item}">
                         <div ui:field="number"></div><div ui:field="namePlayer"></div>
                     </div>
                 </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
+            <g:Button ui:field="exitGame" styleName="{resources.style.loginBlock_exit}"></g:Button>
     </g:HTMLPanel>
 </ui:UiBinder>

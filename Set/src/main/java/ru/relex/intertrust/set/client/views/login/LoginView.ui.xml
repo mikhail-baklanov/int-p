@@ -2,22 +2,19 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-    <ui:style src="Login.css">
-        @external .login-block_new-player .active .login-block_hello .nickname-wrapper .login-block_nickname
-        .nickname-wrapper_error .bar .login-block_continue .login-block_game-start;
-    </ui:style>
+    <ui:with field="resources" type="ru.relex.intertrust.set.client.views.login.LoginResources"></ui:with>
 
-    <g:HTMLPanel ui:field="login" styleName="{style.login-block_new-player}">
-        <div ui:field="welcome" class="{style.login-block_hello}"></div>
+    <g:HTMLPanel ui:field="login" styleName="{resources.style.loginBlock_newPlayer}">
+        <div ui:field="welcome" class="{resources.style.loginBlock_hello}"></div>
         <g:FormPanel ui:field="submitLoginForm">
-            <g:HTMLPanel styleName="{style.nickname-wrapper}">
-                <g:TextBox ui:field="nicknameLogin" styleName="{style.login-block_nickname}"/>
-                <span ui:field="errorLogin" class="{style.nickname-wrapper_error}"></span>
-                <span class="{style.bar}"></span>
+            <g:HTMLPanel styleName="{resources.style.nicknameWrapper}">
+                <g:TextBox ui:field="nicknameLogin" styleName="{resources.style.loginBlock_nickname}"/>
+                <span ui:field="errorLogin" class="{resources.style.nicknameWrapper_error}"></span>
+                <span class="{resources.style.bar}"></span>
                 <label ui:field="name"></label>
-                <g:Button ui:field="submitLogin" styleName="{style.login-block_continue}"></g:Button>
+                <g:Button ui:field="submitLogin" styleName="{resources.style.loginBlock_continue}"></g:Button>
             </g:HTMLPanel>
         </g:FormPanel>
-        <div ui:field="timeBlockLogin" class="{style.login-block_game-start}"><span ui:field="timeToPlay"></span><span ui:field="loginTimer"></span></div>
+        <div ui:field="timeBlockLogin" class="{resources.style.loginBlock_gameStart}"><span ui:field="timeToPlay"></span><span ui:field="loginTimer"></span></div>
     </g:HTMLPanel>
 </ui:UiBinder>

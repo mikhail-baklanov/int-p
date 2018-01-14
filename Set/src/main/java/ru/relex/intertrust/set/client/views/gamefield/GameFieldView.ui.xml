@@ -2,48 +2,44 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-    <ui:style type="ru.relex.intertrust.set.client.views.gamefield.GameFieldView.GameFieldStyles" src="GameField.css">
-        @external .statistic-item .history-item .time-remaining .wrapper .left-bar .active .card .shape
-        .cards-remaining .right-bar .statistic .separator .history .header .overflow .pass .slide-button
-        .game-field_exit .left-bar_container, passed;
-    </ui:style>
+    <ui:with field="resources" type="ru.relex.intertrust.set.client.views.gamefield.GameFieldResources"></ui:with>
 
     <g:HTMLPanel ui:field="start">
-        <main class="{style.wrapper}">
-            <g:HTMLPanel ui:field="leftBar" styleName="{style.left-bar}">
-                <div class="{style.time-remaining}">
+        <main class="{resources.style.wrapper}">
+            <g:HTMLPanel ui:field="leftBar" styleName="{resources.style.leftBar}">
+                <div class="{resources.style.timeRemaining}">
                     <div ui:field="time"></div>
                 </div>
-                <g:SimplePanel ui:field="slideButton" styleName="{style.slide-button}"/>
-                <div class="{style.cards-remaining}">
+                <g:SimplePanel ui:field="slideButton" styleName="{resources.style.slideButton}"/>
+                <div class="{resources.style.cardsRemaining}">
                     <span ui:field="cardLeftSpan"></span>
                     <span ui:field="cardLeft"></span>
                 </div>
-                <g:HTMLPanel ui:field="cardContainer" styleName="{style.left-bar_container}">
+                <g:HTMLPanel ui:field="cardContainer" styleName="{resources.style.leftBar_container}">
                 </g:HTMLPanel>
             </g:HTMLPanel>
-            <g:HTMLPanel ui:field="rightBar" styleName="{style.right-bar}">
-                <div class="{style.statistic}">
-                    <div class="{style.statistic-item} {style.header}">
+            <g:HTMLPanel ui:field="rightBar" styleName="{resources.style.rightBar}">
+                <div class="{resources.style.statistic}">
+                    <div class="{resources.style.statisticItem} {resources.style.header}">
                         <span ui:field="players"></span>
                         <span ui:field="gamePoints"></span>
                     </div>
-                    <div class="{style.overflow}">
+                    <div class="{resources.style.overflow}">
                         <g:FlowPanel ui:field="statisticContainer">
 
                         </g:FlowPanel>
                     </div>
                 </div>
-                <div class="{style.history}">
-                    <div ui:field="statistic" class="{style.history-item} {style.header}"></div>
-                    <div class="{style.history-item}">
+                <div class="{resources.style.history}">
+                    <div ui:field="statistic" class="{resources.style.historyItem} {resources.style.header}"></div>
+                    <div class="{resources.style.historyItem}">
                         <span ui:field="countOfSetsLabel"></span>
                         <span ui:field="countOfSets"></span>
                     </div>
-                    <div class="{style.separator}"></div>
+                    <div class="{resources.style.separator}"></div>
                 </div>
-                <g:Button ui:field="passButton" styleName="{style.pass}"></g:Button>
-                <g:Button ui:field="exitGame" styleName="{style.game-field_exit}"></g:Button>
+                <g:Button ui:field="passButton" styleName="{resources.style.pass}"></g:Button>
+                <g:Button ui:field="exitGame" styleName="{resources.style.gameField_exit}"></g:Button>
             </g:HTMLPanel>
         </main>
     </g:HTMLPanel>

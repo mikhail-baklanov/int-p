@@ -2,23 +2,21 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-    <ui:style src="AnotherGame.css">
-        @external .login-block_game-started .login-block_hello .game-started_item .game-started_players_items
-        .game-started_players_item;
-    </ui:style>
+    <ui:with field="resources" type="ru.relex.intertrust.set.client.views.anothergame.AnotherGameResources"></ui:with>
+
 
     <g:HTMLPanel>
-        <div class="{style.login-block_game-started}">
-            <div ui:field="alreadyGame" class="{style.login-block_hello}"></div>
-            <div class="{style.game-started_item}">
+        <div class="{resources.style.loginBlock_gameStarted}">
+            <div ui:field="alreadyGame" class="{resources.style.loginBlock_hello}"></div>
+            <div class="{resources.style.gameStarted_item}">
                 <span ui:field="gameTime"></span><span ui:field="anotherGameTime"></span>
             </div>
-            <div class="{style.game-started_item}">
+            <div class="{resources.style.gameStarted_item}">
                 <span ui:field="cardsLeft"></span><span ui:field="anotherGameCards"></span>
             </div>
-            <div class="{style.game-started_players_items}">
+            <div class="{resources.style.gameStarted_players_items}">
                 <g:HTMLPanel ui:field="anotherGamePlayers">
-                    <div class="{style.game-started_players_item}">
+                    <div class="{resources.style.gameStarted_players_item}">
                         <div ui:field="playerName"></div><div ui:field="gamePoints"></div>
                     </div>
                 </g:HTMLPanel>

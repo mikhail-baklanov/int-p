@@ -1,3 +1,5 @@
+@external login-block not-active;
+
 .login-block {
     position: absolute;
     display: flex;

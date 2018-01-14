@@ -12,12 +12,6 @@ public class ContainerView extends Composite {
 
     interface ContainerViewUiBinder extends UiBinder<Widget, ContainerView> {
     }
-
-    interface MyStyle extends CssResource {
-        @ClassName("login-block")
-        String loginBlock();
-    }
-
     private static ContainerView.ContainerViewUiBinder uiBinder = GWT.create(ContainerView.ContainerViewUiBinder.class);
 
     /**
@@ -35,10 +29,10 @@ public class ContainerView extends Composite {
     /**
      *  Необходимые для использования стили.
      */
-    @UiField
-    MyStyle style;
+    ContainerResources.ContainerStyles style = ContainerResources.INSTANCE.style();
 
     public ContainerView () {
+        ContainerResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
     }
 

@@ -5,6 +5,8 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.LabelElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -19,6 +21,7 @@ public class LoginView extends Composite {
 
     interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
     }
+
     private GameConstants gameConstants = GWT.create(GameConstants.class);
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
@@ -72,6 +75,7 @@ public class LoginView extends Composite {
     private LoginViewUIHandler loginListener;
 
     public LoginView(LoginViewUIHandler loginListener) {
+        LoginResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
         timeToPlay.setInnerHTML(gameConstants.timeBlock());
         errorLogin.setInnerHTML(gameConstants.errorLogin());

@@ -9,7 +9,6 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
   <!-- Other module inherits                                      -->
-
   <!-- Specify the app entry point class.                         -->
   <entry-point class='ru.relex.intertrust.set.client.Set'/>
 
@@ -19,4 +18,5 @@
 
   <!-- allow Super Dev Mode -->
   <add-linker name="xsiframe"/>
+  <set-configuration-property name="CssResource.enableGss" value="true"/>
 </module>

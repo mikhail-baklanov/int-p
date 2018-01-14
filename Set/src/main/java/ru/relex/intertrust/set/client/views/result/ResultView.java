@@ -80,6 +80,7 @@ public class ResultView extends Composite {
 
     public ResultView(ExitGameUIHandler exitListener) {
         this.exitListener = exitListener;
+        ResultResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
     }
 

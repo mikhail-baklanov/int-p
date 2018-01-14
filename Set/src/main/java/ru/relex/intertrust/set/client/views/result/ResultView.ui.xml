@@ -2,28 +2,25 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
 
-    <ui:style src="Result.css">
-        @external .login-block_game-started .login-block_hello .game-started_item .game-started_players_items
-        .game-started_players_item .login-block_exit;
-    </ui:style>
+    <ui:with field="resources" type="ru.relex.intertrust.set.client.views.result.ResultResources"></ui:with>
 
     <g:HTMLPanel>
-        <div class="{style.login-block_game-started}">
-            <div ui:field="gameResults" class="{style.login-block_hello}"></div>
-            <div class="{style.game-started_item}">
+        <div class="{resources.style.loginBlock_gameStarted}">
+            <div ui:field="gameResults" class="{resources.style.loginBlock_hello}"></div>
+            <div class="{resources.style.gameStarted_item}">
                 <span ui:field="gameTime"></span><span ui:field="resultGameTime"></span>
             </div>
-            <div class="{style.game-started_item}">
+            <div class="{resources.style.gameStarted_item}">
                 <span ui:field="setsCollected"></span><span ui:field="resultSets"></span>
             </div>
-            <div class="{style.game-started_players_items}">
+            <div class="{resources.style.gameStarted_players_items}">
                 <g:HTMLPanel ui:field="resultGamePlayers">
-                    <div class="{style.game-started_players_item}">
+                    <div class="{resources.style.gameStarted_players_item}">
                         <div ui:field="playerName"></div><div ui:field="gamePoints"></div>
                     </div>
                 </g:HTMLPanel>
             </div>
-            <g:Button ui:field="exitGame" styleName="{style.login-block_exit}"></g:Button>
+            <g:Button ui:field="exitGame" styleName="{resources.style.loginBlock_exit}"></g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>

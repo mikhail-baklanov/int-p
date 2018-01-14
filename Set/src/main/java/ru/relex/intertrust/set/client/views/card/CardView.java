@@ -24,6 +24,7 @@ public class CardView extends Composite {
 
     public CardView(Card card) {
         this.card = card;
+        CardResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
         for (int i=1;i<=card.getShapeCount();i++) {
             HTML shape = new HTML("");

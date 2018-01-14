@@ -1,3 +1,5 @@
+@external shape card active not-active visible;
+
 .card {
     display: flex;
     flex-direction: column;
