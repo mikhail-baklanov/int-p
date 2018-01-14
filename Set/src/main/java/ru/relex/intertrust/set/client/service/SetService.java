@@ -48,12 +48,6 @@ public interface SetService extends RemoteService
      */
     void pass(int cardsInDeck);
 
-    /**
-     * Поиск игрока в списке спасовавших игроков,
-     * проверка выполняется перед каждым действием со столом.
-     * @return true, если игрок пасовал
-     */
-    boolean isPassed();
 
 
 }
