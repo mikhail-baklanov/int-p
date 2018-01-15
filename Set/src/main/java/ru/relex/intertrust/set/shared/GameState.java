@@ -273,7 +273,9 @@ public class GameState implements Serializable {
                     if (cardsOnDesk.contains(c))
                         existSet++;
                 }
-                if (existSet == 3) {
+                if (existSet != 3)
+                    return false;
+                else {
                     getScore().set(playerNumber, oldScore + REWARD);
                     setCountSets(getCountSets() + 1);
                     for (Card c : set)
