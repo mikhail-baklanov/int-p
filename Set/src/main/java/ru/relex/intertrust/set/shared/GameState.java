@@ -281,7 +281,7 @@ public class GameState implements Serializable {
                     for (Card c : set)
                         getCardsOnDesk().remove(c);
 
-                    if (getDeck().size() > 0 && getCardsOnDesk().size() <= INITIAL_NUMBER_OF_CARDS) {
+                    if (getDeck().size() > 0 && getCardsOnDesk().size() < INITIAL_NUMBER_OF_CARDS) {
                         addCards(3);
                     } else {
                         if (getCardsOnDesk().size() == 0)
