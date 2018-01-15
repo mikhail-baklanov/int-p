@@ -116,6 +116,9 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
                 if (hasCurrentPlayer(gameState)) {
                     startView.setGameState(gameState);
                     newView = startView;
+                    if (gameState.getDeck().size() == 0 && !gameState.isStart()) {
+                        newView = resultView;
+                    }
                 } else {
                     anotherGameView.setGameState(gameState);
                     newView = anotherGameView;
