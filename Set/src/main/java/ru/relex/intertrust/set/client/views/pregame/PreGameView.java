@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class PreGameView extends Composite {
 
     interface PreGameViewUiBinder extends UiBinder<Widget, PreGameView> {
     }
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
     private static PreGameViewUiBinder uiBinder = GWT.create(PreGameViewUiBinder.class);
 
     /**
@@ -59,10 +59,10 @@ public class PreGameView extends Composite {
         this.exitListener = exitListener;
         PreGameResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
-        beforeGame.setInnerHTML(gameConstants.beforeGame());
-        number.setInnerHTML(gameConstants.number());
-        namePlayer.setInnerHTML(gameConstants.playerName());
-        exitGame.setHTML(gameConstants.exitGame());
+        beforeGame.setInnerHTML(gameLocale.beforeGame());
+        number.setInnerHTML(gameLocale.number());
+        namePlayer.setInnerHTML(gameLocale.playerName());
+        exitGame.setHTML(gameLocale.exitGame());
     }
 
     /**

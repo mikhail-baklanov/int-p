@@ -12,7 +12,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.client.views.card.CardView;
@@ -27,7 +27,7 @@ public class GameFieldView extends GameStateComposite{
     interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
     }
 
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
     private GameFieldResources gfr = GWT.create(GameFieldResources.class);
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
@@ -190,14 +190,14 @@ public class GameFieldView extends GameStateComposite{
      *  Метод, который заполняет View статичным текстом.
      */
     private void setGameFieldConstants() {
-        this.statistic.setInnerHTML(gameConstants.statistic());
-        this.exitGame.setHTML(gameConstants.exitGame());
-        this.changeMode.setHTML(gameConstants.exitGame());//todo: Изменить константу
-        this.players.setInnerHTML(gameConstants.players());
-        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
-        this.passButton.setHTML(gameConstants.pass());
-        this.cardLeftSpan.setInnerHTML(gameConstants.cardsInDeck() + ": ");
-        this.countOfSetsLabel.setInnerHTML(gameConstants.setsCollected());
+        this.statistic.setInnerHTML(gameLocale.statistic());
+        this.exitGame.setHTML(gameLocale.exitGame());
+        this.changeMode.setHTML(gameLocale.exitGame());//todo: Изменить константу
+        this.players.setInnerHTML(gameLocale.players());
+        this.gamePoints.setInnerHTML(gameLocale.gamePoints());
+        this.passButton.setHTML(gameLocale.pass());
+        this.cardLeftSpan.setInnerHTML(gameLocale.cardsInDeck() + ": ");
+        this.countOfSetsLabel.setInnerHTML(gameLocale.setsCollected());
     }
 
     /**

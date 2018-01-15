@@ -9,7 +9,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ChangeModeUIHandler;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.shared.GameState;
@@ -17,7 +17,7 @@ import ru.relex.intertrust.set.shared.GameState;
 import java.util.List;
 
 public class AnotherGameView extends GameStateComposite {
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
     /**
      * Установка нового состояния игры
      * @param gameState новое состояние игры
@@ -68,11 +68,11 @@ public class AnotherGameView extends GameStateComposite {
     DivElement gamePoints;
 
     public void setAnotherGameConstants() {
-        this.alreadyGame.setInnerHTML(gameConstants.alreadyGame());
-        this.gameTime.setInnerHTML(gameConstants.gameTime());
-        this.cardsLeft.setInnerHTML(gameConstants.cardsLeft());
-        this.playerName.setInnerHTML(gameConstants.playerName());
-        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
+        this.alreadyGame.setInnerHTML(gameLocale.alreadyGame());
+        this.gameTime.setInnerHTML(gameLocale.gameTime());
+        this.cardsLeft.setInnerHTML(gameLocale.cardsLeft());
+        this.playerName.setInnerHTML(gameLocale.playerName());
+        this.gamePoints.setInnerHTML(gameLocale.gamePoints());
     }
 
     /**
