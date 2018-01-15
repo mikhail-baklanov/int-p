@@ -170,6 +170,7 @@ public class GameFieldView extends GameStateComposite{
         if (uiHandler.canChange(currentGameState))
             return;
         this.cardContainer.clear();
+        this.statisticContainer.clear();
         uiHandler.exit();
     }
 
