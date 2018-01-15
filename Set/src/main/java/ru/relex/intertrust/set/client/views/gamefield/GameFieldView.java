@@ -169,8 +169,6 @@ public class GameFieldView extends GameStateComposite{
         }
         if (uiHandler.canChange(currentGameState))
             return;
-        this.cardContainer.clear();
-        this.statisticContainer.clear();
         uiHandler.exit();
     }
 
@@ -406,5 +404,14 @@ public class GameFieldView extends GameStateComposite{
         for (CardView card: cards)
             card.getElement().addClassName("not-correct");
         timer.schedule(500);
+    }
+
+    /**
+     *  Метод, очищающий игровое поле.
+     */
+    public void clearGameField() {
+        cardContainer.clear();
+        statisticContainer.clear();
+        currentGameState = new GameState();
     }
 }

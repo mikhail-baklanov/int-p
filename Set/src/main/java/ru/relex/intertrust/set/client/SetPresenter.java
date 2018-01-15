@@ -35,7 +35,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     private String playerName;
     private LoginView loginView;
-    private GameFieldView startView;
+    private GameFieldView gameFieldView;
     private ResultView resultView;
     private PreGameView preGameView;
 
@@ -62,6 +62,9 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             public void onSuccess(Void aVoid) {
                 playerName = null;
                 requestServer();
+                
+                if (currentView == gameFieldView)
+                    gameFieldView.clearGameField();
             }
         });
     }
@@ -71,7 +74,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         this.containerView = containerView;
 
         loginView = new LoginView(this);
-        startView = new GameFieldView(this);
+        gameFieldView = new GameFieldView(this);
         resultView = new ResultView(this);
         preGameView = new PreGameView(this);
 
@@ -117,8 +120,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         if (gameState.isStart()) {
             if (gameStateTime >= 0) {
                 if (hasCurrentPlayer(gameState)) {
-                    startView.setGameState(gameState);
-                    newView = startView;
+                    gameFieldView.setGameState(gameState);
+                    newView = gameFieldView;
                     if (gameState.getDeck().size() == 0 && !gameState.isStart()) {
                         newView = resultView;
                     }
