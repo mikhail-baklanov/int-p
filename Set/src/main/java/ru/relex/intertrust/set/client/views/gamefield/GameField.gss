@@ -1,6 +1,6 @@
 @external statistic-item history-item time-remaining wrapper left-bar active card shape
         cards-remaining right-bar statistic separator history header overflow pass slide-button
-        game-field_exit left-bar_container, passed;
+        game-field_exit left-bar_container, passed disable change_mode;
 
 .wrapper {
     position: absolute;
@@ -261,4 +261,23 @@
 
 .game-field_exit:hover {
     background-color: rgba(255, 255, 255, 0.8);
+}
+
+.disable {
+    display: none;
+}
+
+.change_mode {
+    width: 70%;
+    margin: 5px auto;
+    cursor: pointer;
+    border: none;
+    padding: 3px 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #697f94;
+    font-size: 18px;
+    font-family: "Open Sans";
+    font-weight: 400;
+    transition: .15s;
+    outline: none;
 }

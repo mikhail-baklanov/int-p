@@ -21,6 +21,7 @@
                     </div>
                 </g:HTMLPanel>
             </div>
+            <g:Button ui:field="observe" styleName="{resources.style.change_mode}">Наблюдать</g:Button>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>

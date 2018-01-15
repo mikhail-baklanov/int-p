@@ -2,7 +2,7 @@ package ru.relex.intertrust.set.client.UIHandlerInterfaces;
 
 import ru.relex.intertrust.set.shared.Card;
 
-public interface GameFieldViewUIHandler extends ExitGameUIHandler {
+public interface GameFieldViewUIHandler extends ExitGameUIHandler, ChangeModeUIHandler {
     /**
      * Интерфейс для безопасного
      * клиентского вызов метода checkSet из сервиса

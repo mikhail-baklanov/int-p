@@ -5,36 +5,30 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameConstants;
-import ru.relex.intertrust.set.client.service.SetService;
-import ru.relex.intertrust.set.client.service.SetServiceAsync;
 import ru.relex.intertrust.set.client.util.Utils;
+import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.client.views.card.CardView;
-import ru.relex.intertrust.set.client.views.container.ContainerView;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
-
-public class GameFieldView extends Composite {
+public class GameFieldView extends GameStateComposite{
 
     interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
     }
 
     private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameFieldResources gfr = GWT.create(GameFieldResources.class);
 
     private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
 
@@ -99,6 +93,12 @@ public class GameFieldView extends Composite {
     Button exitGame;
 
     /**
+     * Кнопка для смены режима отображения.
+     */
+    @UiField
+    Button changeMode;
+
+    /**
      *  Контейнеры для констант.
      */
     @UiField
@@ -161,12 +161,28 @@ public class GameFieldView extends Composite {
 
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
+        //Одна кнопка используется и для переключения режимов
+        if (uiHandler.canChange(currentGameState))
+        {
+            uiHandler.changeMode(); //Необходимо сделать отдельную кнопку под этот блок кода
+            return;
+        }
+        if (uiHandler.canChange(currentGameState))
+            return;
         this.cardContainer.clear();
         uiHandler.exit();
     }
 
+    @UiHandler("changeMode")
+    public void onClickChangeMode(ClickEvent e) {
+        if (uiHandler.canChange(currentGameState))
+            uiHandler.changeMode();
+    }
+
     @UiHandler("passButton")
     public void doClick(ClickEvent e) {
+        if (uiHandler.canChange(currentGameState))
+            return;
         uiHandler.pass(currentGameState.getDeck().size());
     }
 
@@ -176,6 +192,7 @@ public class GameFieldView extends Composite {
     private void setGameFieldConstants() {
         this.statistic.setInnerHTML(gameConstants.statistic());
         this.exitGame.setHTML(gameConstants.exitGame());
+        this.changeMode.setHTML(gameConstants.exitGame());//todo: Изменить константу
         this.players.setInnerHTML(gameConstants.players());
         this.gamePoints.setInnerHTML(gameConstants.gamePoints());
         this.passButton.setHTML(gameConstants.pass());
@@ -323,7 +340,20 @@ public class GameFieldView extends Composite {
      *  Метод, актуализирует всю информацию.
      *  @param gameState серверное состояние игры
      */
+    @Override
     public void setGameState(GameState gameState) {
+        if (uiHandler.canChange(gameState))
+        {
+            changeMode.removeStyleName(gfr.style().disable());
+            changeMode.setStyleName(gfr.style().change_mode(), true);
+            exitGame.setStyleName(gfr.style().disable(), true);
+            passButton.setStyleName(gfr.style().disable(), true);
+        } else {
+            passButton.removeStyleName(gfr.style().disable());
+            exitGame.removeStyleName(gfr.style().disable());
+            exitGame.setStyleName(gfr.style().gameField_exit(), true);
+            changeMode.setStyleName(gfr.style().disable(), true);
+        }
         setCardLeft(gameState.getDeck().size());
         setCards(gameState.getCardsOnDesk());
         setHistory(gameState.getCountSets());
@@ -338,6 +368,8 @@ public class GameFieldView extends Composite {
      *  @param widget карта
      */
     private void chooseCard (Object widget) {
+        if (uiHandler.canChange(currentGameState))
+            return; //выделение карт не работает в режиме просмотра
         CardView card = (CardView) widget;
         if (!choosedCards.contains(card)) {
             card.getElement().addClassName("active");

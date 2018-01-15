@@ -4,11 +4,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.ChangeModeUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
+import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.client.views.anothergame.AnotherGameView;
 import ru.relex.intertrust.set.client.views.container.ContainerView;
 import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
@@ -20,7 +22,7 @@ import ru.relex.intertrust.set.shared.GameState;
 
 import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
 
-public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, GameFieldViewUIHandler {
+public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, GameFieldViewUIHandler, ChangeModeUIHandler {
 
     /**
      * Период опроса сервера для получения значений таймера
@@ -28,7 +30,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     private static final int REQUEST_PERIOD = 1000;
 
     private final ContainerView containerView;
-    private final AnotherGameView anotherGameView = new AnotherGameView();
+    private boolean isAnotherGameView = true;
+    private GameStateComposite anotherGameView = new AnotherGameView(this);
 
     private String playerName;
     private LoginView loginView;
@@ -64,7 +67,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
 
-    public SetPresenter(ContainerView containerView) {
+    SetPresenter(ContainerView containerView) {
         this.containerView = containerView;
 
         loginView = new LoginView(this);
@@ -209,5 +212,20 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             @Override
             public void onSuccess(Void aVoid) { requestServer(); }
         });
+    }
+
+    @Override
+    public void changeMode() {
+        if (isAnotherGameView){
+            anotherGameView = new GameFieldView(this);
+        } else
+            anotherGameView = new AnotherGameView(this);
+        isAnotherGameView = !isAnotherGameView;
+    }
+
+    @Override
+    public boolean canChange(GameState gameState) {
+        //Если текущего игрока нет на сервере, то можно менять режимы отображения
+        return !hasCurrentPlayer(gameState);
     }
 }
