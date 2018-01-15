@@ -62,7 +62,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             public void onSuccess(Void aVoid) {
                 playerName = null;
                 requestServer();
-                
+
                 if (currentView == gameFieldView)
                     gameFieldView.clearGameField();
             }

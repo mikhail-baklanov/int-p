@@ -242,13 +242,10 @@ public class GameFieldView extends GameStateComposite{
                 if (oldScores.get(i) != scores.get(i)) {
                     players.get(i).setHTML("<span>" + nickNames.get(i) + "</span><span>" + scores.get(i) + "</span>");
                 }
-                if (currentGameState.getNotAbleToPlay() != null && currentGameState.getNotAbleToPlay().contains(nickNames.get(i))) {
-                    HTML player = (HTML) statisticContainer.getWidget(i);
-                    player.addStyleName(style.passed());
-                } else {
-                    HTML player = (HTML) statisticContainer.getWidget(i);
-                    player.removeStyleName(style.passed());
-                }
+                if (currentGameState.getNotAbleToPlay() != null && currentGameState.getNotAbleToPlay().contains(nickNames.get(i)))
+                    players.get(i).addStyleName(style.passed());
+                else
+                    players.get(i).removeStyleName(style.passed());
             }
         }
     }
