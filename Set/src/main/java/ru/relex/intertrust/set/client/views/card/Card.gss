@@ -1,4 +1,4 @@
-@external shape card active not-active visible;
+@external shape card active not-active visible not-correct;
 
 .card {
     display: flex;
@@ -29,6 +29,10 @@
 
 .card.visible {
     transform: translateX(0px);
+}
+
+.card.not-correct {
+    border-color: rgba(244, 86, 66, 0.8);;
 }
 
 .card .shape {

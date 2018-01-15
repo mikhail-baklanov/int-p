@@ -247,8 +247,9 @@ public class GameState implements Serializable {
      * если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
      * @param set набор карт, выбранных игроком
      * @param user никнейм игрока
+     * @return true, если это сет
      */
-    public void checkSet(Card[] set, String user){
+    public boolean checkSet(Card[] set, String user){
         if (set[0] != set[1]) {
             int playerNumber = getPlayerNumber(user);
             int oldScore = getScore().get(playerNumber);
@@ -262,7 +263,7 @@ public class GameState implements Serializable {
             for (int i = 0; i <= 3; i++) {
                 if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
                     getScore().set(playerNumber, oldScore - FINE);
-                    return;
+                    return false;
                 }
             }
             if (!isPassed(user)) {
@@ -287,5 +288,6 @@ public class GameState implements Serializable {
                 }
             }
         }
+        return true;
     }
 }

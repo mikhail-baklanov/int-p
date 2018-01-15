@@ -180,18 +180,22 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
     @Override
-    public void checkSet(Card[] cards) {
-        serviceAsync.checkSet(cards, new AsyncCallback<Void>() {
+    public boolean checkSet(Card[] cards) {
+        final boolean[] isSet = new boolean[1];
+        serviceAsync.checkSet(cards, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
             }
 
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Boolean result) {
                 requestServer();
+                isSet[0] = result;
+
             }
         });
+        return isSet[0];
     }
 
     @Override

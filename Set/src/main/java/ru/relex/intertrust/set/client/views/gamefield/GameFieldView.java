@@ -344,7 +344,8 @@ public class GameFieldView extends Composite {
             choosedCards.add(card);
             if (choosedCards.size() == 3) {
                 Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
-                uiHandler.checkSet(cards);
+                if (!uiHandler.checkSet(cards))
+                    showNotCorrectCards(choosedCards);
                 for (CardView item: choosedCards)
                     item.getElement().removeClassName("active");
                 choosedCards.clear();
@@ -353,5 +354,24 @@ public class GameFieldView extends Composite {
             card.getElement().removeClassName("active");
             choosedCards.remove(card);
         }
+    }
+
+    /**
+     *  Метод, который подсвечивает неправильные карты.
+     *  @param notCorrectCards карты
+     */
+    private void showNotCorrectCards(List<CardView> notCorrectCards) {
+        CardView[] cards = new CardView[] {notCorrectCards.get(0), notCorrectCards.get(1), notCorrectCards.get(2)};
+        Timer timer = new Timer() {
+            @Override
+            public void run() {
+                for (CardView card: cards)
+                    card.getElement().removeClassName("not-correct");
+            }
+        };
+
+        for (CardView card: cards)
+            card.getElement().addClassName("not-correct");
+        timer.schedule(500);
     }
 }
