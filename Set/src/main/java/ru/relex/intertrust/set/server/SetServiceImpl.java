@@ -116,12 +116,14 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     @Override
-    public void checkSet(Card[] set) {
+    public boolean checkSet(Card[] set) {
         GameState gameState = getGameState();
+        boolean isSet;
         synchronized (gameState) {
             String player = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
-            gameState.checkSet(set, player);
+            isSet = gameState.checkSet(set, player);
         }
+        return isSet;
     }
 
     public boolean isPassed() {

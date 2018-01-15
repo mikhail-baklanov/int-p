@@ -28,9 +28,9 @@ public interface SetService extends RemoteService
     /**
      * Метод checkSet проверяет, являются ли полученные в параметре set карты сетом.
      * @param set принимает 3 карты от клиента
-     * @return gameState после прохождения метода
+     * @return true, если это сет
      */
-    void checkSet(Card[] set);
+    boolean checkSet(Card[] set);
 
     /**
      * Выход из игры:
