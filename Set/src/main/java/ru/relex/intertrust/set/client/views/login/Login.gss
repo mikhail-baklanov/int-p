@@ -146,9 +146,11 @@
 .login-block_game-start.active {
     width: 100%;
     opacity: 1;
+    overflow: visible;
 }
 
 .login-block_game-start {
+    overflow: hidden;
     position: absolute;
     padding: 10px 0;
     bottom: 10;
