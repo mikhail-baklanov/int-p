@@ -186,8 +186,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
     @Override
-    public boolean checkSet(Card[] cards) {
-        final boolean[] isSet = new boolean[1];
+    public void checkSet(Card[] cards) {
         serviceAsync.checkSet(cards, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -196,12 +195,11 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
             @Override
             public void onSuccess(Boolean result) {
+                if (!result)
+                    gameFieldView.showNotCorrectCards(cards);
                 requestServer();
-                isSet[0] = result;
-
             }
         });
-        return isSet[0];
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface GameFieldViewUIHandler extends ExitGameUIHandler, ChangeModeUIH
      * имплементируется классом SetPresenter
      * см. описание в SetService
      */
-    boolean checkSet(Card[] cards);
+    void checkSet(Card[] cards);
 
     /**
      * Интерфейс для безопасного

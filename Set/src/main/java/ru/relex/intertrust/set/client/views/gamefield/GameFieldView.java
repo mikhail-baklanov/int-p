@@ -372,8 +372,7 @@ public class GameFieldView extends GameStateComposite{
             choosedCards.add(card);
             if (choosedCards.size() == 3) {
                 Card[] cards = new Card[] {choosedCards.get(0).getCard(), choosedCards.get(1).getCard(), choosedCards.get(2).getCard()};
-                if (!uiHandler.checkSet(cards))
-                    showNotCorrectCards(choosedCards);
+                uiHandler.checkSet(cards);
                 for (CardView item: choosedCards)
                     item.getElement().removeClassName("active");
                 choosedCards.clear();
@@ -385,20 +384,28 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который подсвечивает неправильные карты.
-     *  @param notCorrectCards карты
+     *  Метод, который подсвечивает карты.
+     *
+     *  @param cards карты, которые необходимо подсветить
      */
-    private void showNotCorrectCards(List<CardView> notCorrectCards) {
-        CardView[] cards = new CardView[] {notCorrectCards.get(0), notCorrectCards.get(1), notCorrectCards.get(2)};
+    public void showNotCorrectCards(Card[] cards) {
+        List<CardView> notCorrectCards = new ArrayList<>();
+        for (int i = 0; i < cardContainer.getWidgetCount(); i++)
+            for (Card card: cards) {
+            CardView cardFromDesk = (CardView) cardContainer.getWidget(i);
+                if (card.equals(cardFromDesk.getCard()))
+                    notCorrectCards.add(cardFromDesk);
+            }
+
         Timer timer = new Timer() {
             @Override
             public void run() {
-                for (CardView card: cards)
+                for (CardView card: notCorrectCards)
                     card.getElement().removeClassName("not-correct");
             }
         };
 
-        for (CardView card: cards)
+        for (CardView card: notCorrectCards)
             card.getElement().addClassName("not-correct");
         timer.schedule(500);
     }
