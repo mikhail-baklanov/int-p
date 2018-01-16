@@ -8,10 +8,6 @@
         <main class="{resources.style.wrapper}">
             <g:HTMLPanel ui:field="leftBar" styleName="{resources.style.leftBar}">
                 <g:SimplePanel ui:field="slideButton" styleName="{resources.style.slideButton}"/>
-                <div class="{resources.style.cardsRemaining}">
-                    <span ui:field="cardLeftSpan"></span>
-                    <span ui:field="cardLeft"></span>
-                </div>
                 <g:HTMLPanel ui:field="cardContainer" styleName="{resources.style.leftBar_container}">
                 </g:HTMLPanel>
             </g:HTMLPanel>
@@ -37,6 +33,11 @@
                     <div class="{resources.style.historyItem}">
                         <span ui:field="countOfSetsLabel"></span>
                         <span ui:field="countOfSets"></span>
+                    </div>
+                    <div class="{resources.style.separator}"></div>
+                    <div class="{resources.style.historyItem}">
+                        <span ui:field="cardLeftSpan"></span>
+                        <span ui:field="cardLeft"></span>
                     </div>
                     <div class="{resources.style.separator}"></div>
                 </div>
