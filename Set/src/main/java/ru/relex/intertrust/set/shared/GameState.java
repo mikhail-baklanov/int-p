@@ -6,29 +6,28 @@ import java.util.List;
 
 public class GameState implements Serializable {
 
-    private boolean isStart = false; //флаг, показывающий, идет ли игра (true - игра идет, false - игра не начата)
+    private boolean       isStart         =   false;               //флаг, показывающий, идет ли игра (true - игра идет, false - игра не начата)
+    private long          time            =   -TIME_TO_GAME;       //серверное время
+    private List<Card>    deck;                                    //колода
+    private List<Card>    cardsOnDesk     =   new ArrayList<>();   //карты на столе
+    private List<String>  players         =   new ArrayList<>();   //список игроков в игре
+    private List<Integer> score           =   new ArrayList<>();   //список с количеством очков каждого игрока
+    private int           countSets       =   0;                   //найдено сетов
+    private int           activePlayers   =   0;                   //активные игроки
 
-    private long time = -TIME_TO_GAME;//серверное время
-    private List<Card> deck;//колода
-    private List<Card> cardsOnDesk =new ArrayList<>();//карты на столе
-    private List<String> players = new ArrayList<>();//список игроков в игре
-    private List<Integer> score = new ArrayList<>();//список с количеством очков каждого игрока
-    private int countSets=0;//найдено сетов
-    private int activePlayers=0;//активные игроки
     /**
-     * Хранит имена игроков нажавших пас
-     * Каждый раз когда игрок нажимает пас сюда добавляется его имя
-     * При каждом изменении стола лист очищается
+     * Хранит имена игроков нажавших пас.
+     * Каждый раз когда игрок нажимает пас сюда добавляется его имя.
+     * При каждом изменении стола лист очищается.
      */
-    private List<String> notAbleToPlay = new ArrayList<>();
+    private List<String>      notAbleToPlay            =   new ArrayList<>();
 
-    private static final long TIME_TO_GAME = 10000;
-    private static final long PERIOD_MS = 500;
+    private static final long TIME_TO_GAME             =   10000;
 
-    private static final int INITIAL_NUMBER_OF_CARDS = 12;
-    private static final int MAX_NUMBER_OF_CARDS = 21;
-    private static final int FINE = 5; //штраф
-    private static final int REWARD = 3; //награда
+    private static final int INITIAL_NUMBER_OF_CARDS   =   12;
+    private static final int MAX_NUMBER_OF_CARDS       =   21;
+    private static final int FINE                      =   5;                   //штраф
+    private static final int REWARD                    =   3;                   //награда
 
     public int getActivePlayers() {
         return activePlayers;
@@ -37,8 +36,6 @@ public class GameState implements Serializable {
     public void setActivePlayers(int activePlayers) {
         this.activePlayers = activePlayers;
     }
-
-
 
     public boolean hasPlayer(String name) {
         for (String player: players)
@@ -128,21 +125,18 @@ public class GameState implements Serializable {
         setTime(-GameState.TIME_TO_GAME);
     }
 
-    //убранные методы
     /**
-     * Метод, который обновляет игровое время:
-     * увеличивает время на PERIOD_MS миллисекунд при наличии хотя бы одного зарегистрировавшегося игрока
-     * при отсутствии игрока время всегда равно -TIME_TO_GAME
+     * Метод, который обновляет игровое время.
+     *
+     * @param time число которое нужно прибавить к игровому времени
      */
-    public void updateOrPrepareGameTime(){
-        if (getActivePlayers() == 0) {
-            prepareTime();
-        }
-        setTime(getTime() + PERIOD_MS);
+    public void updateGameTime(long time){
+        setTime(getTime() + time);
     }
 
     /**
-     * Возвращает номер, по которому можно получить информацию об игроке в листах
+     * Возвращает номер, по которому можно получить информацию об игроке в листах.
+     *
      * @param nickname имя игрока
      * @return номер игрока
      */
@@ -154,8 +148,9 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Добавление нескольких карт на стол,
-     * удаляет добавленные карты из колоды
+     * Добавление нескольких карт на стол.
+     * Удаляет добавленные карты из колоды.
+     *
      * @param amountOfCards количество добавляемых карт
      */
     public void addCards(int amountOfCards){
@@ -167,20 +162,21 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Метод, добавляющий нового игрока в gameState
-     * если игроков не было, инициализируется таймер
+     * Метод, добавляющий нового игрока в gameState.
+     *
      * @param nickname имя игрока
      */
     public void createNewPlayer(String nickname){
         if (getActivePlayers()==0) { prepareTime(); }
         addPlayer(nickname);
-        setActivePlayers(getActivePlayers()+1);
+        setActivePlayers(getActivePlayers() + 1);
     }
 
     /**
-     * Удаление игрока из списка игроков:
-     * удаление всех данных, если игра не начата
-     * удаление с сохранением ника и счета, если игра идет
+     * Удаление игрока из списка игроков.
+     * Удаление всех данных, если игра не начата.
+     * Удаление с сохранением ника и счета, если игра идет.
+     *
      * @param nickname
      */
     public void removePlayer(String nickname){
@@ -193,11 +189,12 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Метод, инициализирующий начало игрового процесса
-     * меняет флаг isStart на true, т.е. показывает, что игра уже идет
-     * генерирует колоду карт (cardsDeck)
-     * добавляет в карты, которые должны отображаться на экране двенадцать карт (в cardsOnDesk)
-     * удаляет из колоды cardsDeck карты из cardsOnDesk
+     * Метод, инициализирующий начало игрового процесса.
+     * Меняет флаг isStart на true, т.е. показывает, что игра уже идет.
+     * Генерирует колоду карт (cardsDeck).
+     * Добавляет в карты, которые должны отображаться на экране (в cardsOnDesk).
+     * Удаляет из колоды карты из cardsOnDesk.
+     *
      * @param initialCardsNumber начальное кол-во карт на поле
      */
     public void startGame(int initialCardsNumber){
@@ -208,8 +205,9 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Поиск игрока в списке спасовавших игроков
-     * проверка выполняется перед каждым действием со столом
+     * Поиск игрока в списке спасовавших игроков.
+     * Проверка выполняется перед каждым действием со столом.
+     *
      * @param nickname имя игрока
      * @return true, если игрок спасовал
      */
@@ -220,13 +218,13 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Метод, осуществляющий пас:
-     * проверка количества спасовавших
-     * добавление карт на стол или завершение игры, если карт в колоде нет
+     * Метод, осуществляющий пас.
+     * Проверка количества спасовавших.
+     * Добавление карт на стол или завершение игры, если карт в колоде нет.
+     *
      * @param nickname имя игрока
      */
     public void pass(String nickname){
-        //if (getNotAbleToPlay().size() == (getPlayers().size() / 2) + 1)
         if (getNotAbleToPlay().size() == (getActivePlayers() / 2) + 1)
         {
             clearNotAbleToPlay();
@@ -239,12 +237,13 @@ public class GameState implements Serializable {
     }
 
     /**
-     * Проверка, являются ли выбранные карты сетом
-     * если нет, - у клиента вычитаются очки
-     * если являются, - идет проверка на то, есть ли в текущей игре на столе данные карты
-     * если есть, - клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде
-     * если остались - на стол добавляются 3 новые карты, и из колоды они соответственно удаляются
-     * если в колоде не осталось карт, проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
+     * Проверка, являются ли выбранные карты сетом.
+     * Если нет, то у клиента вычитаются очки.
+     * Если являются, то идет проверка на то, есть ли в текущей игре на столе данные карты.
+     * Если есть, клиенту добавляются очки, а со стола удаляются данные карты и запускается проверка, остались ли карты в колоде.
+     * Если остались, на стол добавляются 3 новые карты, и из колоды они соответственно удаляются.
+     * Если в колоде не осталось карт, то проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
+     *
      * @param set набор карт, выбранных игроком
      * @param user никнейм игрока
      * @return true, если это сет

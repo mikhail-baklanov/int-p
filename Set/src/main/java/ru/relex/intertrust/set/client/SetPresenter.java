@@ -27,28 +27,28 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     /**
      * Период опроса сервера для получения значений таймера
      */
-    private static final int REQUEST_PERIOD = 1000;
+    private static final int    REQUEST_PERIOD      =   1000;
 
     private final ContainerView containerView;
-    private boolean isAnotherGameView = true;
-    private GameStateComposite anotherGameView = new AnotherGameView(this);
+    private boolean             isAnotherGameView   =   true;
+    private GameStateComposite  anotherGameView     =   new AnotherGameView(this);
 
-    private String playerName;
-    private LoginView loginView;
-    private GameFieldView gameFieldView;
-    private ResultView resultView;
-    private PreGameView preGameView;
+    private String              playerName;
+    private LoginView           loginView;
+    private GameFieldView       gameFieldView;
+    private ResultView          resultView;
+    private PreGameView         preGameView;
 
 
     /**
      * Текущий экран
      */
     private Widget currentView;
+
     /**
      * 	Создание экземпляра класса взаимодействия с сервисом
      */
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
-
 
     @Override
     public void exit() {
@@ -68,7 +68,6 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             }
         });
     }
-
 
     SetPresenter(ContainerView containerView) {
         this.containerView = containerView;
@@ -109,8 +108,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     /**
      * Начальный выбор view и настройка отображающейся на ней информации.
-     * Если игроков нет, то отображается loginView
-     * Если игроки есть, то список игроков и время до начала игры
+     * Если игроков нет, то отображается loginView.
+     * Если игроки есть, то список игроков и время до начала игры.
      *
      * @param gameState информация о состоянии игры
      */
@@ -154,7 +153,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
     /**
-     * Проверяется можно ли использовать данное имя игроку
+     * Проверяется можно ли использовать данное имя игроку.
+     *
      * @param gameState информация о состоянии игры
      * @return true,если можно использовать имя
      *         false,если имя null или уже есть на сервере
