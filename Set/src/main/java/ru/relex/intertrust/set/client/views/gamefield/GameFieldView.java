@@ -22,15 +22,16 @@ import ru.relex.intertrust.set.shared.GameState;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  View для игрового поля.
+ */
 public class GameFieldView extends GameStateComposite{
 
-    interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{
-    }
+    interface StartViewUiBinder extends UiBinder<Widget, GameFieldView>{ }
 
-    private GameLocale gameLocale = GWT.create(GameLocale.class);
-    private GameFieldResources gfr = GWT.create(GameFieldResources.class);
-
-    private static StartViewUiBinder uiBinder = GWT.create(StartViewUiBinder.class);
+    private GameLocale                 gameLocale   =   GWT.create(GameLocale.class);
+    private GameFieldResources         gfr          =   GWT.create(GameFieldResources.class);
+    private static StartViewUiBinder   uiBinder     =   GWT.create(StartViewUiBinder.class);
 
     /**
      *  Контейнер для виджетов карт.
@@ -150,7 +151,6 @@ public class GameFieldView extends GameStateComposite{
         slideButton.addHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                //TODO Поменять overflow у правой панели.
                 if (!leftBar.getElement().hasClassName("active")) {
                     leftBar.getElement().addClassName("active");
                     rightBar.getElement().addClassName("active");
@@ -164,14 +164,10 @@ public class GameFieldView extends GameStateComposite{
 
     @UiHandler("exitGame")
     public void onClickExit(ClickEvent e) {
-        //Одна кнопка используется и для переключения режимов
-        if (uiHandler.canChange(currentGameState))
-        {
-            uiHandler.changeMode(); //Необходимо сделать отдельную кнопку под этот блок кода
+        if (uiHandler.canChange(currentGameState)) {   //Одна кнопка используется и для переключения режимов
+            uiHandler.changeMode();                    //Необходимо сделать отдельную кнопку под этот блок кода
             return;
         }
-        if (uiHandler.canChange(currentGameState))
-            return;
         uiHandler.exit();
     }
 
@@ -204,7 +200,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который актуализирует прошедшее с начала игры время.
+     *  Актуализация прошедшего с начала игры времени.
+     *
      *  @param time время
      */
     private void setTime(String time){
@@ -212,7 +209,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который актуализирует количество оставшихся карт.
+     *  Актуализация количества оставшихся карт.
+     *
      *  @param cardLeftCount количество оставшихся карт
      */
     private void setCardLeft(int cardLeftCount){
@@ -221,7 +219,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который актуализирует статистику игроков.
+     *  Актуализация статистики игроков.
+     *
      *  @param nickNames имена игроков
      *  @param scores баллы игроков
      */
@@ -255,7 +254,8 @@ public class GameFieldView extends GameStateComposite{
         }
 
     /**
-     *  Метод, который актуализирует количество найденных сетов.
+     *  Актуализация количества найденных сетов.
+     *
      *  @param findSets количество найденных сетов
      */
     private void setHistory(int findSets){
@@ -264,7 +264,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который актуализирует карты на столе.
+     *  Актуализация карт на столе.
+     *
      *  @param newCardsOnDesk актуальные карты на столе
      */
     private void setCards(List<Card> newCardsOnDesk){
@@ -298,7 +299,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который удаляет View карту со стола.
+     *  Удаление карты со стола.
+     *
      *  @param cardOnDesk карта
      */
     private void removeFromDesk(CardView cardOnDesk) {
@@ -314,7 +316,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который добавляет View карту на стол.
+     *  Добавление карты на стол.
+     *
      *  @param card карта
      */
     private void addOnDesk(CardView card) {
@@ -337,7 +340,8 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, актуализирует всю информацию.
+     *  Актуализация всей информации.
+     *
      *  @param gameState серверное состояние игры
      */
     @Override
@@ -363,13 +367,14 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который добавляет карту в массив выбранных карт,
-     *  при выборе трёх карт вызывает обработчик для проверки сета и очищает массив.
+     *  Метод, который добавляет карту в массив выбранных карт.
+     *  При выборе трёх карт вызывает обработчик для проверки сета и очищает массив.
+     *
      *  @param widget карта
      */
     private void chooseCard (Object widget) {
-        if (uiHandler.canChange(currentGameState))
-            return; //выделение карт не работает в режиме просмотра
+        if (uiHandler.canChange(currentGameState))   //выделение карт не работает в режиме просмотра
+            return;
         CardView card = (CardView) widget;
         if (!choosedCards.contains(card)) {
             card.getElement().addClassName("active");
@@ -388,7 +393,7 @@ public class GameFieldView extends GameStateComposite{
     }
 
     /**
-     *  Метод, который подсвечивает карты.
+     *  Подсвечивание карт.
      *
      *  @param cards карты, которые необходимо подсветить
      */
