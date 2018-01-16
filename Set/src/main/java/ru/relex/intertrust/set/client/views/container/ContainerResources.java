@@ -11,7 +11,7 @@ public interface ContainerResources extends ClientBundle {
         @ClassName("not-active")
         String notActive();
 
-        @ClassName("login-block")
+        @ClassName("container-block")
         String loginBlock();
     }
 

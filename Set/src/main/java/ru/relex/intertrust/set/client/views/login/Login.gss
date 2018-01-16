@@ -24,9 +24,8 @@
     background-color: transparent;
     border: none;
     color: #6a6a6a;
-    font-family: "Open Sans";
+    font-family: "Open Sans Light";
     font-size: 20px;
-    font-weight: 300;
     text-align: center;
     border-bottom: 1px solid #adadad;
 }
@@ -125,8 +124,7 @@
     background-color: transparent;
     color: #697f94;
     font-size: 20px;
-    font-family: "Open Sans";
-    font-weight: 300;
+    font-family: "Open Sans Light";
     transition: .15s;
     outline: none;
 }

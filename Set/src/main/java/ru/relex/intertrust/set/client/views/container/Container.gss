@@ -1,6 +1,6 @@
-@external login-block not-active main;
+@external container-block not-active main;
 
-.login-block {
+.container-block {
     position: absolute;
     display: flex;
     flex-direction: column;

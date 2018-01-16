@@ -8,10 +8,10 @@ public interface PreGameResources extends ClientBundle {
     PreGameResources INSTANCE = GWT.create(PreGameResources.class);
 
     interface PreGameStyles extends CssResource {
-        @ClassName("login-block_exit")
+        @ClassName("pregame-block_exit")
         String loginBlock_exit();
 
-        @ClassName("login-block_hello")
+        @ClassName("pregame-block_hello")
         String loginBlock_hello();
 
         @ClassName("game-started_players_item")
@@ -20,7 +20,7 @@ public interface PreGameResources extends ClientBundle {
         @ClassName("game-started_players_items")
         String gameStarted_players_items();
 
-        @ClassName("login-block_waiting-game")
+        @ClassName("pregame-block_waiting-game")
         String loginBlock_waitingGame();
     }
 
