@@ -8,8 +8,6 @@ import ru.relex.intertrust.set.shared.Card;
 
 /**
  *  View карты.
- *
- *  @author Alexander_Erofeev
  */
 public class CardView extends Composite {
 

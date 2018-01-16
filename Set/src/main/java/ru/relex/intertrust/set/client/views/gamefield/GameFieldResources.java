@@ -33,9 +33,6 @@ public interface GameFieldResources extends ClientBundle {
 
         String wrapper();
 
-        @ClassName("time-remaining")
-        String timeRemaining();
-
         String history();
 
         @ClassName("history-item")
@@ -45,9 +42,6 @@ public interface GameFieldResources extends ClientBundle {
 
         @ClassName("statistic-item")
         String statisticItem();
-
-        @ClassName("cards-remaining")
-        String cardsRemaining();
 
         String overflow();
 
