@@ -1,4 +1,4 @@
-@external login-block not-active;
+@external login-block not-active main;
 
 .login-block {
     position: absolute;
@@ -12,11 +12,11 @@
     background-color: rgba(255,255,255,0.5);
     box-shadow: 0 3px 7px rgba(105,127,148,0.5);
 }
-.login-block > div {
+.main {
     opacity: 1;
     transition: .4s;
 }
 
-.login-block > div.not-active {
+.main.not-active {
     opacity: 0;
 }
