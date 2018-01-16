@@ -60,7 +60,7 @@ public class GameFieldView extends Composite {
      *  Прошедшее время с начала игры.
      */
     @UiField
-    DivElement time;
+    SpanElement time;
 
     /**
      *  Левый блок игрового поля.
@@ -115,6 +115,9 @@ public class GameFieldView extends Composite {
 
     @UiField
     SpanElement countOfSetsLabel;
+
+    @UiField
+    SpanElement timeLabel;
 
     /**
      *  Необходимые для использования стили.
@@ -181,6 +184,7 @@ public class GameFieldView extends Composite {
         this.passButton.setHTML(gameConstants.pass());
         this.cardLeftSpan.setInnerHTML(gameConstants.cardsInDeck() + ": ");
         this.countOfSetsLabel.setInnerHTML(gameConstants.setsCollected());
+        this.timeLabel.setInnerHTML(gameConstants.timeLabel());
     }
 
     /**

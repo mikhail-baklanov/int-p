@@ -180,4 +180,8 @@ public interface GameConstants extends com.google.gwt.i18n.client.Constants {
   @DefaultStringValue("Имя")
   @Key("nickname")
   String nickname();
+
+  @DefaultStringValue("Времени прошло:&nbsp;")
+  @Key("timeLabel")
+  String timeLabel();
 }

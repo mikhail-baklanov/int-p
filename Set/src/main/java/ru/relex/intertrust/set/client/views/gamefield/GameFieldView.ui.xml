@@ -7,9 +7,6 @@
     <g:HTMLPanel ui:field="start">
         <main class="{resources.style.wrapper}">
             <g:HTMLPanel ui:field="leftBar" styleName="{resources.style.leftBar}">
-                <div class="{resources.style.timeRemaining}">
-                    <div ui:field="time"></div>
-                </div>
                 <g:SimplePanel ui:field="slideButton" styleName="{resources.style.slideButton}"/>
                 <div class="{resources.style.cardsRemaining}">
                     <span ui:field="cardLeftSpan"></span>
@@ -32,6 +29,11 @@
                 </div>
                 <div class="{resources.style.history}">
                     <div ui:field="statistic" class="{resources.style.historyItem} {resources.style.header}"></div>
+                    <div class="{resources.style.historyItem}">
+                        <span ui:field="timeLabel"></span>
+                        <span ui:field="time"></span>
+                    </div>
+                    <div class="{resources.style.separator}"></div>
                     <div class="{resources.style.historyItem}">
                         <span ui:field="countOfSetsLabel"></span>
                         <span ui:field="countOfSets"></span>
