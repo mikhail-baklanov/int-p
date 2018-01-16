@@ -5,7 +5,15 @@ body {
 }
 
 @font-face {
+    font-family: "Open Sans Light"; /* Гарнитура шрифта */
+    src: url(fonts/OpenSans-Light.ttf);
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
     font-family: "Open Sans"; /* Гарнитура шрифта */
-    src: url(fonts/OpenSans-Light.eot); /* Для IE5-8 */
-    src: local("Open Sans"), url(fonts/OpenSans-Light.ttf); /* Для остальных браузеров */
+    src: url(fonts/OpenSans-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
 }
