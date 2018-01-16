@@ -32,7 +32,7 @@ public interface GameFieldResources extends ClientBundle {
         String active();
 
         String wrapper();
-        
+
         String history();
 
         @ClassName("history-item")

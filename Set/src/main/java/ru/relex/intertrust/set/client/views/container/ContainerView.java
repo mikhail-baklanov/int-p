@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
 
 /**
- *  Главная View, в которую помещаются все состояния игры.
+ *  Контейнер для всех View игры.
  */
 public class ContainerView extends Composite {
 

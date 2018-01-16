@@ -100,7 +100,7 @@ public class GameFieldView extends GameStateComposite{
     Button changeMode;
 
     /**
-     *  Контейнеры для констант.
+     *  Контейнеры для статичного текста.
      */
     @UiField
     DivElement statistic;
