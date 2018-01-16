@@ -62,7 +62,6 @@
     color: #cd6060;
     font-size: 18px;
     font-family: "Open Sans";
-    font-weight: 400;
     transition: .15s;
     outline: none;
 }
