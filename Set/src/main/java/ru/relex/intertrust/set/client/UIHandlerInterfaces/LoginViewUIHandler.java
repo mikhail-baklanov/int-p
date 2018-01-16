@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client.UIHandlerInterfaces;
+package ru.relex.intertrust.set.client.uIHandlerInterfaces;
 
 public interface LoginViewUIHandler {
     /**

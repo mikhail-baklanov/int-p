@@ -9,7 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
+import ru.relex.intertrust.set.client.uIHandlerInterfaces.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 
@@ -85,7 +85,7 @@ public class LoginView extends Composite {
 
         submitLoginForm.addSubmitHandler(new FormPanel.SubmitHandler() {
             /**
-             * Метод, который при удачной регистрации пользователя вызывает UIHandlerInterfaces.
+             * Метод, который при удачной регистрации пользователя вызывает uIHandlerInterfaces.
              * @param event событие
              */
             @Override

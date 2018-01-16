@@ -1,11 +1,8 @@
-package ru.relex.intertrust.set.client.UIHandlerInterfaces;
+package ru.relex.intertrust.set.client.uIHandlerInterfaces;
 
 public interface ExitGameUIHandler {
     /**
-     * Интерфейс для безопасного
-     * клиентского вызова метода exit из сервиса
-     * имплементируется классом SetPresenter
-     * см. описание в SetService
+     * Выход из игры
      */
     void exit();
 }
