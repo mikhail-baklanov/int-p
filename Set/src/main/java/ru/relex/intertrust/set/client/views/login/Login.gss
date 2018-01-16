@@ -144,16 +144,20 @@
 }
 
 .login-block_game-start.active {
-    display: block;
+    width: 100%;
+    opacity: 1;
 }
 
 .login-block_game-start {
-    display: none;
     position: absolute;
-    padding: 10px;
-    bottom: 0;
-    left: 130px;
-    box-shadow: 0 3px 7px rgba(105,127,148,0.5);
+    padding: 10px 0;
+    bottom: 10;
+    width: 0;
+    opacity: 0;
+    background-color: rgba(105,127,148,0.3);
+    text-align: center;
+    transition: opacity 0.4s;
+    color: #4c4c4c;
 }
 
 .nickname-wrapper input:focus ~ label, input:valid ~ label {
