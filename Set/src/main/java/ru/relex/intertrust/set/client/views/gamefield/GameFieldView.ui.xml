@@ -42,6 +42,7 @@
                 </div>
                 <g:Button ui:field="passButton" styleName="{resources.style.pass}"></g:Button>
                 <g:Button ui:field="exitGame" styleName="{resources.style.gameField_exit}"></g:Button>
+                <g:Button ui:field="changeMode" styleName="{resources.style.change_mode}"></g:Button>
             </g:HTMLPanel>
         </main>
     </g:HTMLPanel>

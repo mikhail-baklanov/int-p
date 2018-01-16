@@ -1,31 +1,25 @@
 package ru.relex.intertrust.set.server;
 
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.shared.Card;
-import ru.relex.intertrust.set.shared.CardsDeck;
 import ru.relex.intertrust.set.shared.GameState;
 
 import javax.servlet.ServletException;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Класс, содержащий серверную логику игры Set
+ * Класс, содержащий серверную логику игры Set.
  */
 public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
-    private TimerTask t = new StartTimer();
-    private Timer timer = new Timer();
-    private static final String GAME_STATE = "gameState";
-    private static final String USER_NAME = "userName";
-    private static final long PERIOD_MS = 500;
-    private static final int INITIAL_NUMBER_OF_CARDS = 12;
-    private static final int MAX_NUMBER_OF_CARDS = 21;
-    private static final int FINE = 5; //штраф
-    private static final int REWARD = 3; //награда
+    private TimerTask              t                         =   new StartTimer();
+    private Timer                  timer                     =   new Timer();
+    private static final String    GAME_STATE                =   "gameState";
+    private static final String    USER_NAME                 =   "userName";
+    private static final long      PERIOD_MS                 =   1000;
+    private static final int       INITIAL_NUMBER_OF_CARDS   =   12;
 
     @Override
     public GameState getGameState()
@@ -38,19 +32,18 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Первоначальная инициализация
-     * Выполняется при первом запуске сервера
+     * Первоначальная инициализация.
+     * Выполняется при первом запуске сервера.
      * @throws ServletException
      */
     @Override
     public void init() throws ServletException {
         super.init();
         initGame();
-        timer.schedule(t, 0, PERIOD_MS);
     }
 
     /**
-     * Инициализация игры
+     * Инициализация игры.
      */
     public void initGame() {
         getServletContext().setAttribute(GAME_STATE, new GameState());
@@ -58,16 +51,18 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     @Override
     public boolean login(String name) {
-
         if (name.trim().isEmpty())
             return false;
-        GameState gameState =(GameState) getServletContext().getAttribute(GAME_STATE);//getGameState();?
-        boolean success;
+        GameState gameState =(GameState) getServletContext().getAttribute(GAME_STATE);
 
+        boolean success;
         synchronized (gameState) {
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
+                if (gameState.getPlayers().size() == 0)
+                    timer.schedule(t, 0, PERIOD_MS);
+
                 gameState.createNewPlayer(name);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
             }
@@ -76,16 +71,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Добавление нескольких карт на стол
-     * @param amountOfCards количество добавляемых карт
-     */
-    public void addCards (int amountOfCards) {
-        GameState gameState = getGameState();
-        gameState.addCards(amountOfCards);
-    }
-
-    /**
-     * Метод, вызывающий инициализацию игрового процесса
+     * Метод, вызывающий инициализацию игрового процесса.
      */
     public void startGame() {
         GameState gameState = getGameState();
@@ -99,6 +85,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             gameState.removePlayer((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
             getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
             if (gameState.getActivePlayers() == 0) {
+                reloadTimer();
                 initGame();
             }
         }
@@ -132,20 +119,29 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     /**
-     * Класс, переодически обновляющий игровое время каждые PERIOD_MS миллисекунд,
-     * если время равняется 0 миллисекунд и есть игроки, начинает игру
+     * Метод обнуляет таймер.
+     */
+    private void reloadTimer() {
+        timer.cancel();
+        timer = new Timer();
+        t = new StartTimer();
+    }
+
+    /**
+     * Класс, переодически обновляющий игровое время каждые PERIOD_MS миллисекунд.
+     * Если время равняется 0 миллисекунд, начинает игру.
      */
     private class StartTimer extends TimerTask
     {
         /**
-         * Метод, осуществляющий обновление времени
+         * Метод, осуществляющий обновление времени.
          */
         @Override
         public void run()
         {
             GameState gameState = getGameState();
             synchronized (gameState) {
-                gameState.updateOrPrepareGameTime();
+                gameState.updateGameTime(PERIOD_MS);
                 if (gameState.getTime() == 0) startGame();
             }
         }

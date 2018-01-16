@@ -22,6 +22,9 @@ public interface AnotherGameResources extends ClientBundle {
 
         @ClassName("login-block_game-started")
         String loginBlock_gameStarted();
+
+        @ClassName("change_mode")
+        String change_mode();
     }
 
         @Source("AnotherGame.gss")

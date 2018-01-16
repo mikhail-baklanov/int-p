@@ -5,14 +5,12 @@ import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.LabelElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 
 import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
@@ -22,7 +20,7 @@ public class LoginView extends Composite {
     interface LoginViewUiBinder extends UiBinder<Widget, LoginView> {
     }
 
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
 
     private static LoginViewUiBinder uiBinder = GWT.create(LoginViewUiBinder.class);
 
@@ -77,11 +75,11 @@ public class LoginView extends Composite {
     public LoginView(LoginViewUIHandler loginListener) {
         LoginResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
-        timeToPlay.setInnerHTML(gameConstants.timeBlock());
-        errorLogin.setInnerHTML(gameConstants.errorLogin());
-        welcome.setInnerHTML(gameConstants.welcome());
-        submitLogin.setHTML(gameConstants.continueGame());
-        name.setInnerHTML(gameConstants.nickname());
+        timeToPlay.setInnerHTML(gameLocale.timeBlock());
+        errorLogin.setInnerHTML(gameLocale.errorLogin());
+        welcome.setInnerHTML(gameLocale.welcome());
+        submitLogin.setHTML(gameLocale.continueGame());
+        name.setInnerHTML(gameLocale.nickname());
         nicknameLogin.getElement().setAttribute("required", "true");
         this.loginListener = loginListener;
 

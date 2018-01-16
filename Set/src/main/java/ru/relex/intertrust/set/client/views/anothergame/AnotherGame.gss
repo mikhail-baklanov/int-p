@@ -1,5 +1,5 @@
 @external login-block_game-started login-block_hello game-started_item game-started_players_items
-        game-started_players_item;
+        game-started_players_item change_mode;
 
 .login-block_game-started {
     display: flex;
@@ -50,4 +50,19 @@
     width: 50%;
     text-align: center;
     height: 30px;
+}
+
+.change_mode {
+    width: 70%;
+    margin: 5px auto 15px auto;
+    cursor: pointer;
+    border: none;
+    padding: 3px 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #cd6060;
+    font-size: 18px;
+    font-family: "Open Sans";
+    font-weight: 400;
+    transition: .15s;
+    outline: none;
 }

@@ -4,11 +4,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.ChangeModeUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.LoginViewUIHandler;
 import ru.relex.intertrust.set.client.service.SetService;
 import ru.relex.intertrust.set.client.service.SetServiceAsync;
+import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.client.views.anothergame.AnotherGameView;
 import ru.relex.intertrust.set.client.views.container.ContainerView;
 import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
@@ -20,32 +22,33 @@ import ru.relex.intertrust.set.shared.GameState;
 
 import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
 
-public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, GameFieldViewUIHandler {
+public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, GameFieldViewUIHandler, ChangeModeUIHandler {
 
     /**
      * Период опроса сервера для получения значений таймера
      */
-    private static final int REQUEST_PERIOD = 1000;
+    private static final int    REQUEST_PERIOD      =   1000;
 
     private final ContainerView containerView;
-    private final AnotherGameView anotherGameView = new AnotherGameView();
+    private boolean             isAnotherGameView   =   true;
+    private GameStateComposite  anotherGameView     =   new AnotherGameView(this);
 
-    private String playerName;
-    private LoginView loginView;
-    private GameFieldView startView;
-    private ResultView resultView;
-    private PreGameView preGameView;
+    private String              playerName;
+    private LoginView           loginView;
+    private GameFieldView       gameFieldView;
+    private ResultView          resultView;
+    private PreGameView         preGameView;
 
 
     /**
      * Текущий экран
      */
     private Widget currentView;
+
     /**
      * 	Создание экземпляра класса взаимодействия с сервисом
      */
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
-
 
     @Override
     public void exit() {
@@ -59,16 +62,18 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             public void onSuccess(Void aVoid) {
                 playerName = null;
                 requestServer();
+
+                if (currentView == gameFieldView)
+                    gameFieldView.clearGameField();
             }
         });
     }
 
-
-    public SetPresenter(ContainerView containerView) {
+    SetPresenter(ContainerView containerView) {
         this.containerView = containerView;
 
         loginView = new LoginView(this);
-        startView = new GameFieldView(this);
+        gameFieldView = new GameFieldView(this);
         resultView = new ResultView(this);
         preGameView = new PreGameView(this);
 
@@ -103,8 +108,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     /**
      * Начальный выбор view и настройка отображающейся на ней информации.
-     * Если игроков нет, то отображается loginView
-     * Если игроки есть, то список игроков и время до начала игры
+     * Если игроков нет, то отображается loginView.
+     * Если игроки есть, то список игроков и время до начала игры.
      *
      * @param gameState информация о состоянии игры
      */
@@ -114,8 +119,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         if (gameState.isStart()) {
             if (gameStateTime >= 0) {
                 if (hasCurrentPlayer(gameState)) {
-                    startView.setGameState(gameState);
-                    newView = startView;
+                    gameFieldView.setGameState(gameState);
+                    newView = gameFieldView;
                     if (gameState.getDeck().size() == 0 && !gameState.isStart()) {
                         newView = resultView;
                     }
@@ -148,7 +153,8 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
     /**
-     * Проверяется можно ли использовать данное имя игроку
+     * Проверяется можно ли использовать данное имя игроку.
+     *
      * @param gameState информация о состоянии игры
      * @return true,если можно использовать имя
      *         false,если имя null или уже есть на сервере
@@ -180,8 +186,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     }
 
     @Override
-    public boolean checkSet(Card[] cards) {
-        final boolean[] isSet = new boolean[1];
+    public void checkSet(Card[] cards) {
         serviceAsync.checkSet(cards, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
@@ -190,12 +195,11 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
             @Override
             public void onSuccess(Boolean result) {
+                if (!result)
+                    gameFieldView.showNotCorrectCards(cards);
                 requestServer();
-                isSet[0] = result;
-
             }
         });
-        return isSet[0];
     }
 
     @Override
@@ -209,5 +213,20 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
             @Override
             public void onSuccess(Void aVoid) { requestServer(); }
         });
+    }
+
+    @Override
+    public void changeMode() {
+        if (isAnotherGameView){
+            anotherGameView = new GameFieldView(this);
+        } else
+            anotherGameView = new AnotherGameView(this);
+        isAnotherGameView = !isAnotherGameView;
+    }
+
+    @Override
+    public boolean canChange(GameState gameState) {
+        //Если текущего игрока нет на сервере, то можно менять режимы отображения
+        return !hasCurrentPlayer(gameState);
     }
 }

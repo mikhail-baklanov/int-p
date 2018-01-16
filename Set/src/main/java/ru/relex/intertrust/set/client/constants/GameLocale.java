@@ -2,9 +2,9 @@ package ru.relex.intertrust.set.client.constants;
 
 /**
  * Interface to represent the constants contained in resource bundle:
- * 	'D:/JavaWork1Oleg/aGitRep/int-p/Set/src/main/java/ru/relex/intertrust/set/client/constants/src/com/GameConstants.properties'.
+ * 	'D:/JavaWork1Oleg/aGitRep/int-p/Set/src/main/java/ru/relex/intertrust/set/client/constants/src/com/GameLocale.properties'.
  */
-public interface GameConstants extends com.google.gwt.i18n.client.Constants {
+public interface GameLocale extends com.google.gwt.i18n.client.Constants {
   
   /**
    * Translated "Игра уже началась.".

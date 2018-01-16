@@ -1,17 +1,22 @@
 package ru.relex.intertrust.set.client.views.container;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
 
+/**
+ *  Главная View, в которую помещаются все состояния игры.
+ *
+ *  @author Alexander_Erofeev
+ */
 public class ContainerView extends Composite {
 
     interface ContainerViewUiBinder extends UiBinder<Widget, ContainerView> {
     }
+
     private static ContainerView.ContainerViewUiBinder uiBinder = GWT.create(ContainerView.ContainerViewUiBinder.class);
 
     /**
@@ -29,7 +34,7 @@ public class ContainerView extends Composite {
     /**
      *  Необходимые для использования стили.
      */
-    ContainerResources.ContainerStyles style = ContainerResources.INSTANCE.style();
+    private ContainerResources.ContainerStyles style = ContainerResources.INSTANCE.style();
 
     public ContainerView () {
         ContainerResources.INSTANCE.style().ensureInjected();
@@ -37,7 +42,7 @@ public class ContainerView extends Composite {
     }
 
     /**
-     *  Метод, который удаляет старый виджет из контейнера и добавляет новый.
+     *  Метод удаляет старый виджет из контейнера и добавляет новый.
      *  @param widget новый виджет
      */
     public void setView (Widget widget) {

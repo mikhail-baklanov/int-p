@@ -1,6 +1,6 @@
 @external statistic-item history-item time-remaining wrapper left-bar active card shape
         cards-remaining right-bar statistic separator history header overflow pass slide-button
-        game-field_exit left-bar_container, passed;
+        game-field_exit left-bar_container, passed disable change_mode;
 
 .wrapper {
     position: absolute;
@@ -112,11 +112,13 @@
     width: 0;
 }
 
-.right-bar .statistic {
+.right-bar .statistic,
+.right-bar .history {
     display: flex;
     flex-direction: column;
-    width: 100%;
     height: 45%;
+    min-width: 235px;
+    width: 100%;
 }
 
 .right-bar .statistic .separator,
@@ -163,10 +165,6 @@
     border-right: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.right-bar .statistic-item:not(.header) {
-    margin: 10px 0;
-}
-
 .right-bar .statistic-item span {
     display: block;
     width: 50%;
@@ -176,16 +174,10 @@
     font-weight: 300;
 }
 
-.right-bar .history {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    height: 45%;
-}
-
 .right-bar .history .overflow,
 .right-bar .statistic .overflow {
     overflow-y: scroll;
+    height: 100%;
 }
 
 .right-bar .overflow::-webkit-scrollbar {
@@ -236,7 +228,7 @@
 .left-bar .slide-button {
     position: absolute;
     width: 40px;
-    height: 39px;
+    height: 35px;
     right: -60px;
     background-color: rgba(255, 255, 255, 0.5);
     background-image: url("images/hamburger.png");
@@ -261,4 +253,23 @@
 
 .game-field_exit:hover {
     background-color: rgba(255, 255, 255, 0.8);
+}
+
+.disable {
+    display: none;
+}
+
+.change_mode {
+    width: 70%;
+    margin: 5px auto;
+    cursor: pointer;
+    border: none;
+    padding: 3px 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #697f94;
+    font-size: 18px;
+    font-family: "Open Sans";
+    font-weight: 400;
+    transition: .15s;
+    outline: none;
 }

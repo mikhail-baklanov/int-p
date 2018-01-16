@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;
 
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ResultView extends Composite {
 
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
 
     /**
      * Установка нового состояния игры
@@ -94,12 +94,12 @@ public class ResultView extends Composite {
     }
 
     public  void setGameResultsConstants() {
-        this.gameResults.setInnerHTML(gameConstants.gameResults());
-        this.gameTime.setInnerHTML(gameConstants.gameTime());
-        this.setsCollected.setInnerHTML(gameConstants.setsCollected());
-        this.playerName.setInnerHTML(gameConstants.playerName());
-        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
-        this.exitGame.setHTML(gameConstants.exitGame());
+        this.gameResults.setInnerHTML(gameLocale.gameResults());
+        this.gameTime.setInnerHTML(gameLocale.gameTime());
+        this.setsCollected.setInnerHTML(gameLocale.setsCollected());
+        this.playerName.setInnerHTML(gameLocale.playerName());
+        this.gamePoints.setInnerHTML(gameLocale.gamePoints());
+        this.exitGame.setHTML(gameLocale.exitGame());
     }
 
     public void setResultGameTime(Long time) {        this.resultGameTime.setInnerHTML(Utils.formatTime(time));

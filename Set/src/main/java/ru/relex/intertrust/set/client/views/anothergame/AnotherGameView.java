@@ -3,21 +3,26 @@ package ru.relex.intertrust.set.client.views.anothergame;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.constants.GameConstants;
+import ru.relex.intertrust.set.client.UIHandlerInterfaces.ChangeModeUIHandler;
+import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
+import ru.relex.intertrust.set.client.views.GameStateComposite;
 import ru.relex.intertrust.set.shared.GameState;
 
 import java.util.List;
 
-public class AnotherGameView extends Composite {
-    private GameConstants gameConstants = GWT.create(GameConstants.class);
+public class AnotherGameView extends GameStateComposite {
+    private GameLocale gameLocale = GWT.create(GameLocale.class);
     /**
      * Установка нового состояния игры
      * @param gameState новое состояние игры
      */
+    @Override
     public void setGameState(GameState gameState) {
         setAnotherGameConstants();
         setAnotherGameTime(gameState.getTime());
@@ -63,13 +68,19 @@ public class AnotherGameView extends Composite {
     DivElement gamePoints;
 
     public void setAnotherGameConstants() {
-        this.alreadyGame.setInnerHTML(gameConstants.alreadyGame());
-        this.gameTime.setInnerHTML(gameConstants.gameTime());
-        this.cardsLeft.setInnerHTML(gameConstants.cardsLeft());
-        this.playerName.setInnerHTML(gameConstants.playerName());
-        this.gamePoints.setInnerHTML(gameConstants.gamePoints());
+        this.alreadyGame.setInnerHTML(gameLocale.alreadyGame());
+        this.gameTime.setInnerHTML(gameLocale.gameTime());
+        this.cardsLeft.setInnerHTML(gameLocale.cardsLeft());
+        this.playerName.setInnerHTML(gameLocale.playerName());
+        this.gamePoints.setInnerHTML(gameLocale.gamePoints());
     }
-    public AnotherGameView() {
+
+    /**
+     * Обработчик смены режима прорисовки
+     */
+    private ChangeModeUIHandler uiHandler;
+    public AnotherGameView(ChangeModeUIHandler uiHandler) {
+        this.uiHandler = uiHandler;
         AnotherGameResources.INSTANCE.style().ensureInjected();
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -102,6 +113,11 @@ public class AnotherGameView extends Composite {
                     players.get(i) + "</div><div>" + score.get(i) + "</div>\n</div>");
             anotherGamePlayers.add(widget);
         }
+    }
+
+    @UiHandler("observe")
+    public void onClick(ClickEvent e){
+        uiHandler.changeMode();
     }
 }
 
