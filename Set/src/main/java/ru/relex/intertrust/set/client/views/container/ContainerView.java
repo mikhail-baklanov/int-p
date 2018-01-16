@@ -9,8 +9,6 @@ import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
 
 /**
  *  Главная View, в которую помещаются все состояния игры.
- *
- *  @author Alexander_Erofeev
  */
 public class ContainerView extends Composite {
 
