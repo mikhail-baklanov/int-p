@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.uiHandlerInterfaces.ExitGameUIHandler;
+import ru.relex.intertrust.set.client.uiHandlers.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.shared.GameState;

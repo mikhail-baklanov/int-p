@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client.uiHandlerInterfaces;
+package ru.relex.intertrust.set.client.uiHandlers;
 
 import ru.relex.intertrust.set.shared.Card;
 
