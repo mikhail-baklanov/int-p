@@ -11,7 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.UIHandlerInterfaces.GameFieldViewUIHandler;
+import ru.relex.intertrust.set.client.uiHandlerInterfaces.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.GameStateComposite;
@@ -145,7 +145,7 @@ public class GameFieldView extends GameStateComposite{
         GameFieldResources.INSTANCE.style().ensureInjected();
 
         initWidget(uiBinder.createAndBindUi(this));
-        setGameFieldConstants();
+        initViewWidgets();
 
         slideButton.sinkEvents(Event.ONCLICK);
         slideButton.addHandler(new ClickHandler() {
@@ -187,7 +187,7 @@ public class GameFieldView extends GameStateComposite{
     /**
      *  Метод, который заполняет View статичным текстом.
      */
-    private void setGameFieldConstants() {
+    private void initViewWidgets() {
         this.statistic.setInnerHTML(gameLocale.statistic());
         this.exitGame.setHTML(gameLocale.exitGame());
         this.changeMode.setHTML(gameLocale.exitGame());//todo: Изменить константу

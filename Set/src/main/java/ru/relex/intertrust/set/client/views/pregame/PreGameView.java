@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import ru.relex.intertrust.set.client.UIHandlerInterfaces.ExitGameUIHandler;
+import ru.relex.intertrust.set.client.uiHandlerInterfaces.ExitGameUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 
@@ -37,16 +37,24 @@ public class PreGameView extends Composite {
     @UiField
     HTMLPanel playersContainer;
 
-
+    /**
+     * Контейнер для отображения таймера до начала игры
+     */
     @UiField
     SpanElement beforeGame;
-
+    /**
+     * Контейнер для отображения номера игрока
+     */
     @UiField
     DivElement number;
-
+    /**
+     * Контейнер для отображения имени игрока
+     */
     @UiField
     DivElement namePlayer;
-
+    /**
+     * кнопка "выход"
+     */
     @UiField
     Button exitGame;
     private ExitGameUIHandler exitListener;
