@@ -11,7 +11,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.uIHandlerInterfaces.GameFieldViewUIHandler;
+import ru.relex.intertrust.set.client.uiHandlerInterfaces.GameFieldViewUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.GameStateComposite;

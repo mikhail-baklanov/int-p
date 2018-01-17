@@ -1,4 +1,4 @@
-package ru.relex.intertrust.set.client.uIHandlerInterfaces;
+package ru.relex.intertrust.set.client.uiHandlerInterfaces;
 
 public interface ExitGameUIHandler {
     /**

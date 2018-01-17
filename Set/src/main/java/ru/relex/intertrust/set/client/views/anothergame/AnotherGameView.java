@@ -8,7 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.*;
-import ru.relex.intertrust.set.client.uIHandlerInterfaces.ChangeModeUIHandler;
+import ru.relex.intertrust.set.client.uiHandlerInterfaces.ChangeModeUIHandler;
 import ru.relex.intertrust.set.client.constants.GameLocale;
 import ru.relex.intertrust.set.client.util.Utils;
 import ru.relex.intertrust.set.client.views.GameStateComposite;
