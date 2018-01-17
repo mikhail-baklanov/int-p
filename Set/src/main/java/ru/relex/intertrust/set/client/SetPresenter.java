@@ -46,13 +46,19 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
     private Widget currentView;
 
     /**
+     * Аргумент в URL, устанавливающий номер игры.
+     */
+    private String gameRoom = com.google.gwt.user.client.Window.Location.getParameter("gameRoom");
+
+
+    /**
      * 	Создание экземпляра класса взаимодействия с сервисом
      */
     private static SetServiceAsync serviceAsync = GWT.create(SetService.class);
 
     @Override
     public void exit() {
-        serviceAsync.exit(new AsyncCallback<Void>() {
+        serviceAsync.exit(gameRoom, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
@@ -92,7 +98,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
      * Запрос состояния игры с сервера
      */
     private void requestServer () {
-        serviceAsync.getGameState(new AsyncCallback<GameState>() {
+        serviceAsync.getGameState(gameRoom, new AsyncCallback<GameState>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
@@ -165,7 +171,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     @Override
     public void login(String name) {
-        serviceAsync.login(name, new AsyncCallback<Boolean>() {
+        serviceAsync.login(name, gameRoom, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
@@ -187,7 +193,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     @Override
     public void checkSet(Card[] cards) {
-        serviceAsync.checkSet(cards, new AsyncCallback<Boolean>() {
+        serviceAsync.checkSet(cards, gameRoom, new AsyncCallback<Boolean>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
@@ -204,7 +210,7 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     @Override
     public void pass(int count) {
-        serviceAsync.pass(count, new AsyncCallback<Void>() {
+        serviceAsync.pass(count, gameRoom, new AsyncCallback<Void>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());

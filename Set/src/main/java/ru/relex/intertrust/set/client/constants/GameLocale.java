@@ -181,6 +181,11 @@ public interface GameLocale extends com.google.gwt.i18n.client.Constants {
   @Key("nickname")
   String nickname();
 
+  /**
+   * Translated "Времени прошло:&nbsp;").
+   *
+   * @return translated "Времени прошло:&nbsp;")
+   */
   @DefaultStringValue("Времени прошло:&nbsp;")
   @Key("timeLabel")
   String timeLabel();

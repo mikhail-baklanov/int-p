@@ -18,12 +18,12 @@ public interface SetService extends RemoteService
      * @param name имя игрока
      * @return true, если регистрация прошла успешно
      */
-    boolean login(String name);
+    boolean login(String name, String id);
 
     /**
      * @return возвращает описание состояния игры
      */
-    GameState getGameState();
+    GameState getGameState(String gameRoom);
 
     /**
      * Метод проверяет полученные карты на наличие в них сета.
@@ -31,14 +31,14 @@ public interface SetService extends RemoteService
      * @param set полученные на проверку карты
      * @return true, если это сет
      */
-    boolean checkSet(Card[] set);
+    boolean checkSet(Card[] set, String id);
 
     /**
      * Выход из игры.
      * Удаление игрока из списка игроков и проверяет, остались ли ещё в активных игроках люди.
      * Если нет, то создается новая игра.
      */
-    void exit();
+    void exit(String id);
 
     /**
      * Метод, реализующий ПАС.
@@ -47,7 +47,7 @@ public interface SetService extends RemoteService
      *
      * @param cardsInDeck кол-во карт в колоде
      */
-    void pass(int cardsInDeck);
+    void pass(int cardsInDeck, String id);
 
 
 
