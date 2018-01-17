@@ -18,4 +18,12 @@ public interface GameFieldViewUIHandler extends ExitGameUIHandler, ChangeModeUIH
      * см. описание в SetService
      */
     void pass(int count);
+
+    /**
+     * Интерфейс для безопасного
+     * клиентского вызов метода searchSet из сервиса
+     * имплементируется классом SetPresenter
+     * см. описание в SetService
+     */
+    Card[] searchSet(Card[] cardArray);
 }

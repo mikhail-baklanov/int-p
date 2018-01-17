@@ -16,4 +16,6 @@ public interface SetServiceAsync
     void pass(int cardsInDeck, AsyncCallback<Void> async);
 
     void checkSet(Card[] set, AsyncCallback<Boolean> async);
+
+    void searchSet(Card[] cardArray, AsyncCallback<Card[]> async);
 }

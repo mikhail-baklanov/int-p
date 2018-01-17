@@ -6,28 +6,28 @@ import java.util.List;
 
 public class GameState implements Serializable {
 
-    private boolean       isStart         =   false;               //флаг, показывающий, идет ли игра (true - игра идет, false - игра не начата)
-    private long          time            =   -TIME_TO_GAME;       //серверное время
-    private List<Card>    deck;                                    //колода
-    private List<Card>    cardsOnDesk     =   new ArrayList<>();   //карты на столе
-    private List<String>  players         =   new ArrayList<>();   //список игроков в игре
-    private List<Integer> score           =   new ArrayList<>();   //список с количеством очков каждого игрока
-    private int           countSets       =   0;                   //найдено сетов
-    private int           activePlayers   =   0;                   //активные игроки
+    private boolean isStart = false;               //флаг, показывающий, идет ли игра (true - игра идет, false - игра не начата)
+    private long time = -TIME_TO_GAME;       //серверное время
+    private List<Card> deck;                                    //колода
+    private List<Card> cardsOnDesk = new ArrayList<>();   //карты на столе
+    private List<String> players = new ArrayList<>();   //список игроков в игре
+    private List<Integer> score = new ArrayList<>();   //список с количеством очков каждого игрока
+    private int countSets = 0;                   //найдено сетов
+    private int activePlayers = 0;                   //активные игроки
 
     /**
      * Хранит имена игроков нажавших пас.
      * Каждый раз когда игрок нажимает пас сюда добавляется его имя.
      * При каждом изменении стола лист очищается.
      */
-    private List<String>      notAbleToPlay            =   new ArrayList<>();
+    private List<String> notAbleToPlay = new ArrayList<>();
 
-    private static final long TIME_TO_GAME             =   10000;
+    private static final long TIME_TO_GAME = 10000;
 
-    private static final int INITIAL_NUMBER_OF_CARDS   =   12;
-    private static final int MAX_NUMBER_OF_CARDS       =   21;
-    private static final int FINE                      =   5;                   //штраф
-    private static final int REWARD                    =   3;                   //награда
+    private static final int INITIAL_NUMBER_OF_CARDS = 12;
+    private static final int MAX_NUMBER_OF_CARDS = 21;
+    private static final int FINE = 5;                   //штраф
+    private static final int REWARD = 3;                   //награда
 
     public int getActivePlayers() {
         return activePlayers;
@@ -38,11 +38,13 @@ public class GameState implements Serializable {
     }
 
     public boolean hasPlayer(String name) {
-        for (String player: players)
+        for (String player : players)
             if (name.equals(player))
                 return true;
         return false;
-    };
+    }
+
+    ;
 
     public boolean isStart() {
         return isStart;
@@ -100,15 +102,18 @@ public class GameState implements Serializable {
         this.countSets = countSets;
     }
 
-    public void addScore(Integer scores){score.add(scores);}
+    public void addScore(Integer scores) {
+        score.add(scores);
+    }
 
-    public void addPlayer(String name)
-    {
+    public void addPlayer(String name) {
         players.add(name);
         score.add(new Integer(0));
     }
 
-    public List<String> getNotAbleToPlay() {return notAbleToPlay;}
+    public List<String> getNotAbleToPlay() {
+        return notAbleToPlay;
+    }
 
     public void AddNotAbleToPlay(String name, int cardsInDeck) {
         if (cardsInDeck == getDeck().size() && !isPassed(name)) //если пас пришел вовремя, то добавляем имя паснувшнего в список
@@ -117,9 +122,13 @@ public class GameState implements Serializable {
         }
     }
 
-    public void setAbleToPlay(List<String> notAbleToPlay) {this.notAbleToPlay=notAbleToPlay;}
+    public void setAbleToPlay(List<String> notAbleToPlay) {
+        this.notAbleToPlay = notAbleToPlay;
+    }
 
-    public void clearNotAbleToPlay() { notAbleToPlay.clear();}
+    public void clearNotAbleToPlay() {
+        notAbleToPlay.clear();
+    }
 
     public void prepareTime() {
         setTime(-GameState.TIME_TO_GAME);
@@ -130,7 +139,7 @@ public class GameState implements Serializable {
      *
      * @param time число которое нужно прибавить к игровому времени
      */
-    public void updateGameTime(long time){
+    public void updateGameTime(long time) {
         setTime(getTime() + time);
     }
 
@@ -140,9 +149,9 @@ public class GameState implements Serializable {
      * @param nickname имя игрока
      * @return номер игрока
      */
-    public int getPlayerNumber(String nickname){
-        int i=0;
-        while(nickname != getPlayers().get(i))
+    public int getPlayerNumber(String nickname) {
+        int i = 0;
+        while (nickname != getPlayers().get(i))
             i++;
         return i;
     }
@@ -153,9 +162,9 @@ public class GameState implements Serializable {
      *
      * @param amountOfCards количество добавляемых карт
      */
-    public void addCards(int amountOfCards){
+    public void addCards(int amountOfCards) {
         for (int i = 0; i < amountOfCards; i++) {
-            Card CardInDeck = getDeck().get(getDeck().size()-1);
+            Card CardInDeck = getDeck().get(getDeck().size() - 1);
             getCardsOnDesk().add(CardInDeck);
             getDeck().remove(CardInDeck);
         }
@@ -166,8 +175,10 @@ public class GameState implements Serializable {
      *
      * @param nickname имя игрока
      */
-    public void createNewPlayer(String nickname){
-        if (getActivePlayers()==0) { prepareTime(); }
+    public void createNewPlayer(String nickname) {
+        if (getActivePlayers() == 0) {
+            prepareTime();
+        }
         addPlayer(nickname);
         setActivePlayers(getActivePlayers() + 1);
     }
@@ -179,7 +190,7 @@ public class GameState implements Serializable {
      *
      * @param nickname
      */
-    public void removePlayer(String nickname){
+    public void removePlayer(String nickname) {
         int playerNumber = getPlayerNumber(nickname);
         setActivePlayers(getActivePlayers() - 1);
         if (!isStart()) {
@@ -197,7 +208,7 @@ public class GameState implements Serializable {
      *
      * @param initialCardsNumber начальное кол-во карт на поле
      */
-    public void startGame(int initialCardsNumber){
+    public void startGame(int initialCardsNumber) {
         setStart(true);
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         setDeck(cardsDeck);
@@ -211,9 +222,9 @@ public class GameState implements Serializable {
      * @param nickname имя игрока
      * @return true, если игрок спасовал
      */
-    public boolean isPassed(String nickname){
-        for(String str : getNotAbleToPlay())
-            if(str.equals(nickname))return true;
+    public boolean isPassed(String nickname) {
+        for (String str : getNotAbleToPlay())
+            if (str.equals(nickname)) return true;
         return false;
     }
 
@@ -224,14 +235,13 @@ public class GameState implements Serializable {
      *
      * @param nickname имя игрока
      */
-    public void pass(String nickname){
-        if (getNotAbleToPlay().size() == (getActivePlayers() / 2) + 1)
-        {
+    public void pass(String nickname) {
+        if (getNotAbleToPlay().size() == (getActivePlayers() / 2) + 1) {
             clearNotAbleToPlay();
             if (getDeck().size() == 0) {
                 setStart(false);
             }//если все нажали на пас, а карт в деке нет, то заканчиваем игру
-            else if(getCardsOnDesk().size() < MAX_NUMBER_OF_CARDS)
+            else if (getCardsOnDesk().size() < MAX_NUMBER_OF_CARDS)
                 addCards(3);
         }
     }
@@ -244,23 +254,18 @@ public class GameState implements Serializable {
      * Если остались, на стол добавляются 3 новые карты, и из колоды они соответственно удаляются.
      * Если в колоде не осталось карт, то проверяется, есть ли карты на столе, если нет - игра заканчивается (isStart становится false).
      *
-     * @param set набор карт, выбранных игроком
+     * @param set  набор карт, выбранных игроком
      * @param user никнейм игрока
      * @return true, если это сет
      */
-    public boolean checkSet(Card[] set, String user){
+    public boolean checkSet(Card[] set, String user) {
         if (set[0] != set[1]) {
             int playerNumber = getPlayerNumber(user);
             int oldScore = getScore().get(playerNumber);
-            int[] summ = {0, 0, 0, 0};
-            for (int i = 0; i <= 2; i++) {
-                summ[0] += set[i].getColor();
-                summ[1] += set[i].getShapeCount();
-                summ[2] += set[i].getFill();
-                summ[3] += set[i].getShape();
-            }
+            int[] sum = {0, 0, 0, 0};
+            fillSetSum(set, sum);
             for (int i = 0; i <= 3; i++) {
-                if (!(summ[i] == 3 || summ[i] == 6 || summ[i] == 9)) {
+                if (!(sum[i] == 3 || sum[i] == 6 || sum[i] == 9)) {
                     getScore().set(playerNumber, oldScore - FINE);
                     return false;
                 }
@@ -290,5 +295,32 @@ public class GameState implements Serializable {
             }
         }
         return true;
+    }
+
+    public boolean checkSet(Card[] set) {
+        if (set[0] != set[1]) {
+            int[] sum = {0, 0, 0, 0};
+            fillSetSum(set, sum);
+            for (int i = 0; i <= 3; i++)
+                if (!(sum[i] == 3 || sum[i] == 6 || sum[i] == 9))
+                    return false;
+            int existSet = 0;
+            List<Card> cardsOnDesk = getCardsOnDesk();
+            for (Card c : set) {
+                if (cardsOnDesk.contains(c))
+                    existSet++;
+            }
+            return existSet == 3;
+        }
+        return true;
+    }
+
+    private void fillSetSum(Card[] set, int[] summ) {
+        for (int i = 0; i <= 2; i++) {
+            summ[0] += set[i].getColor();
+            summ[1] += set[i].getShapeCount();
+            summ[2] += set[i].getFill();
+            summ[3] += set[i].getShape();
+        }
     }
 }

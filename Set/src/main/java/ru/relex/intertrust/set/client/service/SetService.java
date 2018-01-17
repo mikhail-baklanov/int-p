@@ -6,6 +6,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
+import javax.annotation.Nullable;
+
 @RemoteServiceRelativePath("service")
 public interface SetService extends RemoteService
 {
@@ -49,7 +51,11 @@ public interface SetService extends RemoteService
      */
     void pass(int cardsInDeck);
 
-
-
+    /**
+     * Метод ищет один случайный сет среди массива карт, если он есть
+     * @param cardArray массив карт
+     * @return массив из трёх карт, являющихся сетом
+     */
+    Card[] searchSet(Card[] cardArray);
 }
 

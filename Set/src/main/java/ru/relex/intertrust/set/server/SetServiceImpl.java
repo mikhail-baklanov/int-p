@@ -103,6 +103,25 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     @Override
+    public Card[] searchSet(Card[] cardArray) {
+        GameState gameState = getGameState();
+        synchronized (gameState) {
+            Card[] set = new Card[3];
+            for (int i = 0; i < cardArray.length; i++) {
+                set[0] = cardArray[i];
+                for (int j = i+1; j < cardArray.length; j++) {
+                    set[1] = cardArray[j];
+                    for (int k = j+1; k < cardArray.length; k++)
+                        set[2] = cardArray[k];
+                }
+            }
+            if (gameState.checkSet(set))
+                return set;
+        }
+        return null; //или Exception?
+    }
+
+    @Override
     public boolean checkSet(Card[] set) {
         GameState gameState = getGameState();
         boolean isSet;

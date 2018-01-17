@@ -215,6 +215,24 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
         });
     }
 
+    private Card[] randomSet = null;
+    @Override
+    public Card[] searchSet(Card[] cardArray) {
+        randomSet = null;
+        serviceAsync.searchSet(cardArray, new AsyncCallback<Card[]>() {
+            @Override
+            public void onFailure(Throwable throwable) {
+                consoleLog(throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Card[] cards) {
+                randomSet = cards; //todo исправить
+            }
+        });
+        return randomSet;
+    }
+
     @Override
     public void changeMode() {
         if (isAnotherGameView){
