@@ -2,10 +2,7 @@ package ru.relex.intertrust.set.client.uiHandlers;
 
 public interface LoginViewUIHandler {
     /**
-     * Интерфейс для безопасного
-     * клиентского вызов метода login из сервиса
-     * имплементируется классом SetPresenter
-     * см. описание в SetService
+     * Регистрация игрока в игре.
      * */
     void login(String name);
 }

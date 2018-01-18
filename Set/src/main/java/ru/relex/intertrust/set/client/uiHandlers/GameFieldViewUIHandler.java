@@ -4,18 +4,12 @@ import ru.relex.intertrust.set.shared.Card;
 
 public interface GameFieldViewUIHandler extends ExitGameUIHandler, ChangeModeUIHandler {
     /**
-     * Интерфейс для безопасного
-     * клиентского вызов метода checkSet из сервиса
-     * имплементируется классом SetPresenter
-     * см. описание в SetService
+     * проверка массива аргументов, являются ли они сетом
      */
     void checkSet(Card[] cards);
 
     /**
-     * Интерфейс для безопасного
-     * клиентского вызов метода pass из сервиса
-     * имплементируется классом SetPresenter
-     * см. описание в SetService
+     * Метод, реализующий ПАС.
      */
     void pass(int count);
 }
