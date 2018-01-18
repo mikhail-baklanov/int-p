@@ -85,7 +85,7 @@ public class LoginView extends Composite {
 
         submitLoginForm.addSubmitHandler(new FormPanel.SubmitHandler() {
             /**
-             * Метод, который при удачной регистрации пользователя вызывает uIHandlerInterfaces.
+             * Метод, который при удачной регистрации пользователя вызывает uiHandlerInterfaces.
              * @param event событие
              */
             @Override

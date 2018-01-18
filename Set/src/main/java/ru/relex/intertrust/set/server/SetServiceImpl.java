@@ -34,6 +34,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         }
     }
 
+    public void newGameState(String gameRoom) {
+        HashMap<String, GameState> map = (HashMap<String, GameState>) getServletContext().getAttribute(GAME_STATE);
+            map.put(gameRoom, new GameState());
+    }
+
     /**
      * Первоначальная инициализация.
      * Выполняется при первом запуске сервера.
@@ -44,6 +49,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void init() throws ServletException {
         super.init();
         initGame();
+        timer.schedule(t, 0, PERIOD_MS);
     }
 
     /**
@@ -64,9 +70,6 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             success = !gameState.hasPlayer(name) && !gameState.isStart() &&
                     getThreadLocalRequest().getSession().getAttribute(USER_NAME) == null;
             if (success) {
-                if (gameState.getPlayers().size() == 0)
-                    timer.schedule(t, 0, PERIOD_MS);
-
                 gameState.createNewPlayer(name);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
             }
@@ -89,8 +92,8 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             gameState.removePlayer((String) getThreadLocalRequest().getSession().getAttribute(USER_NAME));
             getThreadLocalRequest().getSession().removeAttribute(USER_NAME);
             if (gameState.getActivePlayers() == 0) {
-                reloadTimer();
-                initGame();
+                //reloadTimer();
+                newGameState(id);
             }
         }
     }
