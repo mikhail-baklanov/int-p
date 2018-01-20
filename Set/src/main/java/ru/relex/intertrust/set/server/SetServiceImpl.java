@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static ru.relex.intertrust.set.shared.GameState.INACTIVITY_TIME;
+
 /**
  * Класс, содержащий серверную логику игры Set.
  */
@@ -18,10 +20,13 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     private TimerTask t = new StartTimer();
     private Timer timer = new Timer();
+    TimerTask inTimer = new SetServiceImpl.InactivityTimer();
+    Timer inactivityTimer = new Timer();
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
     private static final long PERIOD_MS = 1000;
     private static final int INITIAL_NUMBER_OF_CARDS = 12;
+
 
     @Override
     public GameState getGameState(String gameRoom) {
@@ -83,6 +88,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void startGame(String id) {
         GameState gameState = getGameState(id);
         gameState.startGame(INITIAL_NUMBER_OF_CARDS);
+        inactivityTimer.schedule(inTimer,0, PERIOD_MS);
     }
 
     @Override
@@ -106,6 +112,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             String user = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
             gameState.AddNotAbleToPlay(user, cardsInDeck);
             gameState.pass(user);
+            gameState.setInactivityTime(-INACTIVITY_TIME);
         }
     }
 
@@ -116,6 +123,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         synchronized (gameState) {
             String player = (String) getThreadLocalRequest().getSession().getAttribute(USER_NAME);
             isSet = gameState.checkSet(set, player);
+            gameState.setInactivityTime(-INACTIVITY_TIME);
         }
         return isSet;
     }
@@ -155,4 +163,28 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             }
         }
     }
+
+    /**
+     * Таймер, отслеживающий время неактивности игроков.
+     */
+
+    public class InactivityTimer extends TimerTask {
+//TODO удаление игрока из сессии
+        @Override
+        public void run() {
+            for (Map.Entry<String, GameState> pair :
+                    ((HashMap<String, GameState>) getServletContext().getAttribute(GAME_STATE)).entrySet()) {
+                GameState gameState = getGameState(pair.getKey());
+                if (gameState.getPlayers().size() != 0) {
+                    synchronized (gameState) {
+                        gameState.updateInactivityTime(PERIOD_MS);
+                        if (gameState.getInactivityTime() == 0) {
+                            newGameState(pair.getKey());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

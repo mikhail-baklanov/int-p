@@ -1,8 +1,12 @@
 package ru.relex.intertrust.set.shared;
 
+import ru.relex.intertrust.set.server.SetServiceImpl;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameState implements Serializable {
 
@@ -14,6 +18,8 @@ public class GameState implements Serializable {
     private List<Integer> score           =   new ArrayList<>();   //список с количеством очков каждого игрока
     private int           countSets       =   0;                   //найдено сетов
     private int           activePlayers   =   0;                   //активные игроки
+    private long          inactivityTime  =   -INACTIVITY_TIME;    //сколько время на сервер не поступал запросов от checkSet или pass
+
 
     /**
      * Хранит имена игроков нажавших пас.
@@ -29,6 +35,8 @@ public class GameState implements Serializable {
     private static final int FINE                      =   5;                   //штраф
     private static final int REWARD                    =   3;                   //награда
 
+    public static final long INACTIVITY_TIME          =   300000;   //допустимое время без активности игроков
+
     public int getActivePlayers() {
         return activePlayers;
     }
@@ -43,6 +51,10 @@ public class GameState implements Serializable {
                 return true;
         return false;
     };
+
+    public void setInactivityTime(long inactivityTime){this.inactivityTime=inactivityTime;}
+
+    public long getInactivityTime() {return inactivityTime;}
 
     public boolean isStart() {
         return isStart;
@@ -102,6 +114,7 @@ public class GameState implements Serializable {
 
     public void addScore(Integer scores){score.add(scores);}
 
+
     public void addPlayer(String name)
     {
         players.add(name);
@@ -132,6 +145,10 @@ public class GameState implements Serializable {
      */
     public void updateGameTime(long time){
         setTime(getTime() + time);
+    }
+
+    public void updateInactivityTime(long time){
+        setInactivityTime(getInactivityTime()+time);
     }
 
     /**
@@ -202,6 +219,7 @@ public class GameState implements Serializable {
         List<Card> cardsDeck = new CardsDeck().startCardsDeck();
         setDeck(cardsDeck);
         addCards(initialCardsNumber);
+
     }
 
     /**
