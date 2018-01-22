@@ -33,7 +33,7 @@ public class GameState implements Serializable {
     private static final int  REWARD                    =   3;                   //награда
 
 
-    public static final long INACTIVITY_TIME          =   10000;   //допустимое время без активности игроков
+    public static final long INACTIVITY_TIME          =   300000;   //допустимое время без активности игроков
 
     public int getActivePlayers() {
         return activePlayers;
