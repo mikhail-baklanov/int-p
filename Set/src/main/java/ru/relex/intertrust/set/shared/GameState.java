@@ -1,12 +1,9 @@
 package ru.relex.intertrust.set.shared;
 
-import ru.relex.intertrust.set.server.SetServiceImpl;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+
+import static ru.relex.intertrust.set.server.SetServiceImpl.PERIOD_MS;
 
 public class GameState implements Serializable {
 
@@ -30,12 +27,13 @@ public class GameState implements Serializable {
 
     private static final long TIME_TO_GAME             =   10000;
 
-    private static final int INITIAL_NUMBER_OF_CARDS   =   12;
-    private static final int MAX_NUMBER_OF_CARDS       =   21;
-    private static final int FINE                      =   5;                   //штраф
-    private static final int REWARD                    =   3;                   //награда
+    private static final int  INITIAL_NUMBER_OF_CARDS   =   12;
+    private static final int  MAX_NUMBER_OF_CARDS       =   21;
+    private static final int  FINE                      =   5;                   //штраф
+    private static final int  REWARD                    =   3;                   //награда
 
-    public static final long INACTIVITY_TIME          =   300000;   //допустимое время без активности игроков
+
+    public static final long INACTIVITY_TIME          =   10000;   //допустимое время без активности игроков
 
     public int getActivePlayers() {
         return activePlayers;
@@ -308,5 +306,12 @@ public class GameState implements Serializable {
             }
         }
         return true;
+    }
+
+
+    public void tick(){
+        this.updateGameTime(PERIOD_MS);
+        if(isStart())
+            this.updateInactivityTime(PERIOD_MS);
     }
 }

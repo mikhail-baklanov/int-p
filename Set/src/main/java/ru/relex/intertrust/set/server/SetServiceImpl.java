@@ -20,12 +20,10 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
 
     private TimerTask t = new StartTimer();
     private Timer timer = new Timer();
-    TimerTask inTimer = new SetServiceImpl.InactivityTimer();
-    Timer inactivityTimer = new Timer();
     private static final String GAME_STATE = "gameState";
     private static final String USER_NAME = "userName";
-    private static final long PERIOD_MS = 1000;
     private static final int INITIAL_NUMBER_OF_CARDS = 12;
+    public static final long PERIOD_MS = 1000;
 
 
     @Override
@@ -88,7 +86,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     public void startGame(String id) {
         GameState gameState = getGameState(id);
         gameState.startGame(INITIAL_NUMBER_OF_CARDS);
-        inactivityTimer.schedule(inTimer,0, PERIOD_MS);
+
     }
 
     @Override
@@ -157,34 +155,15 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
                 GameState gameState = getGameState(pair.getKey());
                 if (gameState.getPlayers().size() != 0)
                     synchronized (gameState) {
-                        gameState.updateGameTime(PERIOD_MS);
+                        gameState.tick();
                         if (gameState.getTime() == 0) startGame(pair.getKey());
+                        if (gameState.getInactivityTime() == 0) newGameState(pair.getKey());
+
                     }
             }
         }
     }
 
-    /**
-     * Таймер, отслеживающий время неактивности игроков.
-     */
 
-    public class InactivityTimer extends TimerTask {
-//TODO удаление игрока из сессии
-        @Override
-        public void run() {
-            for (Map.Entry<String, GameState> pair :
-                    ((HashMap<String, GameState>) getServletContext().getAttribute(GAME_STATE)).entrySet()) {
-                GameState gameState = getGameState(pair.getKey());
-                if (gameState.getPlayers().size() != 0) {
-                    synchronized (gameState) {
-                        gameState.updateInactivityTime(PERIOD_MS);
-                        if (gameState.getInactivityTime() == 0) {
-                            newGameState(pair.getKey());
-                        }
-                    }
-                }
-            }
-        }
-    }
 
 }
