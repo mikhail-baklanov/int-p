@@ -32,9 +32,7 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
         if (!map.containsKey(gameRoom))
             map.put(gameRoom, new GameState());
         GameState gameState = map.get(gameRoom);
-        synchronized (gameState) {
             return gameState;
-        }
     }
 
     public void newGameState(String gameRoom) {
