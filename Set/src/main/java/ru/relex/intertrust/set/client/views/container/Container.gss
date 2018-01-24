@@ -8,10 +8,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
-    height: 300px;
+    height: 350px;
     background-color: rgba(255,255,255,0.5);
     box-shadow: 0 3px 7px rgba(105,127,148,0.5);
 }
+
 .main {
     opacity: 1;
     transition: .4s;

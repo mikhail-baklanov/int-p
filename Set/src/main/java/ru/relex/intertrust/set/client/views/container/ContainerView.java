@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.*;
 import ru.relex.intertrust.set.client.views.gamefield.GameFieldView;
+import ru.relex.intertrust.set.client.views.result.ResultView;
 
 /**
  *  Контейнер для всех View игры.

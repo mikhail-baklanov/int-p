@@ -6,11 +6,11 @@ package ru.relex.intertrust.set.client.util;
 public class Utils {
 
     private Utils() {}
-    
+
     /**
      * Метод форматирует вывод таймера.
      *
-     * @param timeMs сообщение, которое будет напечатано
+     * @param timeMs время в миллисекундах
      */
     public static String formatTime(long timeMs) {
         timeMs = Math.abs(timeMs)/1000;
