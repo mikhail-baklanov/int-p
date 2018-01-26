@@ -11,12 +11,6 @@
     cursor: default;
 }
 
-.nickname-wrapper {
-    position: relative;
-    margin: 40px auto;
-    width: 300px;
-}
-
 .login-block_nickname {
     width: 300px;
     height: 40px;
@@ -51,6 +45,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    margin: 40px auto 0 auto;
+    width: 300px;
 }
 
 .nickname-wrapper .nickname-wrapper_error.active {

@@ -54,7 +54,7 @@
 
 .change_mode {
     width: 70%;
-    margin: 5px auto 15px auto;
+    margin: 15px auto;
     cursor: pointer;
     border: none;
     padding: 3px 0;
@@ -64,4 +64,8 @@
     font-family: "Open Sans";
     transition: .15s;
     outline: none;
+}
+
+.change_mode:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }
