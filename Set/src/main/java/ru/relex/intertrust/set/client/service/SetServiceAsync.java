@@ -42,7 +42,7 @@ public interface SetServiceAsync
      * @param name имя игрока
      * @return true, если регистрация прошла успешно
      */
-    void login(String name, String id, AsyncCallback<Boolean> async);
+    void login(String name, String id, AsyncCallback<String> async);
 
     /**
      * @return возвращает описание состояния игры

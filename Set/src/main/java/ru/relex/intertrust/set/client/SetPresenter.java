@@ -20,6 +20,7 @@ import ru.relex.intertrust.set.client.views.result.ResultView;
 import ru.relex.intertrust.set.shared.Card;
 import ru.relex.intertrust.set.shared.GameState;
 
+import static ru.relex.intertrust.set.client.util.Utils.changeURL;
 import static ru.relex.intertrust.set.client.util.Utils.consoleLog;
 
 public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, GameFieldViewUIHandler, ChangeModeUIHandler {
@@ -172,18 +173,28 @@ public class SetPresenter implements ExitGameUIHandler, LoginViewUIHandler, Game
 
     @Override
     public void login(String name) {
-        serviceAsync.login(name, gameRoom, new AsyncCallback<Boolean>() {
+        serviceAsync.login(name, gameRoom, new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable throwable) {
                 consoleLog(throwable.getMessage());
             }
 
             @Override
-            public void onSuccess(Boolean result) {
-                if(!result)
+            public void onSuccess(String result) {
+                if(result.equals("no"))
                     loginView.showLoginError();
-                else {
+                else if(result.equals("ok")) {
                     playerName = name;
+                    currentView = preGameView;
+                    containerView.setView(currentView);
+                    requestServer();
+                }
+                else{
+                    //если игрок уже логинился, то его перекидывает в комнату, в которой он логинился
+                    //TODO возвращать игрока в то место, откуда он вышел
+                    gameRoom=result;
+                    playerName = name;
+                    changeURL(result);
                     currentView = preGameView;
                     containerView.setView(currentView);
                     requestServer();

@@ -18,7 +18,7 @@ public interface SetService extends RemoteService
      * @param name имя игрока
      * @return true, если регистрация прошла успешно
      */
-    boolean login(String name, String id);
+    String login(String name, String id);
 
     /**
      * @return возвращает описание состояния игры

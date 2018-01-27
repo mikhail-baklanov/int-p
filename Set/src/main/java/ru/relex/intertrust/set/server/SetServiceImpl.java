@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static ru.relex.intertrust.set.shared.GameState.INACTIVITY_TIME;
+import static ru.relex.intertrust.set.shared.GameState.getPlayersRoom;
 
 /**
  * Класс, содержащий серверную логику игры Set.
@@ -61,9 +62,19 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
     }
 
     @Override
-    public boolean login(String name, String id) {
+    public String login(String name, String id) {
+        //если сессия уже есть, то возвращаем клиенту номер комнаты, в которую мы изначально заходили
+        if(getThreadLocalRequest().getSession().getAttribute(USER_NAME)!=null){
+            name=(String)getThreadLocalRequest().getSession().getAttribute(USER_NAME);
+            GameState gameState = getGameState(getPlayersRoom(name));
+            synchronized (gameState) {
+                //if (!gameState.hasPlayer(name) && !gameState.isStart())
+                //gameState.createNewPlayer(name);
+                return getPlayersRoom(name);
+            }
+        }
         if (name.trim().isEmpty())
-            return false;
+            return "no";
         GameState gameState = getGameState(id);
 
         boolean success;
@@ -73,9 +84,11 @@ public class SetServiceImpl extends RemoteServiceServlet implements SetService {
             if (success) {
                 gameState.createNewPlayer(name);
                 getThreadLocalRequest().getSession().setAttribute(USER_NAME, name);
+                gameState.addRoom(id,name);
+                return "ok";
             }
+            return "no";
         }
-        return success;
     }
 
     /**

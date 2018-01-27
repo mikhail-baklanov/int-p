@@ -16,6 +16,7 @@ public class GameState implements Serializable {
     private int           countSets       =   0;                   //найдено сетов
     private int           activePlayers   =   0;                   //активные игроки
     private long          inactivityTime  =   -INACTIVITY_TIME;    //сколько время на сервер не поступал запросов от checkSet или pass
+    private static Map<String, String> room = new HashMap<>();	   //имя,room
 
 
     /**
@@ -30,10 +31,17 @@ public class GameState implements Serializable {
     private static final int  INITIAL_NUMBER_OF_CARDS   =   12;
     private static final int  MAX_NUMBER_OF_CARDS       =   21;
     private static final int  FINE                      =   5;                   //штраф
-    private static final int  REWARD                    =   3;                   //награда
-
-
+    private static final int  REWARD                    =   3;                   //наград
     public static final long INACTIVITY_TIME          =   300000;   //допустимое время без активности игроков
+
+    public static String getPlayersRoom(String name){
+
+        return room.get(name);
+    }
+
+    public void addRoom(String Room, String name){
+        room.put(name,Room);
+    }
 
     public int getActivePlayers() {
         return activePlayers;
