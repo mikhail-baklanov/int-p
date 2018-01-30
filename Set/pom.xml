@@ -95,21 +95,19 @@
           </startupUrls>
         </configuration>
       </plugin>
-<!-- Tomcat plugin -->  
-<plugin>  
- <groupId>org.apache.tomcat.maven</groupId>  
- <artifactId>tomcat7-maven-plugin</artifactId>  
- <version>2.2</version>  
- <configuration>
-  <url>http://localhost:8080/manager/text</url>
-  <server>TomcatServer</server>  
-  <username>admin</username>
-  <password>password</password> 
-  <path>/project_context</path>
-  <update>true</update>
- </configuration>   
-</plugin>  
 
+	<plugin>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-maven-plugin</artifactId>
+		<version>9.2.11.v20150529</version>
+		<configuration>
+			<scanIntervalSeconds>10</scanIntervalSeconds>
+			<webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
+			<httpConnector>
+				<port>80</port>
+			</httpConnector>
+		</configuration>
+	</plugin>
 
     </plugins>
   </build>
