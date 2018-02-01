@@ -24,6 +24,10 @@
     border-bottom: 1px solid #adadad;
 }
 
+.login-block_nickname::-ms-clear {
+   display: none;
+}
+
 .login-block_nickname:focus {
     outline: none;
 }
